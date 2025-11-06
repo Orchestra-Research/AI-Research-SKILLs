@@ -1,6 +1,11 @@
 ---
-name: unsloth
-description: Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization
+name: "unsloth"
+description: "Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization"
+version: "1.0.0"
+author: "AI Research Skills Contributors"
+license: "MIT"
+tags: ["unsloth", "fine-tuning", "fast-training", "lora", "qlora", "memory-efficient", "optimization", "llama", "mistral", "gemma", "qwen"]
+dependencies: ["unsloth", "torch", "transformers", "trl", "datasets", "peft"]
 ---
 
 # Unsloth Skill

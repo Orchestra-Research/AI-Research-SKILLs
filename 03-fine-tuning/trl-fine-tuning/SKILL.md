@@ -1,4 +1,14 @@
-# trl
+---
+name: "trl-fine-tuning"
+description: "Expert guidance for training language models with TRL - SFT, GRPO, DPO, PPO, reward modeling, RLHF"
+version: "1.0.0"
+author: "AI Research Skills Contributors"
+license: "MIT"
+tags: ["trl", "reinforcement-learning", "rlhf", "dpo", "ppo", "sft", "grpo", "fine-tuning", "huggingface", "transformers"]
+dependencies: ["transformers", "trl>=0.14.0", "torch", "datasets", "peft"]
+---
+
+# TRL Fine-Tuning
 
 Expert guidance for training language models with TRL - SFT, GRPO, DPO, PPO, reward modeling
 

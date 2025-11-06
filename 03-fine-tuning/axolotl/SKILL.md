@@ -1,6 +1,11 @@
 ---
-name: axolotl
-description: Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support
+name: "axolotl"
+description: "Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support"
+version: "1.0.0"
+author: "AI Research Skills Contributors"
+license: "MIT"
+tags: ["axolotl", "fine-tuning", "llm", "lora", "qlora", "dpo", "kto", "orpo", "grpo", "yaml", "huggingface", "deepspeed", "multimodal"]
+dependencies: ["axolotl", "torch", "transformers", "datasets", "peft", "accelerate", "deepspeed"]
 ---
 
 # Axolotl Skill
