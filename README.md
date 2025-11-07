@@ -99,11 +99,11 @@ skill-name/
 ```
 
 **Quality Standards**:
-- ✅ 300KB+ documentation from official sources
-- ✅ Real GitHub issues & solutions (when available)
-- ✅ Code examples with language detection
-- ✅ Version history & breaking changes
-- ✅ Links to official docs
+- 300KB+ documentation from official sources
+- Real GitHub issues & solutions (when available)
+- Code examples with language detection
+- Version history & breaking changes
+- Links to official docs
 
 ## 🗺️ Roadmap
 
@@ -223,9 +223,9 @@ MIT License - See [LICENSE](LICENSE) for details.
 ## 🙏 Acknowledgments
 
 Built with:
-- 💜 **[Claude Code](https://www.claude.com/product/claude-code)** - AI pair programming
-- ⚡ **[Skill Seeker](https://github.com/yusufkaraaslan/Skill_Seekers)** - Automated doc scraping
-- 🤗 **Open Source AI Community** - For amazing tools and docs
+- **[Claude Code](https://www.claude.com/product/claude-code)** - AI pair programming
+- **[Skill Seeker](https://github.com/yusufkaraaslan/Skill_Seekers)** - Automated doc scraping
+- **Open Source AI Community** - For amazing tools and docs
 
 Special thanks to:
 - EleutherAI, HuggingFace, NVIDIA, Lightning AI, Meta AI, Anthropic
@@ -233,29 +233,19 @@ Special thanks to:
 
 ## 📞 Get Involved
 
-- **🐛 Issues**: [Report bugs or request skills](https://github.com/zechenzhangAGI/claude-ai-research-skills/issues)
-- **💬 Discussions**: [Ask questions & share ideas](https://github.com/zechenzhangAGI/claude-ai-research-skills/discussions)
-- **🌟 Star**: Help others discover this project
-- **🔀 Fork**: Build your own skill collection
+- **Issues**: [Report bugs or request skills](https://github.com/zechenzhangAGI/claude-ai-research-skills/issues)
+- **Discussions**: [Ask questions & share ideas](https://github.com/zechenzhangAGI/claude-ai-research-skills/discussions)
+- **Star**: Help others discover this project
+- **Fork**: Build your own skill collection
 
 ## 📈 Recent Updates
 
 **November 6, 2025** - v0.2.0
-- ✅ Added 10 skills from GitHub (Megatron-Core, Lightning, Ray Train, etc.)
-- ✅ Improved skill structure with comprehensive references
-- ✅ Created strategic roadmap to 70 skills
-- ✅ Added contribution guidelines
+- Added 10 skills from GitHub (Megatron-Core, Lightning, Ray Train, etc.)
+- Improved skill structure with comprehensive references
+- Created strategic roadmap to 70 skills
+- Added contribution guidelines
 
 **October 2025** - v0.1.0
 - 🎉 Initial release with 5 fine-tuning skills
-
-<p align="center">
-  <strong>Help us build the definitive AI research skill library</strong><br>
-  <a href="CONTRIBUTING.md">Contribute</a> •
-  <a href="ROADMAP.md">Roadmap</a> •
-  <!-- <a href="https://github.com/zechenzhangAGI/claude-ai-research-skills/discussions">Community</a> -->
-</p>
-
-<p align="center">
-  Made with 💜 by the AI research community
-</p>
+ 
