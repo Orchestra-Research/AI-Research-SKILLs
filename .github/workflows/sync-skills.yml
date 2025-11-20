@@ -133,7 +133,7 @@ jobs:
             # Send to Orchestra API
             echo "📤 Uploading to Orchestra..."
 
-            RESPONSE=$(curl -s -w "\n%{http_code}" \
+            RESPONSE=$(curl -s -w "\n%{http_code}" -L \
               -X POST \
               -H "Content-Type: application/json" \
               -H "X-Admin-API-Key: $ORCHESTRA_SYNC_API_KEY" \
