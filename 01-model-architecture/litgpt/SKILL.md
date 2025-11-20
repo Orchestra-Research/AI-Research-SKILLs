@@ -465,3 +465,5 @@ Apply LoRA to fewer layers:
 - Docs: https://lightning.ai/docs/litgpt
 - Tutorials: https://lightning.ai/docs/litgpt/tutorials
 - Model zoo: 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral, Mixtral, Falcon, etc.)
+
+<!-- Test sync Thu Nov 20 00:47:54 EST 2025 -->

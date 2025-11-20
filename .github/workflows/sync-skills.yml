@@ -1,0 +1,173 @@
+name: Sync Skills to Orchestra
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync-skills:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Fetch last 2 commits to detect changes
+
+      - name: Detect changed skill folders
+        id: changes
+        run: |
+          # Get list of changed files in last commit
+          CHANGED_FILES=$(git diff --name-only HEAD^..HEAD)
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Extract unique skill directories (format: XX-category/skill-name/)
+          SKILL_DIRS=$(echo "$CHANGED_FILES" | grep -E '^[0-9]{2}-[^/]+/[^/]+/' | sed -E 's|^([0-9]{2}-[^/]+/[^/]+)/.*|\1|' | sort -u)
+
+          echo "Changed skill directories:"
+          echo "$SKILL_DIRS"
+
+          # Convert to JSON array for matrix
+          SKILLS_JSON=$(echo "$SKILL_DIRS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+
+          echo "skills=$SKILLS_JSON" >> $GITHUB_OUTPUT
+
+          # Also output count for conditional execution
+          SKILL_COUNT=$(echo "$SKILL_DIRS" | grep -c . || echo "0")
+          echo "count=$SKILL_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Process and sync skills
+        if: steps.changes.outputs.count > 0
+        env:
+          ORCHESTRA_API_URL: ${{ secrets.ORCHESTRA_API_URL }}
+          ORCHESTRA_SYNC_API_KEY: ${{ secrets.ORCHESTRA_SYNC_API_KEY }}
+        run: |
+          SKILLS='${{ steps.changes.outputs.skills }}'
+
+          echo "Processing $(echo $SKILLS | jq 'length') skill(s)..."
+
+          # Install jq for JSON processing
+          sudo apt-get update && sudo apt-get install -y jq zip
+
+          # Loop through each skill directory
+          echo "$SKILLS" | jq -r '.[]' | while read SKILL_PATH; do
+            echo "==================================================="
+            echo "Processing: $SKILL_PATH"
+            echo "==================================================="
+
+            # Check if SKILL.md exists
+            if [ ! -f "$SKILL_PATH/SKILL.md" ]; then
+              echo "⚠️  WARNING: No SKILL.md found in $SKILL_PATH, skipping"
+              continue
+            fi
+
+            # Extract skill name from SKILL.md frontmatter
+            SKILL_NAME=$(grep -A 20 "^---$" "$SKILL_PATH/SKILL.md" | grep "^name:" | head -1 | sed 's/name: *//;s/"//g;s/'\''//g' | tr -d '\r')
+
+            # Extract author from SKILL.md frontmatter
+            AUTHOR=$(grep -A 20 "^---$" "$SKILL_PATH/SKILL.md" | grep "^author:" | head -1 | sed 's/author: *//;s/"//g;s/'\''//g' | tr -d '\r')
+
+            # Default values
+            if [ -z "$SKILL_NAME" ]; then
+              # Extract from directory name as fallback
+              SKILL_NAME=$(basename "$SKILL_PATH")
+              echo "⚠️  No 'name' in frontmatter, using directory name: $SKILL_NAME"
+            fi
+
+            if [ -z "$AUTHOR" ]; then
+              AUTHOR="Orchestra Research"
+              echo "⚠️  No 'author' in frontmatter, defaulting to: $AUTHOR"
+            fi
+
+            echo "Skill Name: $SKILL_NAME"
+            echo "Author: $AUTHOR"
+            echo "Path: $SKILL_PATH"
+
+            # Create temporary directory for zipping
+            TEMP_DIR=$(mktemp -d)
+            SKILL_DIR="$TEMP_DIR/$SKILL_NAME"
+            mkdir -p "$SKILL_DIR"
+
+            # Copy all contents of skill directory (SKILL.md, references/, scripts/, assets/, etc.)
+            cp -r "$SKILL_PATH"/* "$SKILL_DIR/" 2>/dev/null || true
+
+            # Create zip file (exclude hidden files and .gitkeep)
+            ZIP_FILE="$TEMP_DIR/${SKILL_NAME}.zip"
+            cd "$TEMP_DIR"
+            zip -r "$ZIP_FILE" "$SKILL_NAME" -x "*/.*" "*/.gitkeep" "*.DS_Store"
+            cd -
+
+            # Verify zip was created
+            if [ ! -f "$ZIP_FILE" ]; then
+              echo "❌ ERROR: Failed to create zip file for $SKILL_NAME"
+              continue
+            fi
+
+            echo "✓ Created zip: $(ls -lh "$ZIP_FILE" | awk '{print $5}')"
+
+            # Read SKILL.md content
+            SKILL_MD_CONTENT=$(cat "$SKILL_PATH/SKILL.md")
+
+            # Encode zip to base64
+            ZIP_BASE64=$(base64 -w 0 "$ZIP_FILE" 2>/dev/null || base64 "$ZIP_FILE")
+
+            # Prepare JSON payload
+            JSON_PAYLOAD=$(jq -n \
+              --arg skillName "$SKILL_NAME" \
+              --arg skillPath "$SKILL_PATH" \
+              --arg author "$AUTHOR" \
+              --arg skillMdContent "$SKILL_MD_CONTENT" \
+              --arg zipBase64 "$ZIP_BASE64" \
+              '{
+                skillName: $skillName,
+                skillPath: $skillPath,
+                author: $author,
+                skillMdContent: $skillMdContent,
+                zipBase64: $zipBase64
+              }')
+
+            # Send to Orchestra API
+            echo "📤 Uploading to Orchestra..."
+
+            RESPONSE=$(curl -s -w "\n%{http_code}" \
+              -X POST \
+              -H "Content-Type: application/json" \
+              -H "X-Admin-API-Key: $ORCHESTRA_SYNC_API_KEY" \
+              -d "$JSON_PAYLOAD" \
+              "$ORCHESTRA_API_URL/api/admin/sync-github-skill")
+
+            HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+            BODY=$(echo "$RESPONSE" | sed '$d')
+
+            echo "HTTP Status: $HTTP_CODE"
+            echo "Response: $BODY"
+
+            if [ "$HTTP_CODE" = "200" ]; then
+              ACTION=$(echo "$BODY" | jq -r '.action // "synced"')
+              SOURCE=$(echo "$BODY" | jq -r '.source // "unknown"')
+              echo "✅ SUCCESS: Skill $SKILL_NAME $ACTION (source: $SOURCE)"
+            else
+              ERROR_MSG=$(echo "$BODY" | jq -r '.error // "Unknown error"')
+              echo "❌ FAILED: $ERROR_MSG"
+              exit 1
+            fi
+
+            # Cleanup
+            rm -rf "$TEMP_DIR"
+
+            echo ""
+          done
+
+          echo "==================================================="
+          echo "✅ Sync completed successfully!"
+          echo "==================================================="
+
+      - name: No changes detected
+        if: steps.changes.outputs.count == 0
+        run: |
+          echo "ℹ️  No skill changes detected in this commit"
+          echo "Only commits that modify skill directories will trigger sync"
