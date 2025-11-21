@@ -119,9 +119,39 @@ We provide a comprehensive library of expert-level research engineering skills t
 
 ---
 
-## 🚀 Quick Start
+## 🚀 How to Use These Skills
 
-### For AI Users
+### 🎯 Using with Orchestra
+
+All 54 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+
+**Example use case**: The [Vibe Fine-tuning LLMs](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra) case study shows reproducing LoRA research through natural language conversation - the agent handled code writing, GPU provisioning, and experiment execution autonomously. ([Video demo](https://www.youtube.com/watch?v=X0DoLYfXl5I))
+
+**Note**: When you contribute a skill to this repo via PR, it automatically syncs to the Orchestra marketplace after merge.
+
+### 🛠️ Alternative Usage Methods
+
+**For Claude Users** (Claude.ai, Claude Code):
+```bash
+# 1. Download skill folder
+cd 01-model-architecture/litgpt
+
+# 2. Use directly in Claude Code workspace
+# OR zip and upload to Claude.ai Projects
+zip -r litgpt-skill.zip SKILL.md references/
+```
+
+**For Other AI Coding Assistants**:
+- **Gemini CLI**: Point to skill directory in your workspace
+- **Grok Code**: Use skill folder as context
+- **Cursor/Windsurf**: Add skill folder to project knowledge
+
+**For Custom RAG/Agent Systems**:
+- Ingest `SKILL.md` + `references/` into your knowledge base
+- Use as retrieval context for specialized queries
+- Build domain-specific agents with curated skill subsets
+
+### 🎓 For Learning & Reference
 
 1. **Clone this repository**:
 ```bash
@@ -131,21 +161,21 @@ cd claude-ai-research-skills
 
 2. **Browse skills** - Each directory contains:
    - `SKILL.md` - Expert-level guidance (100-600 lines)
-   - `references/` - Supporting documentation
-   - Real code examples, workflows, and troubleshooting
+   - `references/` - Supporting documentation from official sources
+   - Real code examples, workflows, and troubleshooting guides
 
-3. **Use with your AI assistant**:
-   - **Upload as skill**: Package into `.zip` and upload to any AI assistant that supports custom skills
-   - **Attach as context**: Copy-paste `SKILL.md` content or attach as file
-   - **RAG knowledge**: Inject into your custom agent's knowledge base
-   - **Claude Code**: Point to skill directory for native integration
+### 👨‍💻 For Skill Creators
 
-### For Skill Creators
+**Your contributions power the entire ecosystem!** When you contribute a skill to this repo:
+1. It automatically syncs to [Orchestra marketplace](https://www.orchestra-research.com/research-skills)
+2. Thousands of researchers can use your expertise
+3. AI agents become more capable at conducting research
 
+**Getting started**:
 1. **Read [CONTRIBUTING.md](CONTRIBUTING.md)** - Step-by-step guide
 2. **Use [SKILL_TEMPLATE.md](SKILL_TEMPLATE.md)** - Copy-paste scaffold
 3. **Run validation**: `python scripts/validate_skill.py your-skill/`
-4. **Submit PR** - We review within 48 hours
+4. **Submit PR** - We review within 48 hours, auto-publish to Orchestra on merge
 
 ## 📖 Skill Structure
 
