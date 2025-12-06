@@ -3,44 +3,20 @@
 > **The most comprehensive open-source library of AI research engineering skills for AI agents**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Skills](https://img.shields.io/badge/Skills-70-blue.svg)](.)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Blog Post](https://img.shields.io/badge/Blog-Read%20More-orange.svg)](https://www.orchestra-research.com/perspectives/ai-research-skills)
+[![Demo](https://img.shields.io/badge/Demo-LLM%20Fine--Tuning-blue.svg)](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra)
 
 ## Table of Contents
-<details>
-   <summary><a href="#-available-skills-7070-roadmap-complete"><b>Available Skills (70)</b></a></summary>
-   
-   - [Model Architecture](#🏗️-model-architecture-5-skills)
-   - [Tokenization](#🔤-tokenization-2-skills)
-   - [Fine-Tuning](#🎯-fine-tuning-4-skills)
-   - [Data Processing](#📊-data-processing-2-skills)
-   - [Post-Training](#🎓-post-training-4-skills)
-   - [Safety & Alignment](#🛡️-safety--alignment-3-skills)
-   - [Distributed Training](#⚡-distributed-training-5-skills)
-   - [Optimization](#🚀-optimization-6-skills)
-   - [Evaluation](#📊-evaluation-1-skill)
-   - [Infrastructure](#☁️-infrastructure-3-skills)
-   - [Inference & Serving](#🔥-inference--serving-4-skills)
-   - [Agents](#🤖-agents-4-skills)
-   - [RAG](#🔍-rag-5-skills)
-   - [Multimodal](#🎨-multimodal-7-skills)
-   - [Prompt Engineering](#🎯-prompt-engineering-4-skills)
-   - [MLOps](#📊-mlops-3-skills)
-   - [Observability](#👁️-observability-2-skills)
-   - [Emerging Techniques](#🔬-emerging-techniques-6-skills)
-
-</details>
-
 
 - [Our Mission](#our-mission)
 - [Path Towards AI Research Agent](#path-towards-ai-research-agent)
-- [How to Use These Skills](#🚀-how-to-use-these-skills)
-- [Skill Structure](#📖-skill-structure)
-- [Roadmap](#🗺️-roadmap)
-- [Contributing](#🤝-contributing)
-- [Repository Structure](#🏗️-repository-structure)
-- [Use Cases](#🎯-use-cases) 
+- [Available AI Research Engineering Skills](#available-ai-research-engineering-skills) 
+- [Demo](#demo)
+- [Skill Structure](#skill-structure)
+- [Roadmap](#roadmap)
+- [Repository Structure](#repository-structure)
+- [Use Cases](#use-cases)
+
 
 ## Our Mission
 
@@ -60,9 +36,23 @@ We provide a comprehensive library of expert-level research engineering skills t
   - End-to-End Coverage - 70 skills spanning model architecture, tokenization, fine-tuning, data processing, post-training, distributed training, optimization, inference, infrastructure, agents, RAG, multimodal, prompt engineering, MLOps, observability, and emerging techniques
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
-## 📚 Available Skills (70/70 roadmap complete!)
+## Available AI Research Engineering Skills  
 
 **Quality over quantity**: Each skill provides comprehensive, expert-level guidance with real code examples, troubleshooting guides, and production-ready workflows.
+
+### 📦 Install from Marketplace
+
+Install individual skills directly from the marketplace using the Claude Code CLI:
+
+```bash
+# Install a single skill
+/plugin install skill-name@ai-research-skills
+
+# Examples:
+/plugin install serving-llms-vllm@ai-research-skills
+/plugin install grpo-rl-training@ai-research-skills
+/plugin install langchain@ai-research-skills
+```
 
 ### 🏗️ Model Architecture (5 skills)
 - **[LitGPT](01-model-architecture/litgpt/)** - Lightning AI's 20+ clean LLM implementations with production training recipes (462 lines + 4 refs)
@@ -169,26 +159,9 @@ We provide a comprehensive library of expert-level research engineering skills t
 - **[Speculative Decoding](19-emerging-techniques/speculative-decoding/)** - 1.5-3.6× faster inference with Medusa, Lookahead (379 lines)
 - **[Knowledge Distillation](19-emerging-techniques/knowledge-distillation/)** - Compress models 70B→7B with MiniLLM, temperature scaling (424 lines)
 - **[Model Pruning](19-emerging-techniques/model-pruning/)** - 50% sparsity with Wanda, SparseGPT, <1% accuracy loss (417 lines)
+ 
 
----
-
-## 🚀 How to Use These Skills
-
-### 📦 Install from Marketplace
-
-Install individual skills directly from the marketplace using the Claude Code CLI:
-
-```bash
-# Install a single skill
-/plugin install skill-name@ai-research-skills
-
-# Examples:
-/plugin install serving-llms-vllm@ai-research-skills
-/plugin install grpo-rl-training@ai-research-skills
-/plugin install langchain@ai-research-skills
-```
-
-**Available skills** (70 total):
+**Available skills in Claude marketplace** (70 total):
 | Category | Skills |
 |----------|--------|
 | Model Architecture | `implementing-llms-litgpt`, `mamba-architecture`, `nanogpt`, `rwkv-architecture` |
@@ -210,11 +183,12 @@ Install individual skills directly from the marketplace using the Claude Code CL
 | Multimodal | `audiocraft-audio-generation`, `blip-2-vision-language`, `clip`, `llava`, `segment-anything-model`, `stable-diffusion-image-generation`, `whisper` |
 | Emerging Techniques | `knowledge-distillation`, `long-context`, `model-merging`, `model-pruning`, `moe-training`, `speculative-decoding` |
 
-### 🎯 Using with Orchestra
+## Demo
 
 All 70 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
-**Example use case**: The [Vibe Fine-tuning LLMs](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra) case study shows reproducing LoRA research through natural language conversation - the agent handled code writing, GPU provisioning, and experiment execution autonomously. ([Video demo](https://www.youtube.com/watch?v=X0DoLYfXl5I))
+**[Demo](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra)**: With this `skills`, a physics PhD is able to [reproduce](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra) Thinking Machines Lab's "LoRA Without Regret" findings. 
+The Orchestra agent autonomously wrote training code using TRL, provisioned H100 GPUs, ran GRPO experiments overnight, and generated publication-ready analysis, successfully validating that rank=16 LoRA achieves 99.4% of rank=256's SFT performance and that rank=1 LoRA outperforms full fine-tuning on RL tasks (52.1% vs 33.3% on GSM8k math reasoning). ([Video demo](https://www.youtube.com/watch?v=X0DoLYfXl5I))
 
 **Note**: When you contribute a skill to this repo via PR, it automatically syncs to the Orchestra marketplace after merge.
 
@@ -253,7 +227,7 @@ zip -r litgpt-skill.zip SKILL.md references/
 3. **Run validation**: `python scripts/validate_skill.py your-skill/`
 4. **Submit PR** - We review within 48 hours, auto-publish to Orchestra on merge
 
-## 📖 Skill Structure
+## Skill Structure
 
 Each skill follows a battle-tested format for maximum usefulness:
 
@@ -288,19 +262,10 @@ skill-name/
 
 </details>
 
-## 🗺️ Roadmap
+## Roadmap
 
 We're building towards 70 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](ROADMAP.md) for the complete development plan.
-
-**Current Progress**: 70 high-quality skills | **Target**: 70 skills ✅ COMPLETE!
-
-**All Priority Areas Complete**:
-- ~~🤖 **Applications** (CRITICAL) - LangChain, RAG, agents~~ ✅ COMPLETED
-- ~~🎯 **Prompt Engineering** (CRITICAL) - DSPy, Instructor, Guidance, Outlines~~ ✅ COMPLETED
-- ~~🧠 **Advanced Optimization** (HIGH) - AWQ, HQQ~~ ✅ COMPLETED
-- ~~🎨 **Multimodal Extensions** (MEDIUM) - SAM, BLIP-2, AudioCraft~~ ✅ COMPLETED
-- ~~☁️ **Infrastructure** (MEDIUM) - Modal, SkyPilot, Lambda Labs~~ ✅ COMPLETED
-
+ 
 [View Full Roadmap →](ROADMAP.md)
 
 <details>
@@ -322,19 +287,8 @@ We're building towards 70 comprehensive skills across the full AI research lifec
 </details>
 
 
-## 🤝 Contributing
 
-We welcome contributions from the AI research community! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
-
-- Adding new skills
-- Improving existing skills
-- Quality standards and best practices
-- Submission process
-
-All contributors are featured in our [Contributors Hall of Fame](CONTRIBUTORS.md) 🌟
- 
-
-## 🏗️ Repository Structure
+## Repository Structure
 
 ```
 claude-ai-research-skills/
@@ -363,7 +317,7 @@ claude-ai-research-skills/
 └── 19-emerging-techniques/      (6 skills ✓ - MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning)
 ```
 
-## 🎯 Use Cases
+## Use Cases
 
 ### For Researchers
 "I need to fine-tune Llama 3 with custom data"
@@ -381,13 +335,13 @@ claude-ai-research-skills/
 "We need to scale training to 100 GPUs"
 → **08-distributed-training/deepspeed/** - ZeRO stages, 3D parallelism
 
-## 📄 License
+## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 **Note**: Individual skills may reference libraries with different licenses. Please check each project's license before use.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with:
 - **[Claude Code](https://www.claude.com/product/claude-code)** - AI pair programming
@@ -398,15 +352,20 @@ Special thanks to:
 - EleutherAI, HuggingFace, NVIDIA, Lightning AI, Meta AI, Anthropic
 - All researchers who maintain excellent documentation
 
-## 📞 Get Involved
 
-- **Issues**: [Report bugs or request skills](https://github.com/zechenzhangAGI/claude-ai-research-skills/issues)
-- **Discussions**: [Ask questions & share ideas](https://github.com/zechenzhangAGI/claude-ai-research-skills/discussions)
-- **Star**: Help others discover this project
-- **Fork**: Build your own skill collection
+## Contributing
 
+We welcome contributions from the AI research community! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
-## 📈 Recent Updates
+- Adding new skills
+- Improving existing skills
+- Quality standards and best practices
+- Submission process
+
+All contributors are featured in our [Contributors Hall of Fame](CONTRIBUTORS.md) 🌟
+ 
+
+## Recent Updates
 
 <details>
 <summary><b>November 25, 2025 - v0.10.0 🎉 70 Skills Complete!</b></summary>
@@ -525,7 +484,7 @@ Special thanks to:
 
 </details>
 
-## ⭐ Star History
+## Star History
 
 <a href="https://star-history.com/#zechenzhangAGI/AI-research-SKILLs&Date">
  <picture>
