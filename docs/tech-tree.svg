@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f23;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a3e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="centerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Grid dots for tech feel -->
+  <g fill="#ffffff" opacity="0.05">
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1"/>
+    </pattern>
+    <rect width="800" height="500" fill="url(#dots)"/>
+  </g>
+
+  <!-- Connection lines -->
+  <g stroke="#4f46e5" stroke-width="2" opacity="0.4" fill="none">
+    <!-- Center to Layer 1 -->
+    <line x1="400" y1="250" x2="400" y2="120"/>
+    <line x1="400" y1="250" x2="400" y2="380"/>
+    <line x1="400" y1="250" x2="270" y2="185"/>
+    <line x1="400" y1="250" x2="530" y2="185"/>
+    <line x1="400" y1="250" x2="270" y2="315"/>
+    <line x1="400" y1="250" x2="530" y2="315"/>
+
+    <!-- Layer 1 to Layer 2 -->
+    <line x1="400" y1="120" x2="320" y2="60"/>
+    <line x1="400" y1="120" x2="480" y2="60"/>
+    <line x1="400" y1="380" x2="320" y2="440"/>
+    <line x1="400" y1="380" x2="480" y2="440"/>
+    <line x1="270" y1="185" x2="150" y2="145"/>
+    <line x1="270" y1="185" x2="150" y2="225"/>
+    <line x1="530" y1="185" x2="650" y2="145"/>
+    <line x1="530" y1="185" x2="650" y2="225"/>
+    <line x1="270" y1="315" x2="150" y2="275"/>
+    <line x1="270" y1="315" x2="150" y2="355"/>
+    <line x1="530" y1="315" x2="650" y2="275"/>
+    <line x1="530" y1="315" x2="650" y2="355"/>
+  </g>
+
+  <!-- Animated pulse circles -->
+  <g>
+    <circle cx="400" cy="250" r="50" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3">
+      <animate attributeName="r" values="50;80;50" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="250" r="50" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3">
+      <animate attributeName="r" values="50;80;50" dur="3s" begin="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Center Node - AI Research -->
+  <g filter="url(#glowStrong)">
+    <circle cx="400" cy="250" r="45" fill="url(#centerGrad)"/>
+  </g>
+  <text x="400" y="245" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="bold">AI RESEARCH</text>
+  <text x="400" y="260" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="bold">SKILLS</text>
+
+  <!-- Layer 1 Nodes - Main Categories -->
+  <!-- Top -->
+  <g filter="url(#glow)">
+    <circle cx="400" cy="120" r="28" fill="url(#nodeGrad1)"/>
+  </g>
+  <text x="400" y="117" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Architecture</text>
+  <text x="400" y="128" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(5)</text>
+
+  <!-- Bottom -->
+  <g filter="url(#glow)">
+    <circle cx="400" cy="380" r="28" fill="url(#nodeGrad2)"/>
+  </g>
+  <text x="400" y="377" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Inference</text>
+  <text x="400" y="388" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(4)</text>
+
+  <!-- Top Left -->
+  <g filter="url(#glow)">
+    <circle cx="270" cy="185" r="28" fill="url(#nodeGrad3)"/>
+  </g>
+  <text x="270" y="182" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Training</text>
+  <text x="270" y="193" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(9)</text>
+
+  <!-- Top Right -->
+  <g filter="url(#glow)">
+    <circle cx="530" cy="185" r="28" fill="url(#nodeGrad4)"/>
+  </g>
+  <text x="530" y="182" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Optimization</text>
+  <text x="530" y="193" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(6)</text>
+
+  <!-- Bottom Left -->
+  <g filter="url(#glow)">
+    <circle cx="270" cy="315" r="28" fill="url(#nodeGrad2)"/>
+  </g>
+  <text x="270" y="312" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Data & Eval</text>
+  <text x="270" y="323" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(5)</text>
+
+  <!-- Bottom Right -->
+  <g filter="url(#glow)">
+    <circle cx="530" cy="315" r="28" fill="url(#nodeGrad1)"/>
+  </g>
+  <text x="530" y="312" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600">Applications</text>
+  <text x="530" y="323" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="8" opacity="0.8">(16)</text>
+
+  <!-- Layer 2 Nodes - Subcategories -->
+  <!-- Top cluster -->
+  <circle cx="320" cy="60" r="18" fill="#3730a3" filter="url(#glow)"/>
+  <text x="320" y="63" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Tokenize</text>
+
+  <circle cx="480" cy="60" r="18" fill="#3730a3" filter="url(#glow)"/>
+  <text x="480" y="63" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Mech Interp</text>
+
+  <!-- Bottom cluster -->
+  <circle cx="320" cy="440" r="18" fill="#0e7490" filter="url(#glow)"/>
+  <text x="320" y="443" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">MLOps</text>
+
+  <circle cx="480" cy="440" r="18" fill="#0e7490" filter="url(#glow)"/>
+  <text x="480" y="443" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Infra</text>
+
+  <!-- Left cluster -->
+  <circle cx="150" cy="145" r="18" fill="#047857" filter="url(#glow)"/>
+  <text x="150" y="148" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Fine-tune</text>
+
+  <circle cx="150" cy="225" r="18" fill="#047857" filter="url(#glow)"/>
+  <text x="150" y="228" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">RLHF</text>
+
+  <circle cx="150" cy="275" r="18" fill="#0369a1" filter="url(#glow)"/>
+  <text x="150" y="278" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Data</text>
+
+  <circle cx="150" cy="355" r="18" fill="#0369a1" filter="url(#glow)"/>
+  <text x="150" y="358" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Eval</text>
+
+  <!-- Right cluster -->
+  <circle cx="650" cy="145" r="18" fill="#b45309" filter="url(#glow)"/>
+  <text x="650" y="148" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Quantize</text>
+
+  <circle cx="650" cy="225" r="18" fill="#b45309" filter="url(#glow)"/>
+  <text x="650" y="228" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Attention</text>
+
+  <circle cx="650" cy="275" r="18" fill="#4f46e5" filter="url(#glow)"/>
+  <text x="650" y="278" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">Agents</text>
+
+  <circle cx="650" cy="355" r="18" fill="#4f46e5" filter="url(#glow)"/>
+  <text x="650" y="358" text-anchor="middle" fill="white" font-family="system-ui, -apple-system, sans-serif" font-size="7">RAG</text>
+
+  <!-- Stats at bottom -->
+  <text x="400" y="485" text-anchor="middle" fill="#a5b4fc" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">75 Skills</text>
+  <text x="400" y="498" text-anchor="middle" fill="#6b7280" font-family="system-ui, -apple-system, sans-serif" font-size="10">18 Categories • 120K+ Lines of Documentation</text>
+</svg>

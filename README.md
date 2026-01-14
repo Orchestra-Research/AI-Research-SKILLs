@@ -8,28 +8,26 @@
 
 <div align="center">
 
-<img src="docs/christmas-tree.svg" alt="Holiday Tree" width="400">
+<img src="docs/tech-tree.svg" alt="AI Research Skills Tech Tree" width="600">
 
-### 🎄 **75 Skills Wrapped & Ready for 2026!** 🎄
-
-*Happy Holidays from the AI Research Skills team* ❄️
+### **75 Skills Powering AI Research in 2026**
 
 </div>
 
 <details>
-<summary>🎄 <b>Unwrap the Ornaments</b> - See all 18 categories</summary>
+<summary><b>View All 18 Categories</b></summary>
 
 <div align="center">
 
 | | | |
 |:---:|:---:|:---:|
-| 🔴 **Model Architecture** (5) | 🟢 **Fine-Tuning** (4) | 🔵 **Post-Training** (4) |
-| 🟡 **Distributed Training** (5) | 🟣 **Optimization** (6) | 🟠 **Inference** (4) |
-| ❄️ **Tokenization** (2) | ⭐ **Data Processing** (2) | 🎄 **Evaluation** (3) |
-| 🔔 **Safety & Alignment** (3) | 🎁 **Agents** (4) | ❄️ **RAG** (5) |
-| 🌟 **Multimodal** (7) | 🎅 **Prompt Engineering** (4) | 🦌 **MLOps** (3) |
-| ☃️ **Observability** (2) | 🎿 **Infrastructure** (3) | 🧊 **Mech Interp** (4) |
-| | 🎉 **Emerging Techniques** (6) | |
+| **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (4) |
+| **Distributed Training** (5) | **Optimization** (6) | **Inference** (4) |
+| **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
+| **Safety & Alignment** (3) | **Agents** (4) | **RAG** (5) |
+| **Multimodal** (7) | **Prompt Engineering** (4) | **MLOps** (3) |
+| **Observability** (2) | **Infrastructure** (3) | **Mech Interp** (4) |
+| | **Emerging Techniques** (6) | |
 
 </div>
 
