@@ -202,16 +202,26 @@ sacct -j <job_id> --format=JobID,State,ExitCode
 # CANCELLED -> cancelled
 ```
 
-### Auto-Resume Support
+### Long-Running Jobs
 
-Long-running evaluations can be configured for auto-resume:
+For long-running evaluations on Slurm, consider:
 
 ```yaml
 execution:
-  enable_auto_resume: true
-  max_retries: 3
-  checkpoint_interval: 100  # Save every 100 samples
+  walltime: "24:00:00"  # Extended walltime
+  # Use caching to resume from interruptions
+
+target:
+  api_endpoint:
+    adapter_config:
+      interceptors:
+        - name: caching
+          config:
+            cache_dir: "/shared/cache"
+            reuse_cached_responses: true
 ```
+
+The caching interceptor helps resume interrupted evaluations by reusing previous API responses.
 
 ## Lepton Executor
 

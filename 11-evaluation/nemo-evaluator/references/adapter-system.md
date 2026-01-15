@@ -1,6 +1,6 @@
 # Adapter and Interceptor System
 
-NeMo Evaluator uses an adapter system to process requests and responses between the evaluation engine and model endpoints.
+NeMo Evaluator uses an adapter system to process requests and responses between the evaluation engine and model endpoints. The `nemo-evaluator` core library provides built-in interceptors for common use cases.
 
 ## Architecture Overview
 
@@ -10,295 +10,218 @@ NeMo Evaluator uses an adapter system to process requests and responses between 
 │                                                                │
 │  Request  ───►  [Interceptor 1]  ───►  [Interceptor 2]  ───►  │
 │                                                                │
-│                        │                      │                │
-│                        ▼                      ▼                │
+│                              │                                 │
+│                              ▼                                 │
 │                  ┌───────────────────────────────────┐         │
-│                  │         Model API Endpoint         │        │
-│                  │     /v1/chat/completions           │        │
+│                  │      Endpoint Interceptor          │        │
+│                  │   (HTTP call to Model API)         │        │
 │                  └───────────────────────────────────┘         │
-│                                                                │
+│                              │                                 │
+│                              ▼                                 │
 │  Response  ◄───  [Interceptor 3]  ◄───  [Interceptor 4]  ◄─── │
 │                                                                │
 └───────────────────────────────────────────────────────────────┘
 ```
 
-## Request Interceptors
+Interceptors execute in order for requests, and in reverse order for responses.
+
+## Configuring Adapters
+
+The adapter configuration is specified in the `target.api_endpoint.adapter_config` section:
+
+```yaml
+target:
+  api_endpoint:
+    model_id: meta/llama-3.1-8b-instruct
+    url: https://integrate.api.nvidia.com/v1/chat/completions
+    api_key_name: NGC_API_KEY
+    adapter_config:
+      interceptors:
+        - name: system_message
+          config:
+            system_message: "You are a helpful assistant."
+        - name: caching
+          config:
+            cache_dir: "./cache"
+        - name: endpoint
+        - name: reasoning
+          config:
+            start_reasoning_token: "<think>"
+            end_reasoning_token: "</think>"
+```
+
+## Available Interceptors
 
 ### System Message Interceptor
 
-Injects a system message into chat requests:
+Injects a system prompt into chat requests.
 
 ```yaml
-adapter_config:
-  interceptors:
-    - name: system_message
-      config:
-        system_message: "You are a helpful assistant. Answer concisely."
+- name: system_message
+  config:
+    system_message: "You are a helpful AI assistant. Think step by step."
 ```
 
-**Effect**:
-```json
-// Before
-{
-  "messages": [
-    {"role": "user", "content": "What is 2+2?"}
-  ]
-}
-
-// After
-{
-  "messages": [
-    {"role": "system", "content": "You are a helpful assistant. Answer concisely."},
-    {"role": "user", "content": "What is 2+2?"}
-  ]
-}
-```
+**Effect**: Prepends a system message to the messages array.
 
 ### Request Logging Interceptor
 
-Logs outbound requests for debugging:
+Logs outbound API requests for debugging and analysis.
 
 ```yaml
-adapter_config:
-  interceptors:
-    - name: request_logging
-      config:
-        max_logged_requests: 100
-        log_path: "./logs/requests.jsonl"
-        log_full_content: true  # Include full message content
-        redact_patterns:        # Redact sensitive data
-          - "api_key"
-          - "password"
+- name: request_logging
+  config:
+    max_requests: 1000
 ```
 
 ### Caching Interceptor
 
-Caches responses to avoid repeated API calls:
+Caches responses to avoid repeated API calls for identical requests.
 
 ```yaml
-adapter_config:
-  interceptors:
-    - name: caching
-      config:
-        cache_dir: "./cache"
-        cache_ttl: 3600           # TTL in seconds (0 = forever)
-        cache_key_fields:          # Fields to use in cache key
-          - "messages"
-          - "temperature"
-          - "model"
+- name: caching
+  config:
+    cache_dir: "./evaluation_cache"
+    reuse_cached_responses: true
+    save_requests: true
+    save_responses: true
+    max_saved_requests: 1000
+    max_saved_responses: 1000
 ```
 
-**Cache key generation**:
-- Hash of request content (messages, model, temperature)
-- Stored as JSON files in cache directory
-- Cache hits skip API call entirely
+### Endpoint Interceptor
 
-## Response Interceptors
-
-### Reasoning Extractor Interceptor
-
-Extracts and optionally removes reasoning tokens from responses:
+Performs the actual HTTP communication with the model endpoint. This is typically added automatically and has no configuration parameters.
 
 ```yaml
-adapter_config:
-  interceptors:
-    - name: reasoning
-      config:
-        start_reasoning_token: "<think>"
-        end_reasoning_token: "</think>"
-        strip_reasoning: true     # Remove from final output
-        store_reasoning: true     # Save reasoning separately
+- name: endpoint
 ```
 
-**Effect**:
-```json
-// Original response
-{
-  "content": "<think>Let me calculate step by step. 2+2 is basic addition.</think>The answer is 4."
-}
+### Reasoning Interceptor
 
-// After processing (strip_reasoning: true)
-{
-  "content": "The answer is 4.",
-  "reasoning": "Let me calculate step by step. 2+2 is basic addition."
-}
+Extracts and removes reasoning tokens (e.g., `<think>` tags) from model responses.
+
+```yaml
+- name: reasoning
+  config:
+    start_reasoning_token: "<think>"
+    end_reasoning_token: "</think>"
+    enable_reasoning_tracking: true
 ```
+
+**Effect**: Strips reasoning content from the response and tracks it separately.
 
 ### Response Logging Interceptor
 
-Logs API responses:
+Logs API responses.
 
 ```yaml
-adapter_config:
-  interceptors:
-    - name: response_logging
-      config:
-        max_logged_responses: 100
-        log_path: "./logs/responses.jsonl"
-        log_metrics: true         # Include latency, token counts
+- name: response_logging
+  config:
+    max_responses: 1000
 ```
 
 ### Progress Tracking Interceptor
 
-Reports evaluation progress:
+Reports evaluation progress to an external URL.
+
+```yaml
+- name: progress_tracking
+  config:
+    progress_tracking_url: "http://localhost:3828/progress"
+    progress_tracking_interval: 10
+```
+
+### Additional Interceptors
+
+Other available interceptors include:
+- `payload_modifier`: Transforms request parameters
+- `response_stats`: Collects aggregated statistics from responses
+- `raise_client_errors`: Handles and raises exceptions for client errors (4xx)
+
+## Interceptor Chain Example
+
+A typical interceptor chain for evaluation:
 
 ```yaml
 adapter_config:
   interceptors:
-    - name: progress_tracking
+    # Pre-endpoint (request processing)
+    - name: system_message
       config:
-        report_interval: 10       # Report every N samples
-        output_path: "./progress.jsonl"
+        system_message: "You are a helpful AI assistant."
+    - name: request_logging
+      config:
+        max_requests: 50
+    - name: caching
+      config:
+        cache_dir: "./evaluation_cache"
+        reuse_cached_responses: true
+
+    # Endpoint (HTTP call)
+    - name: endpoint
+
+    # Post-endpoint (response processing)
+    - name: response_logging
+      config:
+        max_responses: 50
+    - name: reasoning
+      config:
+        start_reasoning_token: "<think>"
+        end_reasoning_token: "</think>"
 ```
 
-## Interceptor Chain Execution
+## Python API Usage
 
-Interceptors execute in order defined:
-
-```yaml
-adapter_config:
-  interceptors:
-    # Request processing order (top to bottom)
-    - name: system_message      # 1. Add system message
-    - name: request_logging     # 2. Log request
-    - name: caching             # 3. Check cache (may skip API)
-
-    # Response processing order (bottom to top after API call)
-    - name: reasoning           # 4. Extract reasoning
-    - name: response_logging    # 5. Log response
-    - name: progress_tracking   # 6. Update progress
-```
-
-## Custom Interceptors
-
-Create custom interceptors by implementing the `Interceptor` interface:
+You can also configure adapters programmatically:
 
 ```python
-from nemo_evaluator.adapters.base import Interceptor, InterceptorConfig
-from nemo_evaluator.api import Request, Response
+from nemo_evaluator.adapters.adapter_config import AdapterConfig, InterceptorConfig
+from nemo_evaluator.api.api_dataclasses import ApiEndpoint, EndpointType
 
-class MyInterceptorConfig(InterceptorConfig):
-    custom_param: str = "default"
+adapter_config = AdapterConfig(
+    interceptors=[
+        InterceptorConfig(
+            name="system_message",
+            config={"system_message": "You are a helpful assistant."}
+        ),
+        InterceptorConfig(
+            name="caching",
+            config={
+                "cache_dir": "./cache",
+                "reuse_cached_responses": True
+            }
+        ),
+        InterceptorConfig(name="endpoint"),
+        InterceptorConfig(
+            name="reasoning",
+            config={
+                "start_reasoning_token": "<think>",
+                "end_reasoning_token": "</think>"
+            }
+        )
+    ]
+)
 
-class MyInterceptor(Interceptor):
-    def __init__(self, config: MyInterceptorConfig):
-        self.config = config
-
-    def process_request(self, request: Request) -> Request:
-        """Process outbound request before API call."""
-        # Modify request as needed
-        return request
-
-    def process_response(self, response: Response, request: Request) -> Response:
-        """Process inbound response after API call."""
-        # Modify response as needed
-        return response
-```
-
-Register custom interceptor:
-
-```python
-from nemo_evaluator.adapters.registry import register_interceptor
-
-@register_interceptor("my_interceptor")
-class MyInterceptor(Interceptor):
-    ...
-```
-
-## Error Handling
-
-Configure error handling behavior:
-
-```yaml
-adapter_config:
-  # Retry configuration
-  retry_on_failure: true
-  max_retries: 3
-  retry_delay: 1.0            # Seconds between retries
-  retry_backoff: 2.0          # Exponential backoff multiplier
-
-  # Logging
-  log_failed_requests: true
-  error_log_path: "./logs/errors.jsonl"
-
-  # Timeout
-  request_timeout: 300        # Seconds
-```
-
-### Retry Logic
-
-```
-Request fails ───► Retry 1 (delay: 1s) ───► Retry 2 (delay: 2s) ───► Retry 3 (delay: 4s) ───► Fail
-```
-
-Retryable errors:
-- HTTP 429 (Rate Limit)
-- HTTP 500-599 (Server Errors)
-- Connection timeouts
-- Network errors
-
-Non-retryable errors:
-- HTTP 400 (Bad Request)
-- HTTP 401 (Unauthorized)
-- HTTP 403 (Forbidden)
-
-## Structured Logging
-
-The adapter system uses structured logging with automatic redaction:
-
-```python
-# Logs are written as structured JSON
-{
-  "timestamp": "2024-01-15T10:30:00Z",
-  "level": "INFO",
-  "event": "api_request",
-  "model_id": "llama-3.1-8b",
-  "latency_ms": 1234,
-  "tokens_in": 50,
-  "tokens_out": 100,
-  "status": "success"
-}
-```
-
-### Redaction
-
-Sensitive data is automatically redacted:
-
-```yaml
-adapter_config:
-  redaction:
-    enabled: true
-    patterns:
-      - "api_key"
-      - "password"
-      - "token"
-      - "secret"
-    replacement: "[REDACTED]"
+api_endpoint = ApiEndpoint(
+    url="http://localhost:8080/v1/chat/completions",
+    type=EndpointType.CHAT,
+    model_id="my_model",
+    adapter_config=adapter_config
+)
 ```
 
 ## OpenAI API Compatibility
 
-The adapter system supports OpenAI-compatible endpoints:
+NeMo Evaluator supports OpenAI-compatible endpoints with different endpoint types:
 
 ### Chat Completions
 
 ```yaml
 target:
   api_endpoint:
-    type: chat
+    type: chat  # or omit, chat is default
     url: http://endpoint/v1/chat/completions
-```
-
-Request format:
-```json
-{
-  "model": "model-name",
-  "messages": [
-    {"role": "user", "content": "Hello"}
-  ],
-  "temperature": 0.7,
-  "max_tokens": 512
-}
 ```
 
 ### Text Completions
@@ -310,16 +233,6 @@ target:
     url: http://endpoint/v1/completions
 ```
 
-Request format:
-```json
-{
-  "model": "model-name",
-  "prompt": "Hello",
-  "temperature": 0.7,
-  "max_tokens": 512
-}
-```
-
 ### Vision-Language Models
 
 ```yaml
@@ -329,90 +242,99 @@ target:
     url: http://endpoint/v1/chat/completions
 ```
 
-Request format:
-```json
-{
-  "model": "model-name",
-  "messages": [
-    {
-      "role": "user",
-      "content": [
-        {"type": "text", "text": "What's in this image?"},
-        {"type": "image_url", "image_url": {"url": "data:image/png;base64,..."}}
-      ]
-    }
-  ]
-}
-```
+## Error Handling
 
-### Embeddings
-
-```yaml
-target:
-  api_endpoint:
-    type: embedding
-    url: http://endpoint/v1/embeddings
-```
-
-Request format:
-```json
-{
-  "model": "model-name",
-  "input": ["text to embed"]
-}
-```
-
-## Debugging Adapters
-
-### Enable Debug Logging
+Configure error handling via the `log_failed_requests` option:
 
 ```yaml
 adapter_config:
-  debug: true
-  debug_log_path: "./logs/debug.jsonl"
+  log_failed_requests: true
+  interceptors:
+    - name: raise_client_errors
+    # ... other interceptors
 ```
 
-### Inspect Request/Response
+## Debugging
 
-```bash
-# View logged requests
-cat ./logs/requests.jsonl | jq .
+### Enable Logging Interceptors
 
-# View logged responses
-cat ./logs/responses.jsonl | jq .
+Add request and response logging to debug issues:
 
-# View errors
-cat ./logs/errors.jsonl | jq .
+```yaml
+adapter_config:
+  interceptors:
+    - name: request_logging
+      config:
+        max_requests: 100
+    - name: endpoint
+    - name: response_logging
+      config:
+        max_responses: 100
 ```
 
 ### Common Issues
 
 **Issue: System message not applied**
 
-Ensure interceptor is in list:
+Ensure the `system_message` interceptor is listed before the `endpoint` interceptor.
+
+**Issue: Cache not being used**
+
+Check that `reuse_cached_responses: true` is set and the cache directory exists:
 ```yaml
-interceptors:
-  - name: system_message
-    config:
-      system_message: "..."
+- name: caching
+  config:
+    cache_dir: "./cache"
+    reuse_cached_responses: true
 ```
 
-**Issue: Cache not working**
+**Issue: Reasoning tokens not extracted**
 
-Check cache directory exists and is writable:
-```bash
-ls -la ./cache/
-```
-
-**Issue: Reasoning not extracted**
-
-Verify token patterns match model output:
+Verify the token patterns match your model's output format:
 ```yaml
-# For models using <think> tags
-start_reasoning_token: "<think>"
-end_reasoning_token: "</think>"
-
-# For models using <reasoning> tags
-start_reasoning_token: "<reasoning>"
-end_reasoning_token: "</reasoning>"
+- name: reasoning
+  config:
+    start_reasoning_token: "<think>"  # Must match model output exactly
+    end_reasoning_token: "</think>"
 ```
+
+## Custom Interceptor Discovery
+
+NeMo Evaluator supports discovering custom interceptors via the `DiscoveryConfig` within `AdapterConfig`. You can specify modules or directories where your custom interceptors are located:
+
+```yaml
+adapter_config:
+  discovery:
+    modules:
+      - "my_custom.interceptors"
+      - "my_package.adapters"
+    dirs:
+      - "/path/to/custom/interceptors"
+  interceptors:
+    - name: my_custom_interceptor
+      config:
+        custom_option: value
+```
+
+Custom interceptors must implement the standard interceptor interface expected by `nemo-evaluator`.
+
+## Additional AdapterConfig Options
+
+Beyond interceptors, `AdapterConfig` supports these additional fields:
+
+| Field | Description |
+|-------|-------------|
+| `discovery` | Configure custom interceptor discovery |
+| `post_eval_hooks` | List of hooks to run after evaluation |
+| `endpoint_type` | Default endpoint type (e.g., "chat") |
+| `caching_dir` | Legacy option for response caching |
+| `generate_html_report` | Generate HTML report of results |
+| `log_failed_requests` | Log requests that fail |
+| `tracking_requests_stats` | Enable request statistics |
+| `html_report_size` | Number of request-response pairs in report |
+
+## Notes
+
+- The interceptor chain order matters - request interceptors run in order, response interceptors run in reverse
+- Interceptors can be enabled/disabled via the `enabled` field in `InterceptorConfig`
+- For complex custom logic, consider packaging as a custom container with your interceptors pre-installed
