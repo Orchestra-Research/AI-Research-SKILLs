@@ -224,12 +224,21 @@ Install skill categories directly using the **Claude Code CLI**:
 ### 📝 ML Paper Writing (1 skill)
 - **[ML Paper Writing](20-ml-paper-writing/)** - Write publication-ready papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM with LaTeX templates, citation verification, and writing best practices (532 lines + 5 refs)
 
-## Demo
+## Demos
 
 All 77 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
-**[Demo](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra)**: With this `skills`, a physics PhD is able to [reproduce](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra) Thinking Machines Lab's "LoRA Without Regret" findings. 
-The Orchestra agent autonomously wrote training code using TRL, provisioned H100 GPUs, ran GRPO experiments overnight, and generated publication-ready analysis, successfully validating that rank=16 LoRA achieves 99.4% of rank=256's SFT performance and that rank=1 LoRA outperforms full fine-tuning on RL tasks (52.1% vs 33.3% on GSM8k math reasoning). ([Video demo](https://www.youtube.com/watch?v=X0DoLYfXl5I))
+**See skills in action → [demos/](demos/README.md)**
+
+We maintain a curated collection of demo repositories showing how to use skills for real AI research tasks:
+
+| Demo | Skills Used | What It Does |
+|------|-------------|--------------|
+| **[NeMo Eval: GPQA Benchmark](https://github.com/zechenzhangAGI/Nemo-Eval-Skill-Demo)** | NeMo Evaluator | Compare Llama 8B/70B/405B on graduate-level science questions |
+| **[LoRA Without Regret Reproduction](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra)** | GRPO, TRL | Reproduce SFT + GRPO RL experiments via prompting |
+| **ML Paper Writing** *(coming soon)* | ML Paper Writing | Transform research repo → publication-ready paper |
+
+**Featured Demo**: Reproduce Thinking Machines Lab's "LoRA Without Regret" paper **by simply prompting an AI agent**. The agent autonomously writes training code for both SFT and GRPO reinforcement learning, provisions H100 GPUs, runs LoRA rank ablation experiments overnight, and generates publication-ready analysis. No manual coding required—just describe what you want to reproduce. ([Blog](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra) | [Video](https://www.youtube.com/watch?v=X0DoLYfXl5I))
 
 **Note**: When you contribute a skill to this repo via PR, it automatically syncs to the Orchestra marketplace after merge.
 
@@ -335,6 +344,7 @@ We're building towards 80 comprehensive skills across the full AI research lifec
 claude-ai-research-skills/
 ├── README.md                    ← You are here
 ├── CONTRIBUTING.md              ← Contribution guide
+├── demos/                       ← Curated demo gallery (links to demo repos)
 ├── docs/ 
 ├── 01-model-architecture/       (5 skills ✓ - Megatron, LitGPT, Mamba, RWKV, NanoGPT)
 ├── 02-tokenization/             (2 skills ✓ - HuggingFace Tokenizers, SentencePiece)
