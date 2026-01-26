@@ -325,7 +325,8 @@ Create seed checkpoint first (see Workflow 4, Step 1).
 |-------|-------|--------|
 | Llama 3.1 | 8B, 70B, 405B | Production |
 | Llama 4 | Various | Experimental |
-| DeepSeek V3 | MoE | Experimental |
+| DeepSeek V3 | 16B, 236B, 671B (MoE) | Experimental |
+| GPT-OSS | 20B, 120B (MoE) | Experimental |
 | Qwen 3 | Various | Experimental |
 | Flux | Diffusion | Experimental |
 
