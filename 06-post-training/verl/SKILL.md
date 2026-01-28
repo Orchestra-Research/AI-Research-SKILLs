@@ -263,9 +263,11 @@ python3 -m verl.trainer.main_ppo \
 | Algorithm | `adv_estimator` | Use Case |
 |-----------|-----------------|----------|
 | GRPO | `grpo` | Critic-free, math/reasoning |
-| PPO | `gae` | Dense rewards, value estimation |
+| PPO/GAE | `gae` | Dense rewards, value estimation |
 | REINFORCE++ | `reinforce_plus_plus` | Variance reduction |
 | RLOO | `rloo` | Leave-one-out baseline |
+| ReMax | `remax` | Maximum reward baseline |
+| OPO | `opo` | Optimal policy optimization |
 
 ### Key Parameters
 
@@ -283,7 +285,7 @@ actor_rollout_ref.actor.clip_ratio: 0.2     # PPO clip range
 # KL control
 actor_rollout_ref.actor.use_kl_loss: true
 actor_rollout_ref.actor.kl_loss_coef: 0.001
-actor_rollout_ref.actor.kl_target: 0.01     # Adaptive KL target
+algorithm.kl_ctrl.target_kl: 0.1            # For adaptive KL control
 ```
 
 ---
@@ -300,7 +302,7 @@ actor_rollout_ref.actor.kl_target: 0.01     # Adaptive KL target
 actor_rollout_ref.rollout.log_prob_micro_batch_size: 4
 
 # Enable gradient checkpointing
-actor_rollout_ref.actor.gradient_checkpointing: true
+actor_rollout_ref.model.enable_gradient_checkpointing: true
 
 # Use FSDP2 with CPU offloading
 actor_rollout_ref.actor.strategy: fsdp2

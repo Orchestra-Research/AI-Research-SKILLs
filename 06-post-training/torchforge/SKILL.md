@@ -43,7 +43,7 @@ torchforge is Meta's PyTorch-native RL library that separates infrastructure con
                       │
 ┌─────────────────────▼───────────────────────────────────┐
 │ Forge API Layer                                         │
-│ - TextTrainBatch, ForwardBackwardResult                │
+│ - Episode, Group dataclasses                           │
 │ - Service interfaces (async/await)                      │
 └─────────────────────┬───────────────────────────────────┘
                       │
@@ -144,21 +144,21 @@ services:
 ### Step 2: Define Reward Function
 
 ```python
-# grading.py
-from forge.rl.grading import RewardActor
+# rewards.py
+# Reward functions are in forge.data.rewards
+from forge.data.rewards import MathReward, ThinkingReward
 import re
 
-class MathReward(RewardActor):
-    def grade(self, prompt: str, completion: str, metadata: dict) -> float:
-        # Extract answer from completion
-        match = re.search(r'\\boxed{([^}]+)}', completion)
+# Or define your own reward function
+class CustomMathReward:
+    def __call__(self, prompt: str, response: str, target: str) -> float:
+        # Extract answer from response
+        match = re.search(r'\\boxed{([^}]+)}', response)
         if not match:
             return 0.0
 
         answer = match.group(1).strip()
-        ground_truth = metadata.get("answer", "")
-
-        return 1.0 if answer == ground_truth else 0.0
+        return 1.0 if answer == target else 0.0
 ```
 
 ### Step 3: Launch Training
@@ -181,34 +181,25 @@ Use this workflow to implement new RL algorithms.
 ### Step 1: Create Loss Class
 
 ```python
-# src/forge/rl/loss/custom_loss.py
-from forge.rl.loss.ops import (
-    compute_logprobs,
-    compute_ratio,
-    compute_kl,
-    aggregate,
-)
+# src/forge/losses/custom_loss.py
 import torch
+import torch.nn as nn
 
-class CustomLoss:
+class CustomLoss(nn.Module):
     def __init__(self, clip_range: float = 0.2, beta: float = 0.1):
+        super().__init__()
         self.clip_range = clip_range
         self.beta = beta
 
-    def __call__(
+    def forward(
         self,
-        logits: torch.Tensor,
-        target_ids: torch.Tensor,
-        advantages: torch.Tensor,
-        generator_logprobs: torch.Tensor,
-        loss_mask: torch.Tensor,
+        logprobs: torch.Tensor,
         ref_logprobs: torch.Tensor,
-    ) -> tuple[torch.Tensor, dict]:
-        # Compute current log probabilities
-        logprobs = compute_logprobs(logits, target_ids)
-
+        advantages: torch.Tensor,
+        padding_mask: torch.Tensor,
+    ) -> torch.Tensor:
         # Compute importance ratio
-        ratio = compute_ratio(logprobs, generator_logprobs, loss_mask)
+        ratio = torch.exp(logprobs - ref_logprobs)
 
         # Clipped policy gradient
         clipped_ratio = torch.clamp(
@@ -219,36 +210,29 @@ class CustomLoss:
         pg_loss = -torch.min(ratio * advantages, clipped_ratio * advantages)
 
         # KL penalty
-        kl = compute_kl(logprobs, ref_logprobs, loss_mask)
+        kl = ref_logprobs - logprobs
 
-        # Total loss
-        loss = aggregate(pg_loss + self.beta * kl, loss_mask)
+        # Apply mask and aggregate
+        masked_loss = (pg_loss + self.beta * kl) * padding_mask
+        loss = masked_loss.sum() / padding_mask.sum()
 
-        metrics = {
-            "pg_loss": aggregate(pg_loss, loss_mask).item(),
-            "kl": kl.mean().item(),
-            "ratio_mean": ratio.mean().item(),
-        }
-
-        return loss, metrics
+        return loss
 ```
 
 ### Step 2: Integrate into Application
 
 ```python
 # apps/custom/main.py
-from forge.rl.loss.custom_loss import CustomLoss
+from forge.losses.custom_loss import CustomLoss
 
 loss_fn = CustomLoss(clip_range=0.2, beta=0.1)
 
 # In training loop
-result = loss_fn(
-    logits=trainer_output.logits,
-    target_ids=batch.target_ids,
-    advantages=advantages,
-    generator_logprobs=completions.logprobs,
-    loss_mask=batch.target_mask,
+loss = loss_fn(
+    logprobs=logprobs,
     ref_logprobs=ref_logprobs,
+    advantages=advantages,
+    padding_mask=padding_mask,
 )
 ```
 
@@ -301,28 +285,24 @@ python -m apps.grpo.main \
 
 ## Core API Reference
 
-### TextTrainBatch
+### Training Batch Format
 
-Input structure for training:
-
-```python
-@dataclass
-class TextTrainBatch:
-    input_ids: Tensor      # [batch, seq_len] - Input tokens
-    target_ids: Tensor     # [batch, seq_len] - Target tokens
-    target_mask: Tensor    # [batch, seq_len] - Which tokens to train on
-    target_weights: Tensor # [batch, seq_len] - Per-token weights (advantages)
-```
-
-### ForwardBackwardResult
-
-Output from training step:
+torchforge uses dictionary-based batches for training:
 
 ```python
-@dataclass
-class ForwardBackwardResult:
-    loss: float
-    metrics: dict  # e.g., {"perplexity": 2.3, "kl": 0.01}
+# inputs: list of dicts with torch.Tensor values
+inputs = [{"tokens": torch.Tensor}]
+
+# targets: list of dicts with training signals
+targets = [{
+    "response": torch.Tensor,
+    "ref_logprobs": torch.Tensor,
+    "advantages": torch.Tensor,
+    "padding_mask": torch.Tensor
+}]
+
+# train_step returns loss as float
+loss = trainer.train_step(inputs, targets)
 ```
 
 ### Completion
@@ -342,38 +322,33 @@ class Completion:
 
 ## Built-in Loss Functions
 
-### GRPO (Group Relative Policy Optimization)
+### Loss Functions
+
+Loss functions are in the `forge.losses` module:
 
 ```python
-from forge.rl.loss import GRPOLoss
+from forge.losses import SimpleGRPOLoss, ReinforceLoss
 
-loss_fn = GRPOLoss(
-    clip_low=0.2,      # Lower clip bound
-    clip_high=0.28,    # Upper clip bound
-    beta=0.1,          # KL penalty
-    agg_type="fixed_horizon"
+# SimpleGRPOLoss for GRPO training
+loss_fn = SimpleGRPOLoss(beta=0.1)
+
+# Forward pass
+loss = loss_fn(
+    logprobs=logprobs,
+    ref_logprobs=ref_logprobs,
+    advantages=advantages,
+    padding_mask=padding_mask
 )
 ```
 
-### DAPO
+### ReinforceLoss
 
 ```python
-from forge.rl.loss import DAPOLoss
+from forge.losses.reinforce_loss import ReinforceLoss
 
-loss_fn = DAPOLoss(
-    clip_range=0.2,
-    adaptive_kl=True,
-    kl_target=0.01
-)
+# With optional importance ratio clipping
+loss_fn = ReinforceLoss(clip_ratio=0.2)
 ```
-
-### Available Losses
-
-- `GRPOLoss` - Group Relative Policy Optimization
-- `DAPOLoss` - Doubly-Adaptive PPO
-- `CISPOLoss` - Constrained Importance Sampling PO
-- `GSPOLoss` - Grouped Sample PO
-- `SAPOLoss` - Sample-Averaged PO
 
 ---
 
