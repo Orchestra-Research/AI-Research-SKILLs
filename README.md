@@ -8,7 +8,7 @@
 
 <div align="center">
 
-### **77 Skills Powering AI Research in 2026**
+### **81 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -19,7 +19,7 @@
 
 | | | |
 |:---:|:---:|:---:|
-| **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (4) |
+| **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (8) |
 | **Distributed Training** (5) | **Optimization** (6) | **Inference** (4) |
 | **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
 | **Safety & Alignment** (3) | **Agents** (4) | **RAG** (5) |
@@ -60,7 +60,7 @@ Modern AI research requires mastering dozens of specialized tools and frameworks
 AI Researchers spend more time debugging infrastructure than testing hypotheses—slowing the pace of scientific discovery. 
 We provide a comprehensive library of expert-level research engineering skills that enable AI agents to autonomously implement and execute different stages of AI research experiments—from data preparation and model training to evaluation and deployment.
   - Specialized Expertise - Each skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 77 skills spanning model architecture, tokenization, fine-tuning, mechanistic interpretability, data processing, post-training, distributed training, optimization, evaluation, inference, infrastructure, agents, RAG, multimodal, prompt engineering, MLOps, observability, emerging techniques, and ML paper writing
+  - End-to-End Coverage - 81 skills spanning model architecture, tokenization, fine-tuning, mechanistic interpretability, data processing, post-training, distributed training, optimization, evaluation, inference, infrastructure, agents, RAG, multimodal, prompt engineering, MLOps, observability, emerging techniques, and ML paper writing
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills  
@@ -77,7 +77,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 # Install by category (20 categories available)
 /plugin install fine-tuning@ai-research-skills        # Axolotl, LLaMA-Factory, PEFT, Unsloth
-/plugin install post-training@ai-research-skills      # TRL, GRPO, OpenRLHF, SimPO
+/plugin install post-training@ai-research-skills      # TRL, GRPO, OpenRLHF, SimPO, verl, slime, miles, torchforge
 /plugin install inference-serving@ai-research-skills  # vLLM, TensorRT-LLM, llama.cpp, SGLang
 /plugin install distributed-training@ai-research-skills
 /plugin install optimization@ai-research-skills
@@ -91,7 +91,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Fine-Tuning | `fine-tuning@ai-research-skills` | Axolotl, LLaMA-Factory, PEFT, Unsloth |
 | Mech Interp | `mechanistic-interpretability@ai-research-skills` | TransformerLens, SAELens, pyvene, nnsight |
 | Data Processing | `data-processing@ai-research-skills` | NeMo Curator, Ray Data |
-| Post-Training | `post-training@ai-research-skills` | TRL, GRPO, OpenRLHF, SimPO |
+| Post-Training | `post-training@ai-research-skills` | TRL, GRPO, OpenRLHF, SimPO, verl, slime, miles, torchforge |
 | Safety | `safety-alignment@ai-research-skills` | Constitutional AI, LlamaGuard, NeMo Guardrails |
 | Distributed | `distributed-training@ai-research-skills` | DeepSpeed, FSDP, Accelerate, Megatron, Lightning, Ray Train |
 | Infrastructure | `infrastructure@ai-research-skills` | Modal, Lambda Labs, SkyPilot |
@@ -133,11 +133,15 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[Ray Data](05-data-processing/ray-data/)** - Distributed ML data processing, streaming execution, GPU support (318 lines + 2 refs)
 - **[NeMo Curator](05-data-processing/nemo-curator/)** - GPU-accelerated data curation, 16× faster deduplication (375 lines + 2 refs)
 
-### 🎓 Post-Training (4 skills)
+### 🎓 Post-Training (8 skills)
 - **[TRL Fine-Tuning](06-post-training/trl-fine-tuning/)** - Transformer Reinforcement Learning (447 lines + 4 refs)
 - **[GRPO-RL-Training](06-post-training/grpo-rl-training/)** (TRL) - Group Relative Policy Optimization with TRL (569 lines, **gold standard**)
 - **[OpenRLHF](06-post-training/openrlhf/)** - Full RLHF pipeline with Ray + vLLM (241 lines + 4 refs)
 - **[SimPO](06-post-training/simpo/)** - Simple Preference Optimization, no reference model needed (211 lines + 3 refs)
+- **[verl](06-post-training/verl/)** - ByteDance's HybridFlow RL framework, FSDP/Megatron + vLLM/SGLang backends (389 lines + 2 refs)
+- **[slime](06-post-training/slime/)** - THUDM's Megatron+SGLang framework powering GLM-4.x models (464 lines + 2 refs)
+- **[miles](06-post-training/miles/)** - Enterprise fork of slime with FP8, INT4, speculative RL for MoE training (315 lines + 2 refs)
+- **[torchforge](06-post-training/torchforge/)** - Meta's PyTorch-native RL with Monarch+TorchTitan+vLLM (380 lines + 2 refs)
 
 ### 🛡️ Safety & Alignment (3 skills)
 - **[Constitutional AI](07-safety-alignment/constitutional-ai/)** - AI-driven self-improvement via principles (282 lines)
@@ -226,7 +230,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 77 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 81 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
