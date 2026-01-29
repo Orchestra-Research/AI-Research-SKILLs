@@ -5,20 +5,21 @@
     "email": "zechen@orchestra-research.com"
   },
   "metadata": {
-    "description": "Comprehensive library of 77 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
-    "version": "1.0.0"
+    "description": "Comprehensive library of 82 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "model-architecture",
-      "description": "LLM architectures and implementations including LitGPT, Mamba, NanoGPT, and RWKV. Use when implementing, training, or understanding transformer and alternative architectures.",
+      "description": "LLM architectures and implementations including LitGPT, Mamba, NanoGPT, RWKV, and TorchTitan. Use when implementing, training, or understanding transformer and alternative architectures.",
       "source": "./",
       "strict": false,
       "skills": [
         "./01-model-architecture/litgpt",
         "./01-model-architecture/mamba",
         "./01-model-architecture/nanogpt",
-        "./01-model-architecture/rwkv"
+        "./01-model-architecture/rwkv",
+        "./01-model-architecture/torchtitan"
       ]
     },
     {
@@ -67,14 +68,18 @@
     },
     {
       "name": "post-training",
-      "description": "RLHF and preference alignment including TRL, GRPO, OpenRLHF, and SimPO. Use when aligning models with human preferences or training reward models.",
+      "description": "RLHF and preference alignment including TRL, GRPO, OpenRLHF, SimPO, verl, slime, miles, and torchforge. Use when aligning models with human preferences, training reward models, or large-scale RL training.",
       "source": "./",
       "strict": false,
       "skills": [
         "./06-post-training/grpo-rl-training",
+        "./06-post-training/miles",
         "./06-post-training/openrlhf",
         "./06-post-training/simpo",
-        "./06-post-training/trl-fine-tuning"
+        "./06-post-training/slime",
+        "./06-post-training/torchforge",
+        "./06-post-training/trl-fine-tuning",
+        "./06-post-training/verl"
       ]
     },
     {

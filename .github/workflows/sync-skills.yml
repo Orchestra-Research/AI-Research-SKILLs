@@ -25,19 +25,41 @@ jobs:
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
-          # Extract unique skill directories (format: XX-category/skill-name/)
-          SKILL_DIRS=$(echo "$CHANGED_FILES" | grep -E '^[0-9]{2}-[^/]+/[^/]+/' | sed -E 's|^([0-9]{2}-[^/]+/[^/]+)/.*|\1|' | sort -u)
+          # Find skill directories - supports two patterns:
+          # Pattern 1: XX-category/skill-name/SKILL.md (nested skills)
+          # Pattern 2: XX-category/SKILL.md (standalone skills like 20-ml-paper-writing)
+
+          SKILL_DIRS=""
+
+          # Pattern 1: Nested skills (XX-category/skill-name/)
+          NESTED=$(echo "$CHANGED_FILES" | grep -E '^[0-9]{2}-[^/]+/[^/]+/' | sed -E 's|^([0-9]{2}-[^/]+/[^/]+)/.*|\1|' | sort -u)
+          if [ -n "$NESTED" ]; then
+            SKILL_DIRS="$NESTED"
+          fi
+
+          # Pattern 2: Standalone skills (XX-category/ with SKILL.md directly inside)
+          STANDALONE=$(echo "$CHANGED_FILES" | grep -E '^[0-9]{2}-[^/]+/SKILL\.md$' | sed -E 's|^([0-9]{2}-[^/]+)/SKILL\.md$|\1|' | sort -u)
+          if [ -n "$STANDALONE" ]; then
+            if [ -n "$SKILL_DIRS" ]; then
+              SKILL_DIRS=$(printf "%s\n%s" "$SKILL_DIRS" "$STANDALONE" | sort -u)
+            else
+              SKILL_DIRS="$STANDALONE"
+            fi
+          fi
 
           echo "Changed skill directories:"
           echo "$SKILL_DIRS"
 
           # Convert to JSON array for matrix
-          SKILLS_JSON=$(echo "$SKILL_DIRS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          if [ -z "$SKILL_DIRS" ]; then
+            SKILLS_JSON="[]"
+            SKILL_COUNT=0
+          else
+            SKILLS_JSON=$(echo "$SKILL_DIRS" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            SKILL_COUNT=$(echo "$SKILL_DIRS" | grep -c . || echo "0")
+          fi
 
           echo "skills=$SKILLS_JSON" >> $GITHUB_OUTPUT
-
-          # Also output count for conditional execution
-          SKILL_COUNT=$(echo "$SKILL_DIRS" | grep -c . || echo "0")
           echo "count=$SKILL_COUNT" >> $GITHUB_OUTPUT
 
       - name: Process and sync skills
