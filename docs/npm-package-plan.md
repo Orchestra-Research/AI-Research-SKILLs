@@ -52,17 +52,19 @@ Based on research of existing solutions:
 └── README.md
 ```
 
-## Supported Agents
+## Supported Agents (7 Verified)
 
-| Agent | Config Location | Skills Location | Format |
+All agents below have been verified to support SKILL.md files with the same format.
+
+| Agent | Config Location | Skills Location | Source |
 |-------|-----------------|-----------------|--------|
-| Claude Code | `~/.claude/` | `.claude/skills/` | SKILL.md symlinks |
-| Cursor | `~/.cursor/` | `.cursor/skills/` | SKILL.md symlinks |
-| Codex | `~/.codex/` | `.codex/skills/` | SKILL.md symlinks |
-| Windsurf | `~/.windsurf/` | `.windsurf/skills/` | SKILL.md symlinks |
-| Copilot | N/A | `.github/copilot-instructions.md` | Append to file |
-| Aider | `~/.aider/` | `.aider/skills/` | SKILL.md symlinks |
-| Continue | `~/.continue/` | `.continue/skills/` | SKILL.md symlinks |
+| Claude Code | `~/.claude/` | `.claude/skills/` | Verified locally |
+| Cursor | `~/.cursor/` | `.cursor/skills/` | [DeepWiki](https://deepwiki.com/getcursor/cursor) |
+| Codex (OpenAI) | `~/.codex/` | `.codex/skills/` | [DeepWiki](https://deepwiki.com/openai/codex) |
+| Windsurf | `~/.windsurf/` | `.windsurf/skills/` | [Windsurf Docs](https://docs.windsurf.com/windsurf/cascade/skills) |
+| Gemini CLI | `~/.gemini/` | `.gemini/skills/` | [DeepWiki](https://deepwiki.com/google-gemini/gemini-cli) |
+| Kilo Code | `~/.kilocode/` | `.kilocode/skills/` | [Kilo Docs](https://kilo.ai/docs/agent-behavior/skills) |
+| Qwen Code | `~/.qwen/` | `.qwen/skills/` | [Qwen Docs](https://qwenlm.github.io/qwen-code-docs/)
 
 ## CLI Commands
 
@@ -88,11 +90,17 @@ npx @orchestra-research/skills list
 # List skills by category
 npx @orchestra-research/skills list --category post-training
 
+# List available categories
+npx @orchestra-research/skills categories
+
 # Install all skills for detected agents
 npx @orchestra-research/skills install --all
 
-# Install specific category
-npx @orchestra-research/skills install post-training
+# Install specific category (user selects from list)
+npx @orchestra-research/skills install --category post-training
+
+# Install multiple categories
+npx @orchestra-research/skills install --category post-training,fine-tuning,inference
 
 # Install specific skill
 npx @orchestra-research/skills install verl
@@ -106,6 +114,9 @@ npx @orchestra-research/skills install verl --scope project
 # Install to global scope (home directory)
 npx @orchestra-research/skills install verl --scope global
 
+# Interactive mode - prompts user to select categories/skills
+npx @orchestra-research/skills install --interactive
+
 # Update all skills
 npx @orchestra-research/skills update
 
@@ -114,6 +125,27 @@ npx @orchestra-research/skills remove verl
 
 # Show skill info
 npx @orchestra-research/skills info verl
+```
+
+### Interactive Installation Flow
+
+When running `npx @orchestra-research/skills install --interactive`:
+
+```
+? What would you like to install?
+  ○ All skills (82 skills)
+  ○ Select by category
+  ○ Select individual skills
+
+? Select categories to install: (Space to select, Enter to confirm)
+  ◉ 01-model-architecture (6 skills)
+  ◯ 02-tokenization (2 skills)
+  ◯ 03-fine-tuning (5 skills)
+  ◉ 06-post-training (8 skills)
+  ◯ 20-ml-paper-writing (1 skill)
+  ...
+
+? Confirm installation of 14 skills to Claude Code, Cursor, Gemini CLI? (Y/n)
 ```
 
 ## Storage Strategy
@@ -171,6 +203,37 @@ Single source of truth with symlinks:
   }
 }
 ```
+
+## Skill Structure Patterns
+
+The repository has two skill organization patterns:
+
+### Pattern 1: Nested Skills (Most Categories)
+```
+XX-category/
+├── skill-name-1/
+│   ├── SKILL.md
+│   └── references/
+├── skill-name-2/
+│   └── SKILL.md
+└── ...
+```
+
+Example: `06-post-training/verl/SKILL.md`
+
+### Pattern 2: Standalone Skills (Single Skill = Category)
+```
+XX-category-name/
+├── SKILL.md
+├── references/
+└── templates/
+```
+
+Example: `20-ml-paper-writing/SKILL.md` (the category IS the skill)
+
+The npm package must handle both patterns when fetching skills.
+
+---
 
 ## Skill Registry
 
@@ -259,63 +322,66 @@ async function fetchSkillManifest() {
 
 ## Agent-Specific Handling
 
-### Standard Agents (Claude, Cursor, Codex, Windsurf, Aider)
+### All 7 Verified Agents
 
-These agents support a `skills/` directory with SKILL.md files:
-
-```javascript
-// src/agents/claude.js
-export const claude = {
-  name: 'Claude Code',
-  configDir: '~/.claude',
-  skillsDir: '~/.claude/skills',
-  projectSkillsDir: '.claude/skills',
-  format: 'symlink', // Use symlinks to canonical storage
-
-  detect() {
-    return fs.existsSync(expandHome('~/.claude'));
-  },
-
-  install(skillPath, canonicalPath, scope) {
-    const targetDir = scope === 'project'
-      ? '.claude/skills'
-      : expandHome('~/.claude/skills');
-
-    fs.ensureDirSync(targetDir);
-    fs.symlinkSync(canonicalPath, path.join(targetDir, skillName));
-  }
-};
-```
-
-### GitHub Copilot (Special Case)
-
-Copilot uses a single instructions file, not a skills directory:
+All agents use the same SKILL.md format and symlink pattern:
 
 ```javascript
-// src/agents/copilot.js
-export const copilot = {
-  name: 'GitHub Copilot',
-  format: 'append', // Append to instructions file
-  instructionsFile: '.github/copilot-instructions.md',
-
-  detect() {
-    return true; // Always available for project scope
+// src/agents/index.js
+export const agents = {
+  claude: {
+    name: 'Claude Code',
+    configDir: '~/.claude',
+    skillsDir: '~/.claude/skills',
+    projectSkillsDir: '.claude/skills',
   },
-
-  install(skillContent, scope) {
-    if (scope !== 'project') {
-      console.warn('Copilot only supports project scope');
-      return;
-    }
-
-    const file = '.github/copilot-instructions.md';
-    const existing = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
-
-    // Append skill content with separator
-    const separator = '\n\n---\n\n';
-    fs.writeFileSync(file, existing + separator + skillContent);
-  }
+  cursor: {
+    name: 'Cursor',
+    configDir: '~/.cursor',
+    skillsDir: '~/.cursor/skills',
+    projectSkillsDir: '.cursor/skills',
+  },
+  codex: {
+    name: 'Codex (OpenAI)',
+    configDir: '~/.codex',
+    skillsDir: '~/.codex/skills',
+    projectSkillsDir: '.codex/skills',
+  },
+  windsurf: {
+    name: 'Windsurf',
+    configDir: '~/.windsurf',
+    skillsDir: '~/.windsurf/skills',
+    projectSkillsDir: '.windsurf/skills',
+  },
+  gemini: {
+    name: 'Gemini CLI',
+    configDir: '~/.gemini',
+    skillsDir: '~/.gemini/skills',
+    projectSkillsDir: '.gemini/skills',
+  },
+  kilo: {
+    name: 'Kilo Code',
+    configDir: '~/.kilocode',
+    skillsDir: '~/.kilocode/skills',
+    projectSkillsDir: '.kilocode/skills',
+  },
+  qwen: {
+    name: 'Qwen Code',
+    configDir: '~/.qwen',
+    skillsDir: '~/.qwen/skills',
+    projectSkillsDir: '.qwen/skills',
+  },
 };
+
+// Common install function for all agents
+function installSkill(agent, skillName, canonicalPath, scope) {
+  const targetDir = scope === 'project'
+    ? agent.projectSkillsDir
+    : expandHome(agent.skillsDir);
+
+  fs.ensureDirSync(targetDir);
+  fs.symlinkSync(canonicalPath, path.join(targetDir, skillName));
+}
 ```
 
 ## User Experience
