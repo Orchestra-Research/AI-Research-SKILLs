@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'fs';
+import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync, lstatSync } from 'fs';
 import { homedir } from 'os';
 import { join, basename, dirname } from 'path';
 import { execSync } from 'child_process';
@@ -388,4 +388,129 @@ export function getAllCategoryIds() {
     '19-emerging-techniques',
     '20-ml-paper-writing',
   ];
+}
+
+/**
+ * Get installed skill paths for updating
+ * Returns array like ['06-post-training/verl', '20-ml-paper-writing']
+ */
+export function getInstalledSkillPaths() {
+  if (!existsSync(CANONICAL_DIR)) {
+    return [];
+  }
+
+  const skillPaths = [];
+  const categories = readdirSync(CANONICAL_DIR, { withFileTypes: true })
+    .filter(d => d.isDirectory())
+    .map(d => d.name);
+
+  for (const category of categories) {
+    const categoryPath = join(CANONICAL_DIR, category);
+
+    // Check if it's a standalone skill (has SKILL.md directly)
+    const standaloneSkill = join(categoryPath, 'SKILL.md');
+    if (existsSync(standaloneSkill)) {
+      skillPaths.push(category);
+    } else {
+      // It's a category with nested skills
+      const skills = readdirSync(categoryPath, { withFileTypes: true })
+        .filter(d => d.isDirectory() && existsSync(join(categoryPath, d.name, 'SKILL.md')))
+        .map(d => d.name);
+
+      for (const skill of skills) {
+        skillPaths.push(`${category}/${skill}`);
+      }
+    }
+  }
+
+  return skillPaths;
+}
+
+/**
+ * Update only installed skills (re-download from GitHub)
+ */
+export async function updateInstalledSkills(agents) {
+  const installedPaths = getInstalledSkillPaths();
+
+  if (installedPaths.length === 0) {
+    console.log(chalk.yellow('    No skills installed to update.'));
+    return 0;
+  }
+
+  const spinner = ora('Updating from GitHub...').start();
+
+  try {
+    // Download only the installed skills
+    const skills = await downloadSpecificSkills(installedPaths, spinner);
+    spinner.succeed(`Updated ${skills.length} skills`);
+
+    // Re-create symlinks for each agent
+    spinner.start('Refreshing symlinks...');
+
+    for (const agent of agents) {
+      const count = createSymlinks(agent, skills, spinner);
+      console.log(`    ${chalk.green('✓')} ${agent.name.padEnd(14)} ${chalk.dim('→')} ${agent.skillsPath.replace(homedir(), '~').padEnd(25)} ${chalk.green(count + ' skills')}`);
+    }
+
+    spinner.stop();
+
+    // Update lock file
+    const lock = readLock();
+    lock.version = '1.0.0';
+    lock.installedAt = new Date().toISOString();
+    lock.skills = skills;
+    lock.agents = agents.map(a => a.id);
+    writeLock(lock);
+
+    return skills.length;
+  } catch (error) {
+    spinner.fail('Update failed');
+    throw error;
+  }
+}
+
+/**
+ * Uninstall all skills
+ */
+export async function uninstallAllSkills(agents) {
+  const spinner = ora('Removing skills...').start();
+
+  try {
+    // Remove symlinks from each agent
+    for (const agent of agents) {
+      if (existsSync(agent.skillsPath)) {
+        const entries = readdirSync(agent.skillsPath, { withFileTypes: true });
+        for (const entry of entries) {
+          const linkPath = join(agent.skillsPath, entry.name);
+          // Only remove if it's a symlink pointing to our canonical dir
+          try {
+            const stats = lstatSync(linkPath);
+            if (stats.isSymbolicLink()) {
+              rmSync(linkPath, { force: true });
+            }
+          } catch {
+            // Ignore errors
+          }
+        }
+      }
+      console.log(`    ${chalk.green('✓')} Removed symlinks from ${agent.name}`);
+    }
+
+    // Remove canonical skills directory
+    if (existsSync(CANONICAL_DIR)) {
+      rmSync(CANONICAL_DIR, { recursive: true, force: true });
+      console.log(`    ${chalk.green('✓')} Removed ${CANONICAL_DIR.replace(homedir(), '~')}`);
+    }
+
+    // Remove lock file
+    if (existsSync(LOCK_FILE)) {
+      rmSync(LOCK_FILE, { force: true });
+    }
+
+    spinner.stop();
+    return true;
+  } catch (error) {
+    spinner.fail('Uninstall failed');
+    throw error;
+  }
 }

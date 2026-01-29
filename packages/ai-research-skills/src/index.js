@@ -11,13 +11,14 @@ import {
   askMainMenuAction,
   askSelectAgents,
   askAfterAction,
+  askConfirmUninstall,
   parseArgs,
   CATEGORIES,
   INDIVIDUAL_SKILLS,
   QUICK_START_SKILLS,
   getTotalSkillCount,
 } from './prompts.js';
-import { installSkills, installSpecificSkills, listInstalledSkills, getAllCategoryIds } from './installer.js';
+import { installSkills, installSpecificSkills, listInstalledSkills, getAllCategoryIds, updateInstalledSkills, uninstallAllSkills, getInstalledSkillPaths } from './installer.js';
 
 /**
  * Sleep utility
@@ -77,16 +78,41 @@ async function interactiveFlow() {
     }
 
     if (menuAction === 'update') {
-      // Update all skills
+      // Update only installed skills
       showMenuHeader();
-      console.log(chalk.cyan('    Updating all skills...'));
-      console.log();
-      const categories = getAllCategoryIds();
-      await installSkills(categories, agents);
-      console.log();
-      console.log(chalk.green('    ✓ All skills updated!'));
+      const installedPaths = getInstalledSkillPaths();
+      if (installedPaths.length === 0) {
+        console.log(chalk.yellow('    No skills installed to update.'));
+        console.log();
+        console.log(chalk.dim('    Install some skills first.'));
+      } else {
+        console.log(chalk.cyan(`    Updating ${installedPaths.length} installed skills...`));
+        console.log();
+        await updateInstalledSkills(agents);
+        console.log();
+        console.log(chalk.green('    ✓ All installed skills updated!'));
+      }
       const afterUpdate = await askAfterAction();
       if (afterUpdate === 'exit') {
+        console.log(chalk.dim('              Goodbye!'));
+        console.log();
+        return;
+      }
+      continue step2_menu;
+    }
+
+    if (menuAction === 'uninstall') {
+      // Uninstall all skills
+      showMenuHeader();
+      const confirmAction = await askConfirmUninstall();
+      if (confirmAction === 'confirm') {
+        console.log();
+        await uninstallAllSkills(agents);
+        console.log();
+        console.log(chalk.green('    ✓ All skills uninstalled!'));
+      }
+      const afterUninstall = await askAfterAction();
+      if (afterUninstall === 'exit') {
         console.log(chalk.dim('              Goodbye!'));
         console.log();
         return;
@@ -220,14 +246,18 @@ async function commandMode(options) {
   }
 
   if (options.command === 'update') {
-    console.log(chalk.cyan('Updating skills...'));
     const agents = detectAgents();
     if (agents.length === 0) {
       console.log(chalk.yellow('No agents detected.'));
       return;
     }
-    const categories = getAllCategoryIds();
-    await installSkills(categories, agents);
+    const installedPaths = getInstalledSkillPaths();
+    if (installedPaths.length === 0) {
+      console.log(chalk.yellow('No skills installed to update.'));
+      return;
+    }
+    console.log(chalk.cyan(`Updating ${installedPaths.length} installed skills...`));
+    await updateInstalledSkills(agents);
     console.log(chalk.green('✓ Skills updated!'));
     return;
   }

@@ -104,9 +104,33 @@ export async function askMainMenuAction() {
       choices: [
         { name: 'Install new skills', value: 'install' },
         { name: 'View installed skills', value: 'view' },
-        { name: 'Update all skills', value: 'update' },
+        { name: 'Update installed skills', value: 'update' },
+        { name: 'Uninstall all skills', value: 'uninstall' },
         new inquirer.Separator(' '),
         { name: chalk.dim('Exit'), value: 'exit' },
+      ],
+      prefix: '   ',
+    },
+  ]);
+  return action;
+}
+
+/**
+ * Ask to confirm uninstall
+ */
+export async function askConfirmUninstall() {
+  console.log();
+  console.log(chalk.yellow('    This will remove all installed skills and symlinks.'));
+  console.log();
+
+  const { action } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'action',
+      message: ' ',
+      choices: [
+        { name: chalk.red('Yes, uninstall everything'), value: 'confirm' },
+        { name: chalk.dim('← Back'), value: 'back' },
       ],
       prefix: '   ',
     },
