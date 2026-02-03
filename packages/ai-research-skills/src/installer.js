@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync, lstatSync } from 'fs';
+import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync, lstatSync, cpSync } from 'fs';
 import { homedir } from 'os';
 import { join, basename, dirname } from 'path';
 import { execSync } from 'child_process';
@@ -8,6 +8,18 @@ import ora from 'ora';
 const REPO_URL = 'https://github.com/Orchestra-Research/AI-research-SKILLs';
 const CANONICAL_DIR = join(homedir(), '.orchestra', 'skills');
 const LOCK_FILE = join(homedir(), '.orchestra', '.lock.json');
+
+/**
+ * Copy directory contents (cross-platform replacement for `cp -r source/* dest/`)
+ */
+function copyDirectoryContents(source, dest) {
+  const entries = readdirSync(source, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = join(source, entry.name);
+    const destPath = join(dest, entry.name);
+    cpSync(srcPath, destPath, { recursive: true });
+  }
+}
 
 /**
  * Ensure the canonical skills directory exists
@@ -79,7 +91,7 @@ async function downloadSkills(categories, spinner) {
       if (existsSync(standaloneSkillPath)) {
         // Copy the entire category as a standalone skill
         spinner.text = `Downloading ${categoryId}...`;
-        execSync(`cp -r "${categoryPath}"/* "${targetCategoryPath}/"`, { stdio: 'pipe' });
+        copyDirectoryContents(categoryPath, targetCategoryPath);
         skills.push({ category: categoryId, skill: categoryId, standalone: true });
       } else {
         // It's a nested category with multiple skills
@@ -93,7 +105,7 @@ async function downloadSkills(categories, spinner) {
               if (!existsSync(targetSkillPath)) {
                 mkdirSync(targetSkillPath, { recursive: true });
               }
-              execSync(`cp -r "${join(categoryPath, entry.name)}"/* "${targetSkillPath}/"`, { stdio: 'pipe' });
+              copyDirectoryContents(join(categoryPath, entry.name), targetSkillPath);
               skills.push({ category: categoryId, skill: entry.name, standalone: false });
             }
           }
@@ -192,7 +204,7 @@ async function downloadSpecificSkills(skillPaths, spinner) {
           if (!existsSync(targetSkillPath)) {
             mkdirSync(targetSkillPath, { recursive: true });
           }
-          execSync(`cp -r "${sourcePath}"/* "${targetSkillPath}/"`, { stdio: 'pipe' });
+          copyDirectoryContents(sourcePath, targetSkillPath);
           skills.push({ category: categoryId, skill: skillName, standalone: false });
         }
       } else {
@@ -200,7 +212,7 @@ async function downloadSpecificSkills(skillPaths, spinner) {
         const sourcePath = join(tempDir, categoryId);
         if (existsSync(sourcePath)) {
           spinner.text = `Downloading ${categoryId}...`;
-          execSync(`cp -r "${sourcePath}"/* "${targetCategoryPath}/"`, { stdio: 'pipe' });
+          copyDirectoryContents(sourcePath, targetCategoryPath);
           skills.push({ category: categoryId, skill: categoryId, standalone: true });
         }
       }
