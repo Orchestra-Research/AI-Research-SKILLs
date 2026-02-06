@@ -116,10 +116,12 @@ export function showNoAgents() {
   console.log();
   console.log('                  ○  Claude Code');
   console.log('                  ○  OpenCode');
+  console.log('                  ○  OpenClaw');
   console.log('                  ○  Cursor');
   console.log('                  ○  Codex (OpenAI)');
   console.log('                  ○  Gemini CLI');
   console.log('                  ○  Qwen Code');
+  console.log('                  ○  .agents (shared)');
   console.log();
   console.log();
 }

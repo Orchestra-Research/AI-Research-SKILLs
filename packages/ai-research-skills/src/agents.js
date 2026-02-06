@@ -43,6 +43,18 @@ export const SUPPORTED_AGENTS = [
     configDir: '.config/opencode',
     skillsDir: 'skills',
   },
+  {
+    id: 'openclaw',
+    name: 'OpenClaw',
+    configDir: '.openclaw',
+    skillsDir: 'skills',
+  },
+  {
+    id: 'agents',
+    name: 'Shared Agents',
+    configDir: '.agents',
+    skillsDir: 'skills',
+  },
 ];
 
 /**

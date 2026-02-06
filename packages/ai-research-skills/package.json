@@ -1,6 +1,6 @@
 {
   "name": "@orchestra-research/ai-research-skills",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Install AI research engineering skills to your coding agents (Claude Code, OpenCode, Cursor, Gemini CLI, and more)",
   "main": "src/index.js",
   "bin": {
@@ -20,6 +20,7 @@
     "cursor",
     "gemini",
     "codex",
+    "openclaw",
     "windsurf",
     "llm",
     "machine-learning",

@@ -12,7 +12,7 @@ npx @orchestra-research/ai-research-skills
 - **Auto-detects** installed coding agents
 - **Interactive installer** with guided experience
 - **One canonical copy** with symlinks to all agents
-- **Works with 6 agents**: Claude Code, OpenCode, Cursor, Codex, Gemini CLI, Qwen Code
+- **Works with 8 agents**: Claude Code, OpenCode, OpenClaw, Cursor, Codex, Gemini CLI, Qwen Code, and shared `.agents/`
 
 ## Quick Start
 
@@ -86,10 +86,12 @@ npx @orchestra-research/ai-research-skills update
 |-------|-----------------|
 | Claude Code | `~/.claude` |
 | OpenCode | `~/.config/opencode` |
+| OpenClaw | `~/.openclaw` |
 | Cursor | `~/.cursor` |
 | Codex (OpenAI) | `~/.codex` |
 | Gemini CLI | `~/.gemini` |
 | Qwen Code | `~/.qwen` |
+| Shared Agents | `~/.agents` |
 
 ## License
 
