@@ -8,6 +8,7 @@ import ora from 'ora';
 const REPO_URL = 'https://github.com/Orchestra-Research/AI-research-SKILLs';
 const CANONICAL_DIR = join(homedir(), '.orchestra', 'skills');
 const LOCK_FILE = join(homedir(), '.orchestra', '.lock.json');
+const LOCAL_LOCK_FILENAME = '.orchestra-skills.json';
 
 /**
  * Copy directory contents (cross-platform replacement for `cp -r source/* dest/`)
@@ -620,4 +621,399 @@ export function getInstalledSkillsForSelection() {
       return { path, name: parts[1], category: parts[0], standalone: false };
     }
   });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Local (project-level) installation
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Get the local lock file path for a project
+ */
+function getLocalLockPath(projectDir) {
+  return join(projectDir, LOCAL_LOCK_FILENAME);
+}
+
+/**
+ * Read local lock file
+ */
+function readLocalLock(projectDir) {
+  const lockPath = getLocalLockPath(projectDir);
+  if (existsSync(lockPath)) {
+    try {
+      return JSON.parse(readFileSync(lockPath, 'utf8'));
+    } catch {
+      return { version: null, installedAt: null, skills: [], agents: [] };
+    }
+  }
+  return { version: null, installedAt: null, skills: [], agents: [] };
+}
+
+/**
+ * Write local lock file
+ */
+function writeLocalLock(projectDir, data) {
+  writeFileSync(getLocalLockPath(projectDir), JSON.stringify(data, null, 2));
+}
+
+/**
+ * Copy skills directly into agent local directories (no symlinks)
+ * @param {Object} agent - Agent with skillsPath set to local project path
+ * @param {Array} skills - Skills list from download
+ * @param {string} tempDir - Temp clone directory
+ */
+function copySkillsToLocal(agent, skills, tempDir) {
+  const agentSkillsPath = agent.skillsPath;
+
+  if (!existsSync(agentSkillsPath)) {
+    mkdirSync(agentSkillsPath, { recursive: true });
+  }
+
+  let copiedCount = 0;
+
+  for (const skill of skills) {
+    const sourcePath = skill.standalone
+      ? join(tempDir, skill.category)
+      : join(tempDir, skill.category, skill.skill);
+
+    if (!existsSync(sourcePath)) continue;
+
+    const destName = skill.standalone ? skill.category : skill.skill;
+    const destPath = join(agentSkillsPath, destName);
+
+    // Remove existing if present
+    if (existsSync(destPath)) {
+      rmSync(destPath, { recursive: true, force: true });
+    }
+
+    mkdirSync(destPath, { recursive: true });
+    copyDirectoryContents(sourcePath, destPath);
+    copiedCount++;
+  }
+
+  return copiedCount;
+}
+
+/**
+ * Download and install skills locally to agent project directories
+ */
+export async function installSkillsLocal(categories, agents, projectDir) {
+  const spinner = ora('Downloading from GitHub...').start();
+
+  const tempDir = join(homedir(), '.orchestra', '.temp-clone');
+
+  try {
+    if (existsSync(tempDir)) {
+      rmSync(tempDir, { recursive: true, force: true });
+    }
+
+    spinner.text = 'Cloning repository...';
+    execSync(`git clone --depth 1 ${REPO_URL}.git ${tempDir}`, {
+      stdio: 'pipe',
+    });
+
+    // Build skills list from categories
+    const skills = [];
+    for (const categoryId of categories) {
+      const categoryPath = join(tempDir, categoryId);
+      if (!existsSync(categoryPath)) continue;
+
+      const standaloneSkillPath = join(categoryPath, 'SKILL.md');
+      if (existsSync(standaloneSkillPath)) {
+        skills.push({ category: categoryId, skill: categoryId, standalone: true });
+      } else {
+        const entries = readdirSync(categoryPath, { withFileTypes: true });
+        for (const entry of entries) {
+          if (entry.isDirectory()) {
+            const skillPath = join(categoryPath, entry.name, 'SKILL.md');
+            if (existsSync(skillPath)) {
+              skills.push({ category: categoryId, skill: entry.name, standalone: false });
+            }
+          }
+        }
+      }
+    }
+
+    spinner.succeed(`Found ${skills.length} skills`);
+
+    // Copy to each agent's local directory
+    spinner.start('Installing to project...');
+
+    for (const agent of agents) {
+      const count = copySkillsToLocal(agent, skills, tempDir);
+      console.log(`    ${chalk.green('✓')} ${agent.name.padEnd(14)} ${chalk.dim('→')} ${agent.skillsPath.replace(projectDir, '.').padEnd(30)} ${chalk.green(count + ' skills')}`);
+    }
+
+    spinner.stop();
+
+    // Cleanup
+    rmSync(tempDir, { recursive: true, force: true });
+
+    // Update local lock file
+    const lock = readLocalLock(projectDir);
+    lock.version = '1.0.0';
+    lock.installedAt = new Date().toISOString();
+    lock.skills = [...(lock.skills || []).filter(s => {
+      const existing = `${s.category}/${s.skill}`;
+      return !skills.some(ns => `${ns.category}/${ns.skill}` === existing);
+    }), ...skills];
+    lock.agents = agents.map(a => a.id);
+    writeLocalLock(projectDir, lock);
+
+    return skills.length;
+  } catch (error) {
+    if (existsSync(tempDir)) {
+      rmSync(tempDir, { recursive: true, force: true });
+    }
+    spinner.fail('Installation failed');
+    throw error;
+  }
+}
+
+/**
+ * Download and install specific skills locally
+ */
+export async function installSpecificSkillsLocal(skillPaths, agents, projectDir) {
+  const spinner = ora('Downloading from GitHub...').start();
+
+  const tempDir = join(homedir(), '.orchestra', '.temp-clone');
+
+  try {
+    if (existsSync(tempDir)) {
+      rmSync(tempDir, { recursive: true, force: true });
+    }
+
+    spinner.text = 'Cloning repository...';
+    execSync(`git clone --depth 1 ${REPO_URL}.git ${tempDir}`, {
+      stdio: 'pipe',
+    });
+
+    const skills = [];
+    for (const skillPath of skillPaths) {
+      const parts = skillPath.split('/');
+      const categoryId = parts[0];
+      const skillName = parts[1] || null;
+
+      if (skillName) {
+        const sourcePath = join(tempDir, categoryId, skillName);
+        if (existsSync(sourcePath)) {
+          skills.push({ category: categoryId, skill: skillName, standalone: false });
+        }
+      } else {
+        const sourcePath = join(tempDir, categoryId);
+        if (existsSync(sourcePath)) {
+          skills.push({ category: categoryId, skill: categoryId, standalone: true });
+        }
+      }
+    }
+
+    spinner.succeed(`Found ${skills.length} skills`);
+
+    // Copy to each agent's local directory
+    spinner.start('Installing to project...');
+
+    for (const agent of agents) {
+      const count = copySkillsToLocal(agent, skills, tempDir);
+      console.log(`    ${chalk.green('✓')} ${agent.name.padEnd(14)} ${chalk.dim('→')} ${agent.skillsPath.replace(projectDir, '.').padEnd(30)} ${chalk.green(count + ' skills')}`);
+    }
+
+    spinner.stop();
+
+    // Cleanup
+    rmSync(tempDir, { recursive: true, force: true });
+
+    // Update local lock file
+    const lock = readLocalLock(projectDir);
+    lock.version = '1.0.0';
+    lock.installedAt = new Date().toISOString();
+    lock.skills = [...(lock.skills || []).filter(s => {
+      const existing = `${s.category}/${s.skill}`;
+      return !skills.some(ns => `${ns.category}/${ns.skill}` === existing);
+    }), ...skills];
+    lock.agents = agents.map(a => a.id);
+    writeLocalLock(projectDir, lock);
+
+    return skills.length;
+  } catch (error) {
+    if (existsSync(tempDir)) {
+      rmSync(tempDir, { recursive: true, force: true });
+    }
+    spinner.fail('Installation failed');
+    throw error;
+  }
+}
+
+/**
+ * List locally installed skills for a project
+ */
+export function listLocalSkills(projectDir) {
+  const lock = readLocalLock(projectDir);
+
+  if (!lock.skills || lock.skills.length === 0) {
+    console.log(chalk.yellow('    No skills installed locally in this project.'));
+    console.log();
+    console.log(`    Run ${chalk.cyan('npx @orchestra-research/ai-research-skills install --local')} to install skills.`);
+    return;
+  }
+
+  const byCategory = {};
+  let totalSkills = 0;
+
+  for (const skill of lock.skills) {
+    const category = skill.category;
+    if (!byCategory[category]) {
+      byCategory[category] = [];
+    }
+    if (skill.standalone) {
+      byCategory[category].push(category);
+    } else {
+      byCategory[category].push(skill.skill);
+    }
+    totalSkills++;
+  }
+
+  console.log(chalk.white.bold(`    Local Skills (${totalSkills})`));
+  console.log(chalk.dim(`    Project: ${projectDir}`));
+  console.log();
+
+  for (const [category, skills] of Object.entries(byCategory)) {
+    console.log(chalk.cyan(`    ${category}`));
+    for (const skill of skills) {
+      if (skill === category) {
+        console.log(`      ${chalk.dim('●')} ${chalk.white('(standalone)')}`);
+      } else {
+        console.log(`      ${chalk.dim('●')} ${skill}`);
+      }
+    }
+    console.log();
+  }
+
+  // Show agent directories
+  if (lock.agents && lock.agents.length > 0) {
+    console.log(chalk.dim(`    Agents: ${lock.agents.join(', ')}`));
+  }
+}
+
+/**
+ * Get locally installed skill paths for a project
+ */
+export function getLocalSkillPaths(projectDir) {
+  const lock = readLocalLock(projectDir);
+  if (!lock.skills || lock.skills.length === 0) {
+    return [];
+  }
+
+  return lock.skills.map(s => {
+    return s.standalone ? s.category : `${s.category}/${s.skill}`;
+  });
+}
+
+/**
+ * Get locally installed skills with display info for selection
+ */
+export function getLocalSkillsForSelection(projectDir) {
+  const lock = readLocalLock(projectDir);
+  if (!lock.skills || lock.skills.length === 0) {
+    return [];
+  }
+
+  return lock.skills.map(s => {
+    if (s.standalone) {
+      return { path: s.category, name: s.category, category: 'Standalone', standalone: true };
+    } else {
+      return { path: `${s.category}/${s.skill}`, name: s.skill, category: s.category, standalone: false };
+    }
+  });
+}
+
+/**
+ * Update locally installed skills
+ */
+export async function updateLocalSkills(agents, projectDir) {
+  const installedPaths = getLocalSkillPaths(projectDir);
+
+  if (installedPaths.length === 0) {
+    console.log(chalk.yellow('    No local skills installed to update.'));
+    return 0;
+  }
+
+  // Re-install the same skills
+  return await installSpecificSkillsLocal(installedPaths, agents, projectDir);
+}
+
+/**
+ * Uninstall specific local skills
+ */
+export async function uninstallLocalSkills(skillPaths, agents, projectDir) {
+  const spinner = ora('Removing local skills...').start();
+
+  try {
+    for (const skillPath of skillPaths) {
+      const parts = skillPath.split('/');
+      const categoryId = parts[0];
+      const skillName = parts[1] || null;
+      const linkName = skillName || categoryId;
+
+      // Remove from each agent's local directory
+      for (const agent of agents) {
+        const skillDir = join(agent.skillsPath, linkName);
+        if (existsSync(skillDir)) {
+          rmSync(skillDir, { recursive: true, force: true });
+        }
+      }
+
+      spinner.text = `Removed ${linkName}`;
+    }
+
+    spinner.succeed(`Removed ${skillPaths.length} skill${skillPaths.length !== 1 ? 's' : ''}`);
+
+    // Update local lock file
+    const lock = readLocalLock(projectDir);
+    if (lock.skills) {
+      lock.skills = lock.skills.filter(s => {
+        const path = s.standalone ? s.category : `${s.category}/${s.skill}`;
+        return !skillPaths.includes(path);
+      });
+      writeLocalLock(projectDir, lock);
+    }
+
+    return skillPaths.length;
+  } catch (error) {
+    spinner.fail('Uninstall failed');
+    throw error;
+  }
+}
+
+/**
+ * Uninstall all local skills
+ */
+export async function uninstallAllLocalSkills(agents, projectDir) {
+  const spinner = ora('Removing all local skills...').start();
+
+  try {
+    // Remove skill directories from each agent
+    for (const agent of agents) {
+      if (existsSync(agent.skillsPath)) {
+        const entries = readdirSync(agent.skillsPath, { withFileTypes: true });
+        for (const entry of entries) {
+          const entryPath = join(agent.skillsPath, entry.name);
+          rmSync(entryPath, { recursive: true, force: true });
+        }
+      }
+      console.log(`    ${chalk.green('✓')} Removed skills from ${agent.name} (${agent.skillsPath.replace(projectDir, '.')})`);
+    }
+
+    // Remove local lock file
+    const lockPath = getLocalLockPath(projectDir);
+    if (existsSync(lockPath)) {
+      rmSync(lockPath, { force: true });
+      console.log(`    ${chalk.green('✓')} Removed ${LOCAL_LOCK_FILENAME}`);
+    }
+
+    spinner.stop();
+    return true;
+  } catch (error) {
+    spinner.fail('Uninstall failed');
+    throw error;
+  }
 }

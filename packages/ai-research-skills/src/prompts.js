@@ -103,15 +103,151 @@ export async function askMainMenuAction() {
       message: ' ',
       choices: [
         { name: 'Install new skills', value: 'install' },
+        { name: `Install to project ${chalk.dim('(local)')}`, value: 'install-local' },
         { name: 'View installed skills', value: 'view' },
         { name: 'Update installed skills', value: 'update' },
-        { name: 'Uninstall all skills', value: 'uninstall' },
+        { name: 'Uninstall skills', value: 'uninstall' },
         new inquirer.Separator(' '),
         { name: chalk.dim('Exit'), value: 'exit' },
       ],
       prefix: '   ',
     },
   ]);
+  return action;
+}
+
+/**
+ * Ask which agents to install to locally
+ */
+export async function askSelectLocalAgents(agents) {
+  console.log();
+  console.log(chalk.dim('    Install to which agents in this project?'));
+  console.log();
+
+  const { selection } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'selection',
+      message: ' ',
+      choices: [
+        { name: `All detected agents (${agents.length})`, value: 'all' },
+        { name: 'Select specific agents', value: 'select' },
+        new inquirer.Separator(' '),
+        { name: chalk.dim('← Back'), value: 'back' },
+      ],
+      prefix: '   ',
+    },
+  ]);
+
+  if (selection === 'back') {
+    return { agents: [], action: 'back' };
+  }
+
+  if (selection === 'all') {
+    return { agents, action: 'confirm' };
+  }
+
+  // Select specific agents
+  console.log();
+  const { selectedAgents } = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'selectedAgents',
+      message: ' ',
+      choices: agents.map(agent => ({
+        name: `${agent.name.padEnd(14)} ${chalk.dim(agent.path)}`,
+        value: agent,
+        checked: false,
+      })),
+      prefix: '   ',
+    },
+  ]);
+
+  if (selectedAgents.length === 0) {
+    console.log();
+    const { action } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: chalk.yellow('No agents selected'),
+        choices: [
+          { name: 'Try again', value: 'retry' },
+          { name: chalk.dim('← Back'), value: 'back' },
+        ],
+        prefix: '   ',
+      },
+    ]);
+    return { agents: [], action };
+  }
+
+  return { agents: selectedAgents, action: 'confirm' };
+}
+
+/**
+ * Ask for local install confirmation
+ */
+export async function askLocalConfirmation(skillCount, agents, projectDir, categories, selectedSkills, installType) {
+  console.log();
+  console.log(chalk.white('    Local Installation Summary'));
+  console.log(chalk.dim('    ─────────────────────────────────────────────────────'));
+  console.log();
+
+  console.log(`    ${chalk.white('Skills:')}     ${skillCount} skills`);
+  console.log(`    ${chalk.white('Project:')}    ${projectDir}`);
+  console.log(`    ${chalk.white('Agents:')}     ${agents.map(a => a.name).join(', ')}`);
+  console.log();
+
+  // Destinations
+  console.log(chalk.dim('    Destinations:'));
+  for (const agent of agents) {
+    console.log(chalk.dim(`    • ${agent.skillsPath.replace(projectDir, '.')}`));
+  }
+  console.log();
+
+  // Description based on install type
+  if (installType === 'everything') {
+    console.log(chalk.dim('    All 20 categories'));
+  } else if (installType === 'quickstart') {
+    console.log(chalk.dim('    Essential skills for AI research'));
+  } else if (categories && categories.length > 0) {
+    const catNames = CATEGORIES
+      .filter(c => categories.includes(c.id))
+      .map(c => c.name);
+    console.log(chalk.dim('    Selected categories:'));
+    catNames.forEach(name => console.log(chalk.dim(`    • ${name}`)));
+  } else if (selectedSkills && selectedSkills.length > 0) {
+    console.log(chalk.dim('    Selected skills:'));
+    const skillNames = INDIVIDUAL_SKILLS
+      .filter(s => selectedSkills.includes(s.id))
+      .map(s => s.name)
+      .slice(0, 8);
+    skillNames.forEach(name => console.log(chalk.dim(`    • ${name}`)));
+    if (selectedSkills.length > 8) {
+      console.log(chalk.dim(`    • ...and ${selectedSkills.length - 8} more`));
+    }
+  }
+
+  console.log();
+  console.log(chalk.dim('    ─────────────────────────────────────────────────────'));
+  console.log();
+  console.log(chalk.dim('    Skills will be copied (not symlinked) so you can'));
+  console.log(chalk.dim('    commit them to version control.'));
+  console.log();
+
+  const { action } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'action',
+      message: ' ',
+      choices: [
+        { name: chalk.green('Install locally'), value: 'confirm' },
+        { name: chalk.dim('← Back'), value: 'back' },
+        { name: chalk.dim('Exit'), value: 'exit' },
+      ],
+      prefix: '   ',
+    },
+  ]);
+
   return action;
 }
 
@@ -500,6 +636,7 @@ export function parseArgs(args) {
   const options = {
     command: null,
     all: false,
+    local: false,
     category: null,
     skill: null,
     agent: null,
@@ -514,8 +651,12 @@ export function parseArgs(args) {
       options.command = 'list';
     } else if (arg === 'update') {
       options.command = 'update';
+    } else if (arg === 'uninstall') {
+      options.command = 'uninstall';
     } else if (arg === '--all' || arg === '-a') {
       options.all = true;
+    } else if (arg === '--local' || arg === '-l') {
+      options.local = true;
     } else if (arg === '--agent' && args[i + 1]) {
       options.agent = args[++i];
     } else if (arg === '--category' && args[i + 1]) {
