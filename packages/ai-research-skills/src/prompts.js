@@ -105,7 +105,7 @@ export async function askMainMenuAction(projectDir) {
       message: ' ',
       choices: [
         { name: 'Install new skills', value: 'install' },
-        { name: `Install to project ${chalk.dim('(local → ./' + shortCwd + ')')}`, value: 'install-local' },
+        { name: `Install to project (local) ${chalk.dim('→ ./' + shortCwd)}`, value: 'install-local' },
         { name: 'View installed skills', value: 'view' },
         { name: 'Update installed skills', value: 'update' },
         { name: 'Uninstall skills', value: 'uninstall' },
