@@ -151,6 +151,9 @@ Install skill categories directly using the **Claude Code CLI**:
 | Emerging | 6 | MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning |
 | ML Paper Writing | 1 | ML Paper Writing (LaTeX templates, citation verification) |
 
+<details>
+<summary><b>View All 83 Skills in Details</b></summary>
+
 ### 🏗️ Model Architecture (5 skills)
 - **[LitGPT](01-model-architecture/litgpt/)** - Lightning AI's 20+ clean LLM implementations with production training recipes (462 lines + 4 refs)
 - **[Mamba](01-model-architecture/mamba/)** - State-space models with O(n) complexity, 5× faster than Transformers (253 lines + 3 refs)
@@ -173,6 +176,7 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[SAELens](04-mechanistic-interpretability/saelens/)** - Sparse Autoencoder training and analysis for feature discovery (386 lines + 3 refs)
 - **[pyvene](04-mechanistic-interpretability/pyvene/)** - Stanford's causal intervention library with declarative configs (473 lines + 3 refs)
 - **[nnsight](04-mechanistic-interpretability/nnsight/)** - Remote interpretability via NDIF, run experiments on 70B+ models (436 lines + 3 refs)
+
 
 ### 📊 Data Processing (2 skills)
 - **[Ray Data](05-data-processing/ray-data/)** - Distributed ML data processing, streaming execution, GPU support (318 lines + 2 refs)
@@ -273,6 +277,9 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ### 📝 ML Paper Writing (1 skill)
 - **[ML Paper Writing](20-ml-paper-writing/)** - Write publication-ready papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM with LaTeX templates, citation verification, and writing best practices (532 lines + 5 refs)
+
+
+</details>
 
 ## Demos
 
@@ -615,6 +622,7 @@ All contributors are featured in our [Contributors Hall of Fame](CONTRIBUTORS.md
 
 Join our community to stay updated, ask questions, and connect with other AI researchers:
 
+- **[SkillEvolve Meta-Skill](https://github.com/Skill-Evolve/meta-skill)** - Connect your agent to the collective intelligence of the community. Captures techniques discovered during sessions and shares them back as curated skills.
 - **[Slack Community](https://join.slack.com/t/orchestrarese-efu1990/shared_invite/zt-3iu6gr8io-zJvpkZTPToEviQ9KFZvNSg)** - Chat with the team and other users
 - **[Twitter/X](https://x.com/orch_research)** - Follow for updates and announcements
 - **[LinkedIn](https://www.linkedin.com/company/orchestra-research/)** - Connect professionally
