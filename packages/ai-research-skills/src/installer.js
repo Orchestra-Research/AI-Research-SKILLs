@@ -400,6 +400,7 @@ export function getAllCategoryIds() {
     '18-multimodal',
     '19-emerging-techniques',
     '20-ml-paper-writing',
+    '21-research-ideation',
   ];
 }
 

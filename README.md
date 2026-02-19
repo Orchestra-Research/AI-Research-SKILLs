@@ -17,12 +17,12 @@
 
 <div align="center">
 
-### **83 Skills Powering AI Research in 2026**
+### **85 Skills Powering AI Research in 2026**
 
 </div>
 
 <details>
-<summary><b>View All 20 Categories</b></summary>
+<summary><b>View All 21 Categories</b></summary>
 
 <div align="center">
 
@@ -34,7 +34,7 @@
 | **Safety & Alignment** (4) | **Agents** (4) | **RAG** (5) |
 | **Multimodal** (7) | **Prompt Engineering** (4) | **MLOps** (3) |
 | **Observability** (2) | **Infrastructure** (3) | **Mech Interp** (4) |
-| **Emerging Techniques** (6) | **ML Paper Writing** (1) | |
+| **Emerging Techniques** (6) | **ML Paper Writing** (1) | **Ideation** (2) |
 
 </div>
 
@@ -71,7 +71,7 @@ Modern AI research requires mastering dozens of specialized tools and frameworks
 AI Researchers spend more time debugging infrastructure than testing hypotheses—slowing the pace of scientific discovery. 
 We provide a comprehensive library of expert-level research engineering skills that enable AI agents to autonomously implement and execute different stages of AI research experiments—from data preparation and model training to evaluation and deployment.
   - Specialized Expertise - Each skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 83 skills spanning the full AI research lifecycle, from model architecture to deployment
+  - End-to-End Coverage - 85 skills spanning the full AI research lifecycle, from model architecture to deployment
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -116,7 +116,7 @@ Install skill categories directly using the **Claude Code CLI**:
 # Add the marketplace
 /plugin marketplace add orchestra-research/AI-research-SKILLs
 
-# Install by category (20 categories available)
+# Install by category (21 categories available)
 /plugin install fine-tuning@ai-research-skills        # Axolotl, LLaMA-Factory, PEFT, Unsloth
 /plugin install post-training@ai-research-skills      # TRL, GRPO, OpenRLHF, SimPO, verl, slime, miles, torchforge
 /plugin install inference-serving@ai-research-skills  # vLLM, TensorRT-LLM, llama.cpp, SGLang
@@ -126,7 +126,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 20 Categories (83 Skills)
+### All 21 Categories (85 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
@@ -150,9 +150,10 @@ Install skill categories directly using the **Claude Code CLI**:
 | Multimodal | 7 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft |
 | Emerging | 6 | MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning |
 | ML Paper Writing | 1 | ML Paper Writing (LaTeX templates, citation verification) |
+| Ideation | 2 | Research Brainstorming, Creative Thinking |
 
 <details>
-<summary><b>View All 83 Skills in Details</b></summary>
+<summary><b>View All 85 Skills in Details</b></summary>
 
 ### 🏗️ Model Architecture (5 skills)
 - **[LitGPT](01-model-architecture/litgpt/)** - Lightning AI's 20+ clean LLM implementations with production training recipes (462 lines + 4 refs)
@@ -278,12 +279,16 @@ Install skill categories directly using the **Claude Code CLI**:
 ### 📝 ML Paper Writing (1 skill)
 - **[ML Paper Writing](20-ml-paper-writing/)** - Write publication-ready papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM with LaTeX templates, citation verification, and writing best practices (532 lines + 5 refs)
 
+### 💡 Ideation (2 skills)
+- **[Research Brainstorming](21-research-ideation/brainstorming-research-ideas/)** - Structured ideation frameworks for discovering high-impact research directions with 10 complementary lenses (384 lines)
+- **[Creative Thinking](21-research-ideation/creative-thinking-for-research/)** - Cognitive science frameworks (bisociation, structure-mapping, constraint manipulation) for genuinely novel research ideas (366 lines)
+
 
 </details>
 
 ## Demos
 
-All 83 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 85 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -345,12 +350,12 @@ We're building towards 80 comprehensive skills across the full AI research lifec
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Skills** | **83** (high-quality, standardized YAML) | 80 ✅ |
+| **Skills** | **85** (high-quality, standardized YAML) | 80 ✅ |
 | **Avg Lines/Skill** | **420 lines** (focused + progressive disclosure) | 200-600 lines |
 | **Documentation** | **~130,000 lines** total (SKILL.md + references) | 100,000+ lines |
 | **Gold Standard Skills** | **65** with comprehensive references | 50+ |
 | **Contributors** | 1 | 100+ |
-| **Coverage** | Architecture, Tokenization, Fine-Tuning, Mechanistic Interpretability, Data Processing, Post-Training, Safety, Distributed, Optimization, Evaluation, Infrastructure, Inference, Agents, RAG, Multimodal, Prompt Engineering, MLOps, Observability | Full Lifecycle ✅ |
+| **Coverage** | Architecture, Tokenization, Fine-Tuning, Mechanistic Interpretability, Data Processing, Post-Training, Safety, Distributed, Optimization, Evaluation, Infrastructure, Inference, Agents, RAG, Multimodal, Prompt Engineering, MLOps, Observability, ML Paper Writing, Ideation | Full Lifecycle ✅ |
 
 **Recent Progress**: npm package `@orchestra-research/ai-research-skills` for one-command installation across all coding agents
 
@@ -388,6 +393,7 @@ claude-ai-research-skills/
 ├── 18-multimodal/               (7 skills ✓ - CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft)
 ├── 19-emerging-techniques/      (6 skills ✓ - MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning)
 ├── 20-ml-paper-writing/         (1 skill ✓ - ML Paper Writing with LaTeX templates)
+├── 21-research-ideation/                 (2 skills ✓ - Research Brainstorming, Creative Thinking)
 └── packages/ai-research-skills/ (npm package for one-command installation)
 ```
 

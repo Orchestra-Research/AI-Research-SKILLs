@@ -5,7 +5,7 @@
     "email": "zechen@orchestra-research.com"
   },
   "metadata": {
-    "description": "Comprehensive library of 83 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
+    "description": "Comprehensive library of 85 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
     "version": "1.1.0"
   },
   "plugins": [
@@ -250,6 +250,16 @@
       "strict": false,
       "skills": [
         "./20-ml-paper-writing"
+      ]
+    },
+    {
+      "name": "ideation",
+      "description": "Research ideation frameworks including structured brainstorming and creative thinking. Use when exploring new research directions, generating novel ideas, or seeking fresh angles on existing work.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./21-research-ideation/brainstorming-research-ideas",
+        "./21-research-ideation/creative-thinking-for-research"
       ]
     }
   ]
