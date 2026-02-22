@@ -177,8 +177,7 @@
         "./14-agents/babyagi",
         "./14-agents/crewai",
         "./14-agents/langchain",
-        "./14-agents/llamaindex",
-        "./14-agents/openclaw"
+        "./14-agents/llamaindex"
       ]
     },
     {
