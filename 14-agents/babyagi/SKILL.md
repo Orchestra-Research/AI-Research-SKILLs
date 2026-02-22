@@ -377,7 +377,8 @@ baby_agi = BabyAGI(
 
 ## References
 
-- **[Advanced Usage](references/advanced-usage.md)** - Custom tools, prompt engineering, scaling
+- **[Task Management](references/task-management.md)** - Task creation, prioritization, and execution strategies
+- **[Tools Integration](references/tools-integration.md)** - Custom tool creation and integration patterns
 - **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging strategies
 
 ## Resources
