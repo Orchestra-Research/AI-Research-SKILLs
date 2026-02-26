@@ -17,7 +17,7 @@
 
 <div align="center">
 
-### **85 Skills Powering AI Research in 2026**
+### **86 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -29,7 +29,7 @@
 | | | |
 |:---:|:---:|:---:|
 | **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (8) |
-| **Distributed Training** (6) | **Optimization** (6) | **Inference** (4) |
+| **Distributed Training** (6) | **Optimization** (6) | **Inference** (5) |
 | **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
 | **Safety & Alignment** (4) | **Agents** (4) | **RAG** (5) |
 | **Multimodal** (7) | **Prompt Engineering** (4) | **MLOps** (3) |
@@ -71,7 +71,7 @@ Modern AI research requires mastering dozens of specialized tools and frameworks
 AI Researchers spend more time debugging infrastructure than testing hypotheses—slowing the pace of scientific discovery. 
 We provide a comprehensive library of expert-level research engineering skills that enable AI agents to autonomously implement and execute different stages of AI research experiments—from data preparation and model training to evaluation and deployment.
   - Specialized Expertise - Each skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 85 skills spanning the full AI research lifecycle, from model architecture to deployment
+  - End-to-End Coverage - 86 skills spanning the full AI research lifecycle, from model architecture to deployment
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -126,7 +126,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 21 Categories (85 Skills)
+### All 21 Categories (86 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
@@ -141,7 +141,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Infrastructure | 3 | Modal, Lambda Labs, SkyPilot |
 | Optimization | 6 | Flash Attention, bitsandbytes, GPTQ, AWQ, HQQ, GGUF |
 | Evaluation | 3 | lm-eval-harness, BigCode, NeMo Evaluator |
-| Inference | 4 | vLLM, TensorRT-LLM, llama.cpp, SGLang |
+| Inference | 5 | vLLM, TensorRT-LLM, llama.cpp, SGLang, ClawRouter |
 | MLOps | 3 | W&B, MLflow, TensorBoard |
 | Agents | 4 | LangChain, LlamaIndex, CrewAI, AutoGPT |
 | RAG | 5 | Chroma, FAISS, Pinecone, Qdrant, Sentence Transformers |
@@ -153,7 +153,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Ideation | 2 | Research Brainstorming, Creative Thinking |
 
 <details>
-<summary><b>View All 85 Skills in Details</b></summary>
+<summary><b>View All 86 Skills in Details</b></summary>
 
 ### 🏗️ Model Architecture (5 skills)
 - **[LitGPT](01-model-architecture/litgpt/)** - Lightning AI's 20+ clean LLM implementations with production training recipes (462 lines + 4 refs)
@@ -225,11 +225,12 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[SkyPilot](09-infrastructure/skypilot/)** - Multi-cloud orchestration across 20+ providers with spot recovery (390 lines + 2 refs)
 - **[Lambda Labs](09-infrastructure/lambda-labs/)** - Reserved/on-demand GPU cloud with H100/A100, persistent filesystems (390 lines + 2 refs)
 
-### 🔥 Inference & Serving (4 skills)
+### 🔥 Inference & Serving (5 skills)
 - **[vLLM](12-inference-serving/vllm/)** - High-throughput LLM serving with PagedAttention (356 lines + 4 refs, **production-ready**)
 - **[TensorRT-LLM](12-inference-serving/tensorrt-llm/)** - NVIDIA's fastest inference, 24k tok/s, FP8/INT4 quantization (180 lines + 3 refs)
 - **[llama.cpp](12-inference-serving/llama-cpp/)** - CPU/Apple Silicon inference, GGUF quantization (251 lines + 3 refs)
 - **[SGLang](12-inference-serving/sglang/)** - Structured generation with RadixAttention, 5-10× faster for agents (435 lines + 3 refs)
+- **[ClawRouter](12-inference-serving/clawrouter/)** - Cost-optimized LLM routing with 15-dimension prompt scoring, 78-96% savings (290 lines + 3 refs)
 
 ### 🤖 Agents (4 skills)
 - **[LangChain](14-agents/langchain/)** - Most popular agent framework, 500+ integrations, ReAct pattern (658 lines + 3 refs, **production-ready**)
