@@ -169,11 +169,12 @@
     },
     {
       "name": "agents",
-      "description": "LLM agent frameworks including LangChain, LlamaIndex, CrewAI, and AutoGPT. Use when building chatbots, autonomous agents, or tool-using systems.",
+      "description": "LLM agent frameworks including LangChain, LlamaIndex, CrewAI, AutoGPT, and BabyAGI. Use when building chatbots, autonomous agents, or tool-using systems.",
       "source": "./",
       "strict": false,
       "skills": [
         "./14-agents/autogpt",
+        "./14-agents/babyagi",
         "./14-agents/crewai",
         "./14-agents/langchain",
         "./14-agents/llamaindex"
