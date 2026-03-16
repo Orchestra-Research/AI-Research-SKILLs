@@ -26,6 +26,8 @@ Users arrive in different states. Determine which and proceed:
 
 If things are clear, don't over-discuss — proceed to full autoresearch. Most users want you to just start researching.
 
+**Step 0 — before anything else**: Set up the agent continuity loop. See [Agent Continuity](#agent-continuity-mandatory--set-up-first). This is MANDATORY. Without it, the research stops after one cycle.
+
 ### Initialize Workspace
 
 Create this structure at the project root:
@@ -230,50 +232,33 @@ The "Lessons and Constraints" section is especially important — it captures sp
 
 **Quality test**: After 30 inner loop experiments, a human should be able to read findings.md and write a paper abstract from it. If they can't, the outer loop isn't synthesizing — it's just logging.
 
-## Agent Continuity
+## Agent Continuity (MANDATORY — Set Up First)
 
-The research loops run at **experiment speed** (15-60+ minutes per cycle). Agent continuity mechanisms (`/loop`, heartbeat) run at **wall-clock speed** (fixed intervals). These are independent.
+**Before doing anything else**, set up the wall-clock loop. This is what keeps the research running continuously. Without it, the agent stops after one cycle.
 
 ### Claude Code
 
-Use `/loop` to keep the research running:
+**First action — run this immediately:**
 
 ```
-/loop 15m
+/loop 10m Continue autoresearch. Read research-state.yaml and findings.md. Check: is the current experiment done? Are there errors? Is progress stalling? If everything is on track, keep working. If something is wrong, step back and fix it. Never idle.
 ```
 
-On each tick: read `research-state.yaml` and `findings.md` to remember where you are and what you've learned. Continue whatever you were doing. If an experiment is still running, check on it. If it finished, process results and start the next one. If enough results have accumulated, reflect.
-
-The `/loop` is a nudge to keep working, not a research phase boundary. If the previous tick's work isn't done, just continue it. Adjust the interval to match your experiment speed (`/loop 10m` for fast experiments, `/loop 30m` for slower ones).
-
-When you have something worth showing, generate a report and `open reports/progress-N.html`.
+This fires every 10 minutes regardless of what's happening. It's a rhythm that keeps you working — not a research phase boundary. If your previous work isn't done, just continue it.
 
 ### OpenClaw
 
-**Critical**: You must write your status to the system HEARTBEAT.md file. This content gets injected back to you at each heartbeat interval — without it you lose context.
+**First action — set up a 10-minute cron job immediately** with the same prompt: continue autoresearch, read state files, check for errors, keep working. OpenClaw handles cron job setup internally.
 
-Write to HEARTBEAT.md:
+### What the Loop Does
 
-```markdown
-## Research Status
-Phase: [inner loop iteration 14 / outer loop reflection / bootstrap / finalizing]
-Active: [H3 — testing cosine annealing effect on convergence]
-Last result: [run_013 improved metric from 0.81 to 0.84]
+The `/loop` and cron job are purely **wall-clock rhythm**. They are completely separate from your research loops (inner/outer). On each tick:
 
-## Next Action
-[Run experiment 14 with warmup ratio 0.1 vs 0.2, then compare]
-
-## Human Update
-[Nothing to report / New progress report at reports/progress-002.pdf]
-```
-
-Each heartbeat is also a natural moment to briefly zoom out — is the research on track? Are experiments failing silently? Is it time for an outer loop? But don't force a reflection if the inner loop is progressing well. Just keep working.
-
-Generate PDF progress summaries when there's something meaningful to share.
-
-### Important
-
-`/loop` and heartbeat are **wall-clock timers** that fire regardless of research state. Your research loops operate on **experiment time** and will not sync with the wall clock. That's fine. The timer is just a prompt to continue working. Don't plan your research around the tick interval.
+1. Read `research-state.yaml` and `findings.md` — remember where you are
+2. Check if anything is broken (failed experiments, stalled training, errors)
+3. If on track → keep working on whatever you were doing
+4. If stuck or something's wrong → step back, diagnose, fix, then continue
+5. Never idle. Always be making progress.
 
 ## Progress Reporting
 
