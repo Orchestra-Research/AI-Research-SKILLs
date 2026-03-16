@@ -82,18 +82,30 @@ We provide a comprehensive skills library that enables AI agents to autonomously
 
 ### 📦 Quick Install (Recommended)
 
-Install skills to **any coding agent** (Claude Code, OpenCode, Cursor, Codex, Gemini CLI, Qwen Code) with one command:
+**For humans** — interactive installer with one command:
 
 ```bash
 npx @orchestra-research/ai-research-skills
 ```
 
-This launches an interactive installer that:
+**For AI agents** — point your agent to the welcome doc and it handles the rest:
+
+```
+Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow the instructions to install and use AI Research Skills.
+```
+
+This installs all 86 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+
+<details>
+<summary><b>What the installer does</b></summary>
+
 - **Auto-detects** your installed coding agents
-- **Installs** skills to `~/.orchestra/skills/` with symlinks to each agent
+- **Installs** skills to `~/.orchestra/skills/` with symlinks to each agent (falls back to copy on Windows)
 - **Offers** everything, quickstart bundle, by category, or individual skills
 - **Updates** installed skills with latest versions
 - **Uninstalls** all or selected skills
+
+</details>
 
 <details>
 <summary><b>CLI Commands</b></summary>
