@@ -81,7 +81,7 @@ There is no rigid boundary between the two loops — you decide when enough inne
 
 The two-loop structure is a rhythm, not a railroad. At any point during research you can and should:
 
-- **Return to literature** when results surprise you, assumptions break, or you need context for a new direction
+- **Return to literature** when results surprise you, assumptions break, or you need context for a new direction — always save what you find to `literature/`
 - **Brainstorm new ideas** using `21-research-ideation/` skills when you're stuck or when results open unexpected questions
 - **Pivot the question entirely** if experiments reveal the original question was wrong or less interesting than what you found
 
@@ -97,6 +97,8 @@ Before entering the loops, understand the landscape. Keep this efficient — the
    - **arXiv** (`pip install arxiv`) — best for recent preprints and open-access papers
    - **CrossRef** — best for DOI lookup and BibTeX retrieval
    - Keep searching until you have good coverage. If one source comes up empty, try another with different keywords
+
+   **Save everything to `literature/`**: For every paper you find, save a summary to `literature/` — title, authors, year, key findings, relevance to your question, and the URL/DOI. Create one file per paper and a running `literature/survey.md` with all summaries. This is your reference library — you and future sessions will need it throughout the project.
 
 2. **Identify gaps** from the literature
    - What's been tried? What hasn't? Where do existing methods break?
@@ -243,7 +245,7 @@ The "Lessons and Constraints" section is especially important — it captures sp
 **First action — run this immediately:**
 
 ```
-/loop 10m Continue autoresearch. Read research-state.yaml and findings.md. Re-read the autoresearch SKILL.md occasionally to stay aligned with the research workflow. Check: is the current experiment done? Are there errors? Is progress stalling? If everything is on track, keep working. If something is wrong, step back and fix it. If there's meaningful progress to show, generate a report and open the HTML/PDF for the user. Never idle.
+/loop 10m Continue autoresearch. Read research-state.yaml and findings.md. Re-read the autoresearch SKILL.md occasionally to stay aligned with the research workflow. Check: is the current experiment done? Are there errors? Is progress stalling? If everything is on track, keep working. If something is wrong, step back and fix it. Update findings.md, research-log.md, and research-state.yaml when there's new progress. If there's meaningful progress to show, generate a report and open the HTML/PDF for the user. Never idle.
 ```
 
 This fires every 10 minutes regardless of what's happening. It's a rhythm that keeps you working — not a research phase boundary. If your previous work isn't done, just continue it.
