@@ -130,7 +130,8 @@
         "./10-optimization/flash-attention",
         "./10-optimization/gguf",
         "./10-optimization/gptq",
-        "./10-optimization/hqq"
+        "./10-optimization/hqq",
+        "./10-optimization/ml-training-recipes"
       ]
     },
     {
