@@ -40,15 +40,20 @@ Create this structure at the project root:
 ├── research-log.md           # Decision timeline
 ├── findings.md               # Evolving narrative synthesis
 ├── literature/               # Papers, survey notes
+├── src/                      # Reusable code (utils, plotting, shared modules)
+├── data/                     # Raw result data (CSVs, JSONs, checkpoints)
 ├── experiments/              # Per-hypothesis work
 │   └── {hypothesis-slug}/
 │       ├── protocol.md       # What, why, and prediction
-│       ├── code/             # Experiment code
-│       ├── results/          # Data, metrics, plots
+│       ├── code/             # Experiment-specific code
+│       ├── results/          # Raw outputs, metrics, logs
 │       └── analysis.md       # What we learned
 ├── reports/                  # Progress presentations for humans
 └── paper/                    # Final paper (via ml-paper-writing)
 ```
+
+- **`src/`**: When you write useful code (plotting functions, data loaders, evaluation helpers), move it here so it can be reused across experiments. Don't duplicate code in every experiment directory.
+- **`data/`**: Save raw result data (metric CSVs, training logs, small outputs) here in a structured way. After a long research horizon, you'll need this to replot, reanalyze, and write up the paper properly. Name files descriptively (e.g., `trajectory_H1_runs001-010.csv`). Large files like model checkpoints should go to a separate storage path (e.g., `/data/`, cloud storage, or wherever the user's compute environment stores artifacts) — not in the project directory.
 
 Initialize `research-state.yaml`, `research-log.md`, and `findings.md` from [templates/](templates/). Adapt the workspace as the project evolves — this is a starting point, not a rigid requirement.
 
