@@ -5,7 +5,7 @@ version: 1.0.0
 author: Orchestra Research
 license: MIT
 tags: [OpenVLA, OpenVLA-OFT, VLA, Robotics, Fine-Tuning, LIBERO, ALOHA, LoRA, FiLM, Action Chunking, Deployment, Continuous Actions]
-dependencies: [torch==2.2.0, transformers>=4.40.0, peft==0.11.1, draccus==0.8.0, accelerate>=0.25.0, wandb>=0.16.0, fastapi>=0.100.0, uvicorn>=0.24.0, tensorflow==2.15.0, robosuite==1.4.0]
+dependencies: [torch==2.2.0, transformers>=4.40.0, peft==0.11.1, draccus==0.8.0, accelerate>=0.25.0, wandb>=0.16.0, fastapi>=0.100.0, uvicorn>=0.24.0, tensorflow==2.15.0, robosuite==1.4.0]  # Exact pins: OpenVLA-OFT paper results were validated on torch==2.2.0, peft==0.11.1, tensorflow==2.15.0; upgrading torch may require re-tuning the LoRA adapter merge step and re-validating action head outputs
 ---
 
 # OpenVLA-OFT
@@ -187,6 +187,8 @@ parse_libero_log("experiments/logs/latest.log")
 
 ## Workflow 3: Fine-tune on LIBERO
 
+> **Detailed reference**: See [references/libero-workflow.md](references/libero-workflow.md) for the full LIBERO setup, checkpoint selection strategy, and LoRA merge instructions.
+
 ```text
 LIBERO Fine-Tune Progress:
 - [ ] Step 1: Prepare RLDS dataset
@@ -239,6 +241,8 @@ python vla-scripts/merge_lora_weights_and_save.py \
 ---
 
 ## Workflow 4: Train and evaluate OpenVLA-OFT+ on ALOHA
+
+> **Detailed reference**: See [references/aloha-workflow.md](references/aloha-workflow.md) for the full ALOHA server-client setup, data preprocessing, dataset registration, and troubleshooting.
 
 ```text
 ALOHA Progress:

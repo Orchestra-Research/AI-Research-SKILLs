@@ -1,77 +1,88 @@
 # LIBERO Command Matrix
 
-Use the same wrapper scripts on local machines, interactive GPU shells, or batch systems.
+Command variations for running Cosmos Policy LIBERO evaluation on local machines, interactive GPU shells, or batch systems. All commands use the `cosmos_policy.eval.run_libero` module directly.
 
 ## Preferred path: interactive GPU shell
 
-Acquire one GPU, then run the wrappers directly:
+Acquire one GPU, then run evaluations directly:
 
 ```bash
 # Slurm example
 srun --partition=gpu --gpus-per-node=1 \
   --time=01:00:00 --mem=64G --cpus-per-task=8 --pty bash
 
-cd /path/to/project
+cd /path/to/cosmos-policy
 
-# One-time preparation
-bash scripts/run_cosmos_policy_libero.sh \
-  --setup-only \
-  --cosmos-dir /path/to/cosmos-policy \
-  --cache-root /scratch/$USER/cosmos_cache
+# Set headless rendering environment
+export CUDA_VISIBLE_DEVICES=0
+export MUJOCO_EGL_DEVICE_ID=0
+export MUJOCO_GL=egl
+export PYOPENGL_PLATFORM=egl
 
-# Smoke eval with profiling
-bash scripts/run_cosmos_policy_libero.sh \
-  --eval-only \
-  --cosmos-dir /path/to/cosmos-policy \
-  --cache-root /scratch/$USER/cosmos_cache \
+# Smoke eval (1 trial, single suite)
+python -m cosmos_policy.eval.run_libero \
   --task-suite libero_10 \
   --num-trials 1 \
-  --profile-enable \
-  --profile-only \
-  --profile-mode timer \
-  --profile-warmup-queries 1 \
-  --profile-active-queries 6 \
-  --profile-step-sweep 5
+  --enable-cross-attn-kv-cache
+
+# Full eval (50 trials, single suite)
+python -m cosmos_policy.eval.run_libero \
+  --task-suite libero_10 \
+  --num-trials 50 \
+  --enable-cross-attn-kv-cache
+
+# All four suites
+for suite in libero_spatial libero_object libero_goal libero_10; do
+  python -m cosmos_policy.eval.run_libero \
+    --task-suite $suite \
+    --num-trials 50 \
+    --enable-cross-attn-kv-cache
+done
 ```
 
 ## Local GPU workstation path
 
-Skip `srun` and run the same `bash scripts/...` commands directly. Keep singularity enabled unless there is a verified reason not to use it.
+Skip `srun` and run the same `python -m` commands directly. Set EGL env vars first. Keep singularity enabled on cluster nodes unless there is a verified reason not to.
 
-## Cache benchmark path
+## KV cache A/B benchmark path
 
 ```bash
-bash scripts/run_cosmos_policy_cross_attn_kv_cache_benchmark.sh \
-  --mode smoke \
-  --skip-setup \
-  --profile-mode timer
+# Baseline (cache off)
+python -m cosmos_policy.eval.run_libero \
+  --task-suite libero_10 \
+  --num-trials 10 \
+  --no-enable-cross-attn-kv-cache \
+  --output-dir results/baseline
+
+# Cached (cache on)
+python -m cosmos_policy.eval.run_libero \
+  --task-suite libero_10 \
+  --num-trials 10 \
+  --enable-cross-attn-kv-cache \
+  --output-dir results/kv_cache_on
 ```
 
-Artifacts land under:
-
-```text
-<cache-root>/benchmarks/cross_attn_kv_cache_<mode>_<timestamp>/
-```
-
-Key files to inspect:
-- `benchmark_summary.md`
-- `baseline/profiling/baseline_metrics.csv`
-- `kv_cache_on/profiling/baseline_metrics.csv`
+Key output files to inspect:
+- `results/baseline/summary.json`
+- `results/kv_cache_on/summary.json`
 
 ## Batch fallback
 
-Only use batch after the direct bash path works:
+Only use batch submission after the direct command path works interactively:
 
 ```bash
-sbatch --partition=gpu --time=01:00:00 \
-  scripts/run_cosmos_policy_cross_attn_kv_cache_benchmark.sh \
-  --mode smoke \
-  --skip-setup \
-  --profile-mode timer
+sbatch --partition=gpu --time=04:00:00 --wrap="
+  export CUDA_VISIBLE_DEVICES=0 MUJOCO_EGL_DEVICE_ID=0 MUJOCO_GL=egl PYOPENGL_PLATFORM=egl
+  cd /path/to/cosmos-policy
+  python -m cosmos_policy.eval.run_libero \
+    --task-suite libero_10 \
+    --num-trials 50 \
+    --enable-cross-attn-kv-cache
+"
 ```
 
 ## High-signal gotchas
 
-- Wrapper script names may contain `_slurm`, but files can be run directly with `bash`.
 - On A40 cluster nodes, singularity is mandatory because host `transformer_engine` can fail with `GLIBC_2.29` loader errors.
-- `--setup-only` can run on a login node because it does not require a GPU.
+- Always align `CUDA_VISIBLE_DEVICES` and `MUJOCO_EGL_DEVICE_ID` to the same GPU index.
+- Use `--output-dir` to keep A/B results separate for comparison.

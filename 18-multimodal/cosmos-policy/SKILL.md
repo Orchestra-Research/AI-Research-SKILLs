@@ -1,14 +1,14 @@
 ---
-name: reproducing-cosmos-policy
-description: Reproduces NVIDIA Cosmos Policy evaluation and benchmarking on LIBERO and RoboCasa simulation environments. Use when setting up cosmos-policy for robot manipulation evaluation, running headless GPU evaluations with EGL rendering, comparing KV cache settings, or profiling inference latency on cluster or local GPU machines.
+name: evaluating-cosmos-policy
+description: Evaluates and benchmarks NVIDIA Cosmos Policy on LIBERO and RoboCasa simulation environments. Use when setting up cosmos-policy for robot manipulation evaluation, running headless GPU evaluations with EGL rendering, comparing KV cache settings, or profiling inference latency on cluster or local GPU machines.
 version: 1.0.0
 author: Orchestra Research
 license: MIT
 tags: [Cosmos Policy, VLA, Robotics, LIBERO, RoboCasa, Simulation, Evaluation, Benchmarking, KV Cache, EGL Rendering]
-dependencies: [torch>=2.1.0, mujoco>=3.0.0, robosuite>=1.4.0, robocasa>=0.2.0, transformers>=4.40.0, cosmos-policy>=1.0.0]
+dependencies: [torch>=2.1.0, mujoco>=3.0.0, robosuite>=1.4.0, robocasa>=0.2.0, transformers>=4.40.0, "cosmos-policy @ git+https://github.com/NVIDIA-Cosmos/cosmos-policy.git"]
 ---
 
-# Cosmos Policy Reproduction
+# Cosmos Policy Evaluation
 
 Evaluation and benchmarking workflows for NVIDIA Cosmos Policy on LIBERO and RoboCasa simulation environments. Covers setup, headless GPU evaluation, inference profiling, and cross-attention KV cache A/B comparison.
 
