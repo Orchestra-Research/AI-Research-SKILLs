@@ -133,6 +133,48 @@ The agent orchestrated multiple domain skills (RL training, mechanistic interpre
 
 ---
 
+### 7. Scientific Plotting: Publication-Quality Figures
+
+**Demo:** [scientific-plotting-demo/](scientific-plotting-demo/)
+
+**Skills Used:** [Academic Plotting](../20-ml-paper-writing/academic-plotting/)
+
+**What It Does:**
+Generates all key figures for the [Andes QoE-aware LLM serving paper](https://arxiv.org/abs/2404.16283) using both workflows from the academic-plotting skill:
+- **Workflow 1 (Gemini AI):** System architecture diagram using `gemini-3-pro-image-preview` with 6-section prompt structure, Style B "Modern Minimal", and Nord palette — 3 non-deterministic attempts with best-of-3 selection
+- **Workflow 2 (matplotlib):** Five data-driven figures — QoE definition illustration, 3-panel CDF comparison, 4x3 multi-panel burst intensity grid, summary bar charts — all with publication rcParams, colorblind-safe palette, and PDF+PNG export
+
+**Key Results:**
+| Metric | Result |
+|--------|--------|
+| QoE improvement over vLLM | **4.7x** |
+| GPU resource savings | **61%** |
+| Gemini text accuracy | **100%** (all labels spelled correctly) |
+| Figures generated | **6** (1 AI diagram + 5 data charts) |
+
+**What You'll Learn:**
+- Crafting 6-section Gemini prompts for architecture diagrams
+- Multi-attempt generation with evaluation rubric
+- Publication-quality matplotlib figures with venue-specific styling
+- Colorblind-safe palettes, multi-panel layouts, and dual PDF/PNG export
+
+**Repository Contents:**
+```
+scientific-plotting-demo/
+├── README.md                                # Full demo documentation with all figures
+└── figures/
+    ├── gen_fig_andes_architecture_gemini.py  # Gemini AI diagram script
+    ├── gen_fig_andes_workflow.py             # matplotlib architecture alternative
+    ├── gen_fig_experiment_results.py         # Data charts (CDF, grid, bars, QoE)
+    ├── fig_andes_architecture*.png           # Gemini outputs (best + 3 attempts)
+    ├── fig_cdf_comparison.{pdf,png}          # 3-panel CDF
+    ├── fig_burst_intensity.{pdf,png}         # 4x3 multi-panel grid
+    ├── fig_qoe_definition.{pdf,png}          # QoE metric illustration
+    └── fig_summary_improvements.{pdf,png}    # Summary bar charts
+```
+
+---
+
 ## Coming Soon
 
 ### ML Paper Writing: From Repo to Publication
@@ -188,5 +230,5 @@ Want to showcase a skill? We welcome demo contributions!
 ## Quick Links
 
 - [Main Skills Library](../README.md)
-- [All 86 Skills](../README.md#available-ai-research-engineering-skills)
+- [All 87 Skills](../README.md#available-ai-research-engineering-skills)
 - [Contributing Guide](../CONTRIBUTING.md)
