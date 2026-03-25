@@ -17,7 +17,7 @@
 
 <div align="center">
 
-### **86 Skills Powering AI Research in 2026**
+### **87 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -28,7 +28,7 @@
 
 | | | |
 |:---:|:---:|:---:|
-| **Autoresearch** (1) | **Ideation** (2) | **ML Paper Writing** (1) |
+| **Autoresearch** (1) | **Ideation** (2) | **ML Paper Writing** (2) |
 | **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (8) |
 | **Distributed Training** (6) | **Optimization** (6) | **Inference** (4) |
 | **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
@@ -73,7 +73,7 @@ AI Researchers spend more time debugging infrastructure than testing hypotheses 
 We provide a comprehensive skills library that enables AI agents to autonomously conduct the full research lifecycle — from brainstorming ideas to writing the paper.
   - Autonomous Research - The **autoresearch** skill orchestrates the entire research workflow using a two-loop architecture, routing to domain skills as needed
   - Specialized Expertise - Each domain skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 86 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
+  - End-to-End Coverage - 87 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -94,7 +94,7 @@ npx @orchestra-research/ai-research-skills
 Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow the instructions to install and use AI Research Skills.
 ```
 
-This installs all 86 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+This installs all 87 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
 
 <details>
 <summary><b>What the installer does</b></summary>
@@ -140,13 +140,13 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 22 Categories (86 Skills)
+### All 22 Categories (87 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
 | **Autoresearch** | **1** | **Autonomous research orchestration — central layer that manages the full lifecycle and routes to all other skills** |
 | Ideation | 2 | Research Brainstorming, Creative Thinking |
-| ML Paper Writing | 1 | ML Paper Writing (LaTeX templates, citation verification) |
+| ML Paper Writing | 2 | ML Paper Writing (LaTeX templates, citation verification), Academic Plotting |
 | Model Architecture | 5 | LitGPT, Mamba, NanoGPT, RWKV, TorchTitan |
 | Tokenization | 2 | HuggingFace Tokenizers, SentencePiece |
 | Fine-Tuning | 4 | Axolotl, LLaMA-Factory, PEFT, Unsloth |
@@ -168,7 +168,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Emerging | 6 | MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning |
 
 <details>
-<summary><b>View All 86 Skills in Details</b></summary>
+<summary><b>View All 87 Skills in Details</b></summary>
 
 ### 🔬 Autoresearch (1 skill) — Central Orchestration Layer
 - **[Autoresearch](0-autoresearch-skill/)** - Autonomous research orchestration using a two-loop architecture (inner optimization + outer synthesis). Manages the full lifecycle from literature survey to paper writing, routing to all domain-specific skills. Supports Claude Code /loop and OpenClaw heartbeat for continuous operation (390 lines + 3 refs)
@@ -294,8 +294,9 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[Knowledge Distillation](19-emerging-techniques/knowledge-distillation/)** - Compress models 70B→7B with MiniLLM, temperature scaling (424 lines)
 - **[Model Pruning](19-emerging-techniques/model-pruning/)** - 50% sparsity with Wanda, SparseGPT, <1% accuracy loss (417 lines)
 
-### 📝 ML Paper Writing (1 skill)
+### 📝 ML Paper Writing (2 skills)
 - **[ML Paper Writing](20-ml-paper-writing/)** - Write publication-ready papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM with LaTeX templates, citation verification, and writing best practices (532 lines + 5 refs)
+- **[Academic Plotting](20-ml-paper-writing/academic-plotting/)** - Generate publication-quality figures for ML papers: architecture diagrams via Gemini AI and data-driven charts via matplotlib/seaborn with venue-specific styling (479 lines + 3 refs)
 
 ### 💡 Ideation (2 skills)
 - **[Research Brainstorming](21-research-ideation/brainstorming-research-ideas/)** - Structured ideation frameworks for discovering high-impact research directions with 10 complementary lenses (384 lines)
@@ -306,7 +307,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 86 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 87 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -320,6 +321,7 @@ We maintain a curated collection of demo repositories showing how to use skills 
 | **[LoRA Without Regret Reproduction](https://www.orchestra-research.com/perspectives/LLM-with-Orchestra)** | GRPO, TRL | Reproduce SFT + GRPO RL experiments via prompting |
 | **[Layer-Wise Quantization Experiment](https://github.com/AmberLJC/llama-quantization-experiment)** | llama.cpp, GGUF | Investigate optimal layer precision allocation—early layers at Q8 achieve 1.9× compression with 1.3% perplexity loss |
 | **[Cross-Lingual Alignment Analysis](https://github.com/AmberLJC/faiss-demo)** | FAISS | Quantify how well multilingual embeddings align semantic concepts across 8 languages using FAISS similarity search |
+| **[Scientific Plotting Demo](demos/scientific-plotting-demo/)** | Academic Plotting | Generate publication-quality figures for the Andes QoE-aware LLM serving paper — Gemini AI architecture diagrams + matplotlib data charts (CDF, multi-panel grids, bar charts) |
 
 **Featured Demos**: Two papers produced entirely by AI agents using the **autoresearch** skill. The [Norm Heterogeneity paper](demos/autoresearch-norm-heterogeneity/) demonstrates autonomous research pivoting — the agent refuted its own hypothesis and discovered a stronger finding. The [RL Brain Scan paper](demos/autoresearch-rl-brain-scan/) demonstrates multi-skill orchestration — the agent trained RL models, analyzed internals with interpretability tools, and synthesized the insight that "DPO is rank-1 alignment." Both papers written end-to-end by the agent.
 
@@ -369,7 +371,7 @@ We're building towards 80 comprehensive skills across the full AI research lifec
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Skills** | **86** (high-quality, standardized YAML) | 80 ✅ |
+| **Skills** | **87** (high-quality, standardized YAML) | 80 ✅ |
 | **Avg Lines/Skill** | **420 lines** (focused + progressive disclosure) | 200-600 lines |
 | **Documentation** | **~130,000 lines** total (SKILL.md + references) | 100,000+ lines |
 | **Gold Standard Skills** | **65** with comprehensive references | 50+ |
@@ -412,7 +414,7 @@ claude-ai-research-skills/
 ├── 17-observability/            (2 skills ✓ - LangSmith, Phoenix)
 ├── 18-multimodal/               (7 skills ✓ - CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft)
 ├── 19-emerging-techniques/      (6 skills ✓ - MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning)
-├── 20-ml-paper-writing/         (1 skill ✓ - ML Paper Writing with LaTeX templates)
+├── 20-ml-paper-writing/         (2 skills ✓ - ML Paper Writing with LaTeX templates, Academic Plotting)
 ├── 21-research-ideation/                 (2 skills ✓ - Research Brainstorming, Creative Thinking)
 └── packages/ai-research-skills/ (npm package for one-command installation)
 ```
@@ -474,7 +476,7 @@ We welcome contributions from the AI research community! See [CONTRIBUTING.md](C
 
 - 🔬 **NEW SKILL**: **Autoresearch** — autonomous research orchestration using a two-loop architecture (inner optimization loop + outer synthesis loop)
 - 🧠 Manages the full research lifecycle: literature survey → ideation → experiments → synthesis → paper writing
-- 🔄 Routes to all 85 domain skills automatically — agents don't need to know which skill to use
+- 🔄 Routes to all 86 domain skills automatically — agents don't need to know which skill to use
 - ⏰ Mandatory `/loop` (Claude Code) and cron job (OpenClaw) for continuous autonomous operation
 - 📊 Generates research presentations (HTML/PDF) with optimization trajectory plots for human review
 - 📝 Findings.md as persistent project memory across sessions with "Lessons and Constraints" tracking
@@ -482,7 +484,7 @@ We welcome contributions from the AI research community! See [CONTRIBUTING.md](C
 - 📄 **Two demo papers produced by autoresearch**: [Norm Heterogeneity → LoRA Brittleness](demos/autoresearch-norm-heterogeneity/) and [RL Algorithm Brain Scan](demos/autoresearch-rl-brain-scan/)
 - 🚀 WELCOME.md for cold-start agent bootstrap — one URL to go from zero to autonomous research
 - 📦 npm v1.4.x with Windows symlink fallback, all 22 categories installable
-- 📊 **86 total skills** across **22 categories** — complete research lifecycle coverage
+- 📊 **87 total skills** across **22 categories** — complete research lifecycle coverage
 
 </details>
 
