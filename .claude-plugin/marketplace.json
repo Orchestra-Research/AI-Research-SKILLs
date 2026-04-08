@@ -5,7 +5,7 @@
     "email": "zechen@orchestra-research.com"
   },
   "metadata": {
-    "description": "Comprehensive library of 89 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
+    "description": "Comprehensive library of 91 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
     "version": "1.1.1"
   },
   "plugins": [
@@ -258,12 +258,14 @@
     },
     {
       "name": "ml-paper-writing",
-      "description": "Write publication-ready ML/AI/Systems papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM, OSDI, NSDI, ASPLOS, SOSP. Includes LaTeX templates, citation verification, reviewer guidelines, publication-quality figure generation, and writing best practices.",
+      "description": "Write publication-ready ML/AI/Systems papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM, OSDI, NSDI, ASPLOS, SOSP. Includes LaTeX templates, citation verification, reviewer guidelines, publication-quality figure generation, systems paper structural blueprints, and conference presentation slides.",
       "source": "./",
       "strict": false,
       "skills": [
         "./20-ml-paper-writing/ml-paper-writing",
-        "./20-ml-paper-writing/academic-plotting"
+        "./20-ml-paper-writing/academic-plotting",
+        "./20-ml-paper-writing/writing-systems-papers",
+        "./20-ml-paper-writing/presenting-conference-talks"
       ]
     },
     {
