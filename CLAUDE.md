@@ -10,12 +10,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Architecture
 
-### Directory Structure (86 Skills Across 22 Categories)
+### Directory Structure (95 Skills Across 22 Categories)
 
 Skills are organized into numbered categories representing the AI research lifecycle:
 
 - `0-autoresearch-skill/` - **Autonomous research orchestration** (1 skill: Autoresearch — central layer that manages the full lifecycle and routes to all other skills)
-- `01-model-architecture/` - Model architectures (5 skills: Megatron-Core, LitGPT, Mamba, RWKV, NanoGPT)
+- `01-model-architecture/` - Model architectures (5 skills: TorchTitan, LitGPT, Mamba, RWKV, NanoGPT)
 - `02-tokenization/` - Tokenizers (2 skills: HuggingFace Tokenizers, SentencePiece)
 - `03-fine-tuning/` - Fine-tuning frameworks (4 skills: Axolotl, LLaMA-Factory, Unsloth, PEFT)
 - `04-mechanistic-interpretability/` - Interpretability tools (4 skills: TransformerLens, SAELens, NNsight, Pyvene)
@@ -24,17 +24,17 @@ Skills are organized into numbered categories representing the AI research lifec
 - `07-safety-alignment/` - Safety and guardrails (4 skills: Constitutional AI, LlamaGuard, NeMo Guardrails, Prompt Guard)
 - `08-distributed-training/` - Distributed systems (6 skills: Megatron-Core, DeepSpeed, FSDP, Accelerate, PyTorch Lightning, Ray Train)
 - `09-infrastructure/` - Cloud compute (3 skills: Modal, SkyPilot, Lambda Labs)
-- `10-optimization/` - Optimization techniques (6 skills: Flash Attention, bitsandbytes, GPTQ, AWQ, HQQ, GGUF)
+- `10-optimization/` - Optimization techniques (7 skills: Flash Attention, bitsandbytes, GPTQ, AWQ, HQQ, GGUF, ML Training Recipes)
 - `11-evaluation/` - Benchmarking (3 skills: lm-evaluation-harness, BigCode, NeMo Evaluator)
 - `12-inference-serving/` - Inference engines (4 skills: vLLM, TensorRT-LLM, llama.cpp, SGLang)
-- `13-mlops/` - Experiment tracking (3 skills: Weights & Biases, MLflow, TensorBoard)
-- `14-agents/` - Agent frameworks (4 skills: LangChain, LlamaIndex, CrewAI, AutoGPT)
+- `13-mlops/` - Experiment tracking (4 skills: Weights & Biases, MLflow, TensorBoard, SwanLab)
+- `14-agents/` - Agent frameworks (5 skills: LangChain, LlamaIndex, CrewAI, AutoGPT, A-Evolve)
 - `15-rag/` - Retrieval-augmented generation (5 skills: Chroma, FAISS, Sentence Transformers, Pinecone, Qdrant)
 - `16-prompt-engineering/` - Structured output (4 skills: DSPy, Instructor, Guidance, Outlines)
 - `17-observability/` - LLM observability (2 skills: LangSmith, Phoenix)
-- `18-multimodal/` - Vision and speech (7 skills: CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft)
+- `18-multimodal/` - Vision and speech (10 skills: CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft, Cosmos Policy, OpenPI, OpenVLA-OFT)
 - `19-emerging-techniques/` - Advanced methods (6 skills: MoE Training, Model Merging, Long Context, Speculative Decoding, Knowledge Distillation, Model Pruning)
-- `20-ml-paper-writing/` - Paper writing (1 skill: ML Paper Writing with LaTeX templates for NeurIPS, ICML, ICLR, ACL, AAAI, COLM)
+- `20-ml-paper-writing/` - Paper writing (4 skills: ML Paper Writing, Systems Paper Writing, Academic Plotting, Presenting Conference Talks)
 - `21-research-ideation/` - Ideation (2 skills: Research Brainstorming, Creative Thinking)
 
 ### Skill File Structure
