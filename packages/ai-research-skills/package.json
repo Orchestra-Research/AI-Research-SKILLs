@@ -42,8 +42,8 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
-    "inquirer": "^9.2.12",
-    "ora": "^8.0.1"
+    "chalk": "5.3.0",
+    "inquirer": "9.2.12",
+    "ora": "8.0.1"
   }
 }
