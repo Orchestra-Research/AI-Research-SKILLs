@@ -100,7 +100,7 @@ This installs all 98 skills, loads the **autoresearch** orchestration layer, and
 <details>
 <summary><b>What the installer does</b></summary>
 
-- **Auto-detects** your installed coding agents (Claude Code, Hermes Agent, OpenCode, Cursor, Gemini CLI, etc.)
+- **Auto-detects** your installed coding agents (Claude Code, Hermes Agent, OpenCode, Qoder, Cursor, Gemini CLI, etc.)
 - **Installs** skills to `~/.orchestra/skills/` with symlinks to each agent (falls back to copy on Windows)
 - **Offers** everything, quickstart bundle, by category, or individual skills
 - **Updates** installed skills with latest versions
@@ -543,7 +543,7 @@ We welcome contributions from the AI research community! See [CONTRIBUTING.md](C
 - 📄 **Two demo papers produced by autoresearch**: [Norm Heterogeneity → LoRA Brittleness](demos/autoresearch-norm-heterogeneity/) and [RL Algorithm Brain Scan](demos/autoresearch-rl-brain-scan/)
 - 🚀 WELCOME.md for cold-start agent bootstrap — one URL to go from zero to autonomous research
 - 📦 npm v1.4.x with Windows symlink fallback, all 22 categories installable
-- 🤖 **Supported agents**: Claude Code, Hermes Agent, OpenCode, OpenClaw, Cursor, Codex, Gemini CLI, Qwen Code
+- 🤖 **Supported agents**: Claude Code, Hermes Agent, OpenCode, OpenClaw, Qoder, Cursor, Codex, Gemini CLI, Qwen Code
 - 📊 **87 total skills** across **22 categories** — complete research lifecycle coverage
 
 </details>
