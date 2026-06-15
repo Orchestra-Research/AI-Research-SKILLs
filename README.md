@@ -506,12 +506,12 @@ We welcome contributions from the AI research community! See [CONTRIBUTING.md](C
 ## Recent Updates
 
 <details open>
-<summary><b>June 2026 - v1.7.0 🧹 Inventory Consistency, Drift Guard & Security Hardening</b></summary>
+<summary><b>June 2026 - v1.7.1 🧹 Inventory Consistency, Drift Guard & Security Hardening</b></summary>
 
 - 📊 **Repo-wide inventory reconciled to 98 skills / 23 categories** — corrected stale counts that had drifted apart across files: CLAUDE.md (said 90), CONTRIBUTING.md (said 86/22), the README sync line (said 87), WELCOME.md and the npm package README (said 86/22). Also fixed wrong per-category listings (TorchTitan, SwanLab, A-Evolve, ML Training Recipes, Cosmos Policy/OpenPI/OpenVLA-OFT, the paper-writing skills)
 - 🛡️ **New CI drift guard** — `scripts/check-inventory.sh` + `check-inventory.yml` fail CI whenever the documented skill/category counts diverge from the actual `SKILL.md` count on disk, so the inventory can't silently drift again
 - 📦 **Marketplace sync hardening** — `sync-skills.yml` now prunes build artifacts (`node_modules`/`__pycache__`/`*.pyc`/`.ipynb_checkpoints`) before zipping and fails loudly above 190 files instead of hitting the marketplace's 200-file rejection
-- 🔒 **Security** — pinned CLI dependencies (`chalk`/`inquirer`/`ora`) to exact versions matching the lockfile
+- 🔒 **Security** — pinned CLI dependencies (`chalk`/`inquirer`/`ora`) to exact, patched versions with a regenerated lockfile (`inquirer@9.3.8` clears the `tmp` path-traversal advisory; `npm audit` now reports 0 vulnerabilities)
 - 🧹 Full open PR/issue triage pass against scope + contribution standards
 
 </details>
