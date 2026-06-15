@@ -506,6 +506,17 @@ We welcome contributions from the AI research community! See [CONTRIBUTING.md](C
 ## Recent Updates
 
 <details open>
+<summary><b>June 2026 - v1.7.0 🧹 Inventory Consistency, Drift Guard & Security Hardening</b></summary>
+
+- 📊 **Repo-wide inventory reconciled to 98 skills / 23 categories** — corrected stale counts that had drifted apart across files: CLAUDE.md (said 90), CONTRIBUTING.md (said 86/22), the README sync line (said 87), WELCOME.md and the npm package README (said 86/22). Also fixed wrong per-category listings (TorchTitan, SwanLab, A-Evolve, ML Training Recipes, Cosmos Policy/OpenPI/OpenVLA-OFT, the paper-writing skills)
+- 🛡️ **New CI drift guard** — `scripts/check-inventory.sh` + `check-inventory.yml` fail CI whenever the documented skill/category counts diverge from the actual `SKILL.md` count on disk, so the inventory can't silently drift again
+- 📦 **Marketplace sync hardening** — `sync-skills.yml` now prunes build artifacts (`node_modules`/`__pycache__`/`*.pyc`/`.ipynb_checkpoints`) before zipping and fails loudly above 190 files instead of hitting the marketplace's 200-file rejection
+- 🔒 **Security** — pinned CLI dependencies (`chalk`/`inquirer`/`ora`) to exact versions matching the lockfile
+- 🧹 Full open PR/issue triage pass against scope + contribution standards
+
+</details>
+
+<details>
 <summary><b>April 2026 - v1.6.0 🧬 Agent-Native Research Artifact (ARA) — 23rd Category, 98 Skills</b></summary>
 
 - 🧬 **NEW CATEGORY**: `22-agent-native-research-artifact/` (the 23rd category) — three skills that turn research outputs into a falsifiable, agent-traversable artifact:
