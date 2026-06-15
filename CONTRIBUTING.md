@@ -8,9 +8,9 @@ Thank you for your interest in contributing! This guide will help you add new sk
 
 **Vision**: The most comprehensive open-source library of AI research skills for Claude Code.
 
-**Target**: 86 comprehensive skills covering the entire AI research lifecycle — from ideation to paper writing. ✅ Achieved.
+**Target**: A comprehensive library covering the entire AI research lifecycle — from ideation to paper writing.
 
-**Current Progress**: 86/86 skills across 22 categories (100%)
+**Current Progress**: 98 skills across 23 categories
 
 **Philosophy**: Quality > Quantity. We deleted 9 low-quality skills to maintain high standards.
 
@@ -260,25 +260,29 @@ Place skills in the correct category:
 
 ```
 claude-ai-research-skills/
-├── 01-model-architecture/      # Model architectures (GPT, LLaMA, etc.)
+├── 0-autoresearch-skill/       # Autonomous research orchestration
+├── 01-model-architecture/      # Model architectures (TorchTitan, LitGPT, Mamba, RWKV, NanoGPT)
 ├── 02-tokenization/            # Tokenizers (HuggingFace, SentencePiece)
-├── 03-fine-tuning/             # Fine-tuning frameworks (Axolotl, TRL)
-├── 04-peft/                    # Parameter-efficient methods (LoRA, QLoRA)
+├── 03-fine-tuning/             # Fine-tuning frameworks (Axolotl, LLaMA-Factory, Unsloth, PEFT)
+├── 04-mechanistic-interpretability/  # Interpretability (TransformerLens, SAELens, NNsight, Pyvene)
 ├── 05-data-processing/         # Data curation and processing
-├── 06-post-training/           # RLHF, DPO, PPO
+├── 06-post-training/           # RLHF, DPO, GRPO, PPO
 ├── 07-safety-alignment/        # Guardrails, safety, content moderation
-├── 08-distributed-training/    # DeepSpeed, FSDP, distributed systems
-├── 09-infrastructure/          # PyTorch Lightning, Ray, Composer
-├── 10-optimization/            # Flash Attention, bitsandbytes, kernels
+├── 08-distributed-training/    # Megatron-Core, DeepSpeed, FSDP, distributed systems
+├── 09-infrastructure/          # Modal, SkyPilot, Lambda Labs
+├── 10-optimization/            # Flash Attention, bitsandbytes, quantization
 ├── 11-evaluation/              # Benchmarks, evaluation frameworks
-├── 12-inference-serving/       # vLLM, TensorRT-LLM, llama.cpp
-├── 13-mlops/                   # Weights & Biases, MLflow, TensorBoard
-├── 14-agents/                  # LangChain, LlamaIndex, CrewAI
+├── 12-inference-serving/       # vLLM, TensorRT-LLM, llama.cpp, SGLang
+├── 13-mlops/                   # Weights & Biases, MLflow, TensorBoard, SwanLab
+├── 14-agents/                  # LangChain, LlamaIndex, CrewAI, AutoGPT, A-Evolve
 ├── 15-rag/                     # RAG pipelines, vector databases
-├── 16-prompt-engineering/      # DSPy, Instructor, structured output
+├── 16-prompt-engineering/      # DSPy, Instructor, Guidance, Outlines
 ├── 17-observability/           # LangSmith, Phoenix, monitoring
-├── 18-multimodal/              # LLaVA, Whisper, Stable Diffusion
-└── 19-emerging-techniques/     # MoE, model merging, long context
+├── 18-multimodal/              # CLIP, Whisper, LLaVA, Stable Diffusion, SAM, robotics policies
+├── 19-emerging-techniques/     # MoE, model merging, long context
+├── 20-ml-paper-writing/        # ML & systems paper writing, plotting, talks
+├── 21-research-ideation/       # Brainstorming and creative thinking
+└── 22-agent-native-research-artifact/  # ARA compiler, research manager, rigor reviewer
 ```
 
 ---

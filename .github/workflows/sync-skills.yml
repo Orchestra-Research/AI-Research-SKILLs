@@ -117,10 +117,18 @@ jobs:
             # Copy all contents of skill directory (SKILL.md, references/, scripts/, assets/, etc.)
             cp -r "$SKILL_PATH"/* "$SKILL_DIR/" 2>/dev/null || true
 
-            # Create zip file (exclude hidden files and .gitkeep)
+            # Prune build artifacts that may have leaked into a skill folder
+            # before zipping (these are not hidden, so the -x globs below miss
+            # them and they can blow past the marketplace's 200-file limit).
+            find "$SKILL_DIR" \( -name node_modules -o -name __pycache__ -o -name .ipynb_checkpoints -o -name .git \) -type d -prune -exec rm -rf {} + 2>/dev/null || true
+            find "$SKILL_DIR" -name '*.pyc' -delete 2>/dev/null || true
+
+            # Create zip file (exclude hidden files, .gitkeep, and build artifacts)
             ZIP_FILE="$TEMP_DIR/${SKILL_NAME}.zip"
             cd "$TEMP_DIR"
-            zip -r "$ZIP_FILE" "$SKILL_NAME" -x "*/.*" "*/.gitkeep" "*.DS_Store"
+            zip -r "$ZIP_FILE" "$SKILL_NAME" \
+              -x "*/.*" "*/.gitkeep" "*.DS_Store" \
+                 "*/node_modules/*" "*/__pycache__/*" "*.pyc" "*/.ipynb_checkpoints/*"
             cd -
 
             # Verify zip was created
@@ -129,7 +137,19 @@ jobs:
               continue
             fi
 
-            echo "✓ Created zip: $(ls -lh "$ZIP_FILE" | awk '{print $5}')"
+            # Guard against the marketplace's 200-file-per-zip limit: fail loudly
+            # here (with the offending skill name) instead of getting a vague
+            # server-side rejection (see issue #57).
+            FILE_COUNT=$(unzip -l "$ZIP_FILE" | tail -1 | awk '{print $2}')
+            echo "  Files in zip: $FILE_COUNT"
+            if [ "${FILE_COUNT:-0}" -gt 190 ]; then
+              echo "❌ ERROR: $SKILL_NAME zip contains $FILE_COUNT files (limit 200)."
+              echo "   A skill folder should not ship build artifacts or hundreds of files."
+              echo "   Prune the folder (references/ should be a handful of docs) and retry."
+              continue
+            fi
+
+            echo "✓ Created zip: $(ls -lh "$ZIP_FILE" | awk '{print $5}') ($FILE_COUNT files)"
 
             # Write SKILL.md content to temp file (avoid argument length limits)
             SKILL_MD_FILE="$TEMP_DIR/skill.md"

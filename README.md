@@ -314,7 +314,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 87 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -369,7 +369,7 @@ skill-name/
 
 ## Roadmap
 
-We're building towards 80 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
+The library spans 98 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
 
 [View Full Roadmap →](docs/ROADMAP.md)
 

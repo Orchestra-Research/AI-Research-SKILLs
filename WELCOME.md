@@ -10,7 +10,7 @@ Run this once to install all skills to your agent permanently:
 npx @orchestra-research/ai-research-skills install --all
 ```
 
-This auto-detects your coding agent (Claude Code, OpenClaw, Cursor, etc.) and installs 86 skills across 22 categories.
+This auto-detects your coding agent (Claude Code, OpenClaw, Cursor, etc.) and installs 98 skills across 23 categories.
 
 **Important**: After installation completes, you may need to restart your agent session for the newly installed skills to be loaded and available. If skills aren't recognized after install, restart and come back to Step 2.
 
@@ -30,7 +30,7 @@ Autoresearch will:
 - Show you research presentations along the way
 - Write the paper when ready
 
-You don't need to know all 86 skills upfront. Autoresearch finds and invokes the right ones for you.
+You don't need to know all 98 skills upfront. Autoresearch finds and invokes the right ones for you.
 
 ## That's It
 

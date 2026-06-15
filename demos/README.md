@@ -230,5 +230,5 @@ Want to showcase a skill? We welcome demo contributions!
 ## Quick Links
 
 - [Main Skills Library](../README.md)
-- [All 87 Skills](../README.md#available-ai-research-engineering-skills)
+- [All 98 Skills](../README.md#available-ai-research-engineering-skills)
 - [Contributing Guide](../CONTRIBUTING.md)

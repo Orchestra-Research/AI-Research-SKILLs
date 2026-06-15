@@ -1,0 +1,31 @@
+name: Check Inventory Counts
+
+# Fails if the documented skill/category counts drift from the actual repo
+# contents. See scripts/check-inventory.sh and issue #54.
+
+on:
+  pull_request:
+    paths:
+      - '**/SKILL.md'
+      - 'CLAUDE.md'
+      - 'CONTRIBUTING.md'
+      - 'README.md'
+      - 'WELCOME.md'
+      - 'packages/ai-research-skills/README.md'
+      - 'scripts/check-inventory.sh'
+      - '.github/workflows/check-inventory.yml'
+  push:
+    branches: [main]
+    paths:
+      - '**/SKILL.md'
+      - 'CLAUDE.md'
+      - 'packages/ai-research-skills/README.md'
+  workflow_dispatch:
+
+jobs:
+  check-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify documented skill/category counts
+        run: bash scripts/check-inventory.sh
