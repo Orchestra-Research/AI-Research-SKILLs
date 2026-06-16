@@ -2,7 +2,8 @@
 
 Reference for the generation-consistency-based coefficient selection method introduced in:
 
-> **"[Paper Title]"** — arXiv:2503.23733
+> **"AdaMMS: Model Merging for Heterogeneous Multimodal Large Language Models with Unsupervised Coefficient Optimization"**
+> Yiyang Du, Xiaochen Wang, Chi Chen, Jiabo Ye, Yiru Wang, Peng Li, Ming Yan, Ji Zhang, Fei Huang, Zhifang Sui, Maosong Sun, Yang Liu. CVPR 2025. [arXiv:2503.23733](https://arxiv.org/abs/2503.23733)
 > Proposes an unsupervised proxy—*generation consistency*—to automatically select merging coefficients without labeled data or manual search.
 
 ---
@@ -308,6 +309,8 @@ def coordinate_wise_search(base_weights, coord_idx, candidates, all_responses_fn
     return best_alpha, best_score
 ```
 
+> **Note**: `coordinate_wise_search` is illustrative — it calls user-supplied helpers (`all_responses_fn`, which merges and generates for a given weight vector, and `generation_consistency_from_responses`) that you assemble from the building blocks in Steps 2–4 above.
+
 ---
 
 ## Full Pipeline (End-to-End)
@@ -405,7 +408,7 @@ print(f"Best model path: {result['best_path']}")
 
 ## References
 
-- **Paper**: arXiv:2503.23733 — Unsupervised coefficient tuning via generation consistency
+- **Paper**: Du et al., *AdaMMS: Model Merging for Heterogeneous Multimodal Large Language Models with Unsupervised Coefficient Optimization*, CVPR 2025. [arXiv:2503.23733](https://arxiv.org/abs/2503.23733)
 - **ROUGE**: `pip install rouge-score`
 - **BERTScore**: `pip install bert-score`
 - **mergekit**: https://github.com/arcee-ai/mergekit
