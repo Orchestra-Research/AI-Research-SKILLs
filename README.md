@@ -1,5 +1,14 @@
 # AI Research `Skills` Library
 
+<p align="center">
+  <a href="https://www.atlascloud.ai/?utm_source=github&utm_medium=link&utm_campaign=ai-research-skills">
+    <img src="assets/atlas-cloud-logo.png" alt="Atlas Cloud" width="140" />
+  </a>
+  <br />
+  <sub><strong>Atlas Cloud</strong> Atlas Cloud provides OpenAI-compatible LLM APIs and async image/video generation APIs for research agents, literature workflows, and multimodal outputs.</sub>
+</p>
+
+
 > **The most comprehensive open-source skills library enabling AI agents to autonomously conduct AI research — from idea to paper**
 
 <p align="center">
