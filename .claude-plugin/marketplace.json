@@ -5,7 +5,7 @@
     "email": "zechen@orchestra-research.com"
   },
   "metadata": {
-    "description": "Comprehensive library of 98 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
+    "description": "Comprehensive library of 99 AI research engineering skills enabling autonomous AI research from hypothesis to experimental verification",
     "version": "1.2.0"
   },
   "plugins": [
@@ -217,10 +217,11 @@
     },
     {
       "name": "multimodal",
-      "description": "Vision, audio, and multimodal models including CLIP, Whisper, LLaVA, BLIP-2, Segment Anything, Stable Diffusion, AudioCraft, Cosmos Policy, OpenPI, and OpenVLA-OFT. Use when working with images, audio, multimodal tasks, or vision-language-action robot policies.",
+      "description": "Vision, audio, and multimodal models including CLIP, Whisper, LLaVA, BLIP-2, Segment Anything, Stable Diffusion, AudioCraft, Atlas Cloud Media API, Cosmos Policy, OpenPI, and OpenVLA-OFT. Use when working with images, audio, multimodal generation, hosted media APIs, or vision-language-action robot policies.",
       "source": "./",
       "strict": false,
       "skills": [
+        "./18-multimodal/atlas-cloud-media-api",
         "./18-multimodal/audiocraft",
         "./18-multimodal/blip-2",
         "./18-multimodal/clip",
