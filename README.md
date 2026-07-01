@@ -17,7 +17,7 @@
 
 <div align="center">
 
-### **98 Skills Powering AI Research in 2026**
+### **99 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -74,7 +74,7 @@ AI Researchers spend more time debugging infrastructure than testing hypotheses 
 We provide a comprehensive skills library that enables AI agents to autonomously conduct the full research lifecycle — from brainstorming ideas to writing the paper.
   - Autonomous Research - The **autoresearch** skill orchestrates the entire research workflow using a two-loop architecture, routing to domain skills as needed
   - Specialized Expertise - Each domain skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 98 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
+  - End-to-End Coverage - 99 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -95,7 +95,7 @@ npx @orchestra-research/ai-research-skills
 Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow the instructions to install and use AI Research Skills.
 ```
 
-This installs all 98 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+This installs all 99 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
 
 <details>
 <summary><b>What the installer does</b></summary>
@@ -141,7 +141,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 23 Categories (98 Skills)
+### All 23 Categories (99 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
@@ -165,12 +165,12 @@ Install skill categories directly using the **Claude Code CLI**:
 | RAG | 5 | Chroma, FAISS, Pinecone, Qdrant, Sentence Transformers |
 | Prompt Eng | 4 | DSPy, Instructor, Guidance, Outlines |
 | Observability | 2 | LangSmith, Phoenix |
-| Multimodal | 7 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft |
+| Multimodal | 8 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft, Atlas Cloud Media API |
 | Emerging | 6 | MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning |
 | Agent-Native Research Artifact | 3 | ARA Compiler, Research Manager, Rigor Reviewer |
 
 <details>
-<summary><b>View All 98 Skills in Details</b></summary>
+<summary><b>View All 99 Skills in Details</b></summary>
 
 ### 🔬 Autoresearch (1 skill) — Central Orchestration Layer
 - **[Autoresearch](0-autoresearch-skill/)** - Autonomous research orchestration using a two-loop architecture (inner optimization + outer synthesis). Manages the full lifecycle from literature survey to paper writing, routing to all domain-specific skills. Supports Claude Code /loop and OpenClaw heartbeat for continuous operation (390 lines + 3 refs)
@@ -264,7 +264,7 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[Pinecone](15-rag/pinecone/)** - Managed vector database, auto-scaling, <100ms latency (410 lines)
 - **[Qdrant](15-rag/qdrant/)** - High-performance vector search, Rust-powered, hybrid search with filtering (493 lines + 2 refs)
 
-### 🎨 Multimodal (7 skills)
+### 🎨 Multimodal (8 skills)
 - **[CLIP](18-multimodal/clip/)** - OpenAI's vision-language model, zero-shot classification, 25k stars (320 lines)
 - **[Whisper](18-multimodal/whisper/)** - Robust speech recognition, 99 languages, 73k stars (395 lines)
 - **[LLaVA](18-multimodal/llava/)** - Vision-language assistant, image chat, GPT-4V level (360 lines)
@@ -272,6 +272,7 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[Segment Anything](18-multimodal/segment-anything/)** - Meta's SAM for zero-shot image segmentation with points/boxes (500 lines + 2 refs)
 - **[BLIP-2](18-multimodal/blip-2/)** - Vision-language pretraining with Q-Former, image captioning, VQA (500 lines + 2 refs)
 - **[AudioCraft](18-multimodal/audiocraft/)** - Meta's MusicGen/AudioGen for text-to-music and text-to-sound (470 lines + 2 refs)
+- **[Atlas Cloud Media API](18-multimodal/atlas-cloud-media-api/)** - Hosted image/video generation and OpenAI-compatible LLM workflows for multimodal research agents (300 lines)
 
 ### 🎯 Prompt Engineering (4 skills)
 - **[DSPy](16-prompt-engineering/dspy/)** - Declarative prompt programming with optimizers, Stanford NLP, 22k stars (438 lines + 3 refs)
@@ -314,7 +315,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 99 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -369,7 +370,7 @@ skill-name/
 
 ## Roadmap
 
-The library spans 98 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
+The library spans 99 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
 
 [View Full Roadmap →](docs/ROADMAP.md)
 
@@ -419,7 +420,7 @@ claude-ai-research-skills/
 ├── 15-rag/                      (5 skills ✓ - Chroma, FAISS, Sentence Transformers, Pinecone, Qdrant)
 ├── 16-prompt-engineering/       (4 skills ✓ - DSPy, Instructor, Guidance, Outlines)
 ├── 17-observability/            (2 skills ✓ - LangSmith, Phoenix)
-├── 18-multimodal/               (7 skills ✓ - CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft)
+├── 18-multimodal/               (8 skills ✓ - CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft, Atlas Cloud Media API)
 ├── 19-emerging-techniques/      (6 skills ✓ - MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning)
 ├── 20-ml-paper-writing/         (2 skills ✓ - ML Paper Writing with LaTeX templates, Academic Plotting)
 ├── 21-research-ideation/           (2 skills ✓ - Research Brainstorming, Creative Thinking)
