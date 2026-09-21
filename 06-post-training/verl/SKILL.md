@@ -352,10 +352,6 @@ pip install vllm>=0.8.5,<=0.12.0
 
 ## Advanced Topics
 
-### Multi-Turn Tool Calling
-
-See [references/multi-turn.md](references/multi-turn.md) for agentic workflows with tool use.
-
 ### Vision-Language Models
 
 ```yaml
