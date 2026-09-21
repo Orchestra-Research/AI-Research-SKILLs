@@ -1,6 +1,6 @@
-import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync, lstatSync, cpSync } from 'fs';
+import { existsSync, mkdirSync, symlinkSync, readdirSync, readFileSync, writeFileSync, rmSync, lstatSync, cpSync, readlinkSync } from 'fs';
 import { homedir } from 'os';
-import { join, basename, dirname } from 'path';
+import { join, basename, dirname, resolve, relative, isAbsolute } from 'path';
 import { execSync } from 'child_process';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -491,6 +491,29 @@ export async function updateInstalledSkills(agents) {
 }
 
 /**
+ * True if `linkPath` is a symlink whose resolved target lives inside
+ * `canonicalRoot` (the directory this installer owns). Broken links, links
+ * pointing outside the canonical dir, and prefix-collision paths
+ * (e.g. `~/.orchestra-skills` vs `~/.orchestra/skills`) all return false, so
+ * unrelated symlinks managed by other tools are never removed.
+ *
+ * Exported for testing.
+ */
+export function isOwnedSymlink(linkPath, canonicalRoot) {
+  let target;
+  try {
+    target = readlinkSync(linkPath);
+  } catch {
+    return false; // not a resolvable symlink
+  }
+  const resolved = isAbsolute(target)
+    ? resolve(target)
+    : resolve(dirname(linkPath), target);
+  const rel = relative(canonicalRoot, resolved);
+  return rel !== '' && !rel.startsWith('..') && !isAbsolute(rel);
+}
+
+/**
  * Uninstall all skills
  */
 export async function uninstallAllSkills(agents) {
@@ -503,10 +526,11 @@ export async function uninstallAllSkills(agents) {
         const entries = readdirSync(agent.skillsPath, { withFileTypes: true });
         for (const entry of entries) {
           const linkPath = join(agent.skillsPath, entry.name);
-          // Only remove if it's a symlink pointing to our canonical dir
+          // Only remove symlinks that point into our canonical dir, so
+          // unrelated links (e.g. ~/.agents/skills) are left untouched.
           try {
             const stats = lstatSync(linkPath);
-            if (stats.isSymbolicLink()) {
+            if (stats.isSymbolicLink() && isOwnedSymlink(linkPath, CANONICAL_DIR)) {
               rmSync(linkPath, { force: true });
             }
           } catch {
@@ -559,7 +583,9 @@ export async function uninstallSpecificSkills(skillPaths, agents) {
         try {
           if (existsSync(linkPath)) {
             const stats = lstatSync(linkPath);
-            if (stats.isSymbolicLink()) {
+            // Only remove if it's a symlink we own (points into the
+            // canonical dir), so unrelated links are left untouched.
+            if (stats.isSymbolicLink() && isOwnedSymlink(linkPath, CANONICAL_DIR)) {
               rmSync(linkPath, { force: true });
             }
           }
