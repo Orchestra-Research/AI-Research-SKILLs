@@ -10,6 +10,7 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <a href="https://www.npmjs.com/package/@orchestra-research/ai-research-skills"><img src="https://img.shields.io/npm/v/@orchestra-research/ai-research-skills.svg" alt="npm version"></a>
   <a href="https://www.orchestra-research.com/perspectives/ai-research-skills"><img src="https://img.shields.io/badge/Blog-Read%20More-orange.svg" alt="Blog Post"></a>
+  <a href="https://www.orchestra-research.com/ai-research-skills?utm_source=github&utm_medium=readme&utm_campaign=ai-research-skills&utm_content=badge"><img src="https://img.shields.io/badge/Run%20in%20Orchestra-No%20Install-6366F1.svg" alt="Run in Orchestra"></a>
   <a href="https://join.slack.com/t/orchestrarese-efu1990/shared_invite/zt-3iu6gr8io-zJvpkZTPToEviQ9KFZvNSg"><img src="https://img.shields.io/badge/Slack-Join%20Community-4A154B.svg?logo=slack" alt="Slack"></a>
   <a href="https://x.com/orch_research"><img src="https://img.shields.io/badge/Twitter-Follow-1DA1F2.svg?logo=x" alt="Twitter"></a>
   <a href="https://www.linkedin.com/company/orchestra-research/"><img src="https://img.shields.io/badge/LinkedIn-Follow-0A66C2.svg?logo=linkedin" alt="LinkedIn"></a>
@@ -96,6 +97,8 @@ Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow
 ```
 
 This installs all 98 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+
+**No coding agent? (researchers, students, non-coders)** — run the same skills in [Orchestra](https://www.orchestra-research.com/ai-research-skills?utm_source=github&utm_medium=readme&utm_campaign=ai-research-skills&utm_content=install) with nothing to install: describe your research question in plain language, and Orchestra's agents pick the right skills, run experiments on cloud GPUs, and write up the results.
 
 <details>
 <summary><b>What the installer does</b></summary>
@@ -314,7 +317,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/ai-research-skills?utm_source=github&utm_medium=readme&utm_campaign=ai-research-skills&utm_content=demos), where you can add them to your projects with one click and use them with AI research agents — no install required.
 
 **See skills in action → [demos/](demos/README.md)**
 
