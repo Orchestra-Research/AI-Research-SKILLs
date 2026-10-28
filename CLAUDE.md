@@ -4,18 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**AI Research Skills Library** - A comprehensive open-source library of 98 AI research skills enabling AI agents to autonomously conduct AI research — from idea to paper. Each skill provides expert-level guidance (200-500 lines) with real code examples, troubleshooting guides, and production-ready workflows.
+**AI Research Skills Library** - A comprehensive open-source library of 99 AI research skills enabling AI agents to autonomously conduct AI research — from idea to paper. Each skill provides expert-level guidance (200-500 lines) with real code examples, troubleshooting guides, and production-ready workflows.
 
 **Mission**: Enable AI agents to autonomously conduct AI research from hypothesis to experimental verification, covering the full lifecycle: literature survey, ideation, dataset preparation, training pipelines, model deployment, evaluation, and paper writing.
 
 ## Repository Architecture
 
-### Directory Structure (98 Skills Across 23 Categories)
+### Directory Structure (99 Skills Across 23 Categories)
 
 Skills are organized into numbered categories representing the AI research lifecycle:
 
 - `0-autoresearch-skill/` - **Autonomous research orchestration** (1 skill: Autoresearch — central layer that manages the full lifecycle and routes to all other skills)
-- `01-model-architecture/` - Model architectures (5 skills: TorchTitan, LitGPT, Mamba, RWKV, NanoGPT)
+- `01-model-architecture/` - Model architectures (6 skills: TorchTitan, LitGPT, Mamba, RWKV, NanoGPT, JEPA)
 - `02-tokenization/` - Tokenizers (2 skills: HuggingFace Tokenizers, SentencePiece)
 - `03-fine-tuning/` - Fine-tuning frameworks (4 skills: Axolotl, LLaMA-Factory, Unsloth, PEFT)
 - `04-mechanistic-interpretability/` - Interpretability tools (4 skills: TransformerLens, SAELens, NNsight, Pyvene)
@@ -154,10 +154,10 @@ python -c "import yaml; yaml.safe_load(open('skill-name/SKILL.md').read().split(
 
 ## Key Files
 
-- **README.md** - Project overview, all 98 skills listed with descriptions and stats
+- **README.md** - Project overview, all 99 skills listed with descriptions and stats
 - **CONTRIBUTING.md** - Complete contribution guidelines and quality standards
 - **SKILL_TEMPLATE.md** - Copy-paste scaffold for new skills
-- **ROADMAP.md** - Development roadmap (98 skills achieved)
+- **ROADMAP.md** - Development roadmap (99 skills achieved)
 - **anthropic_official_docs/** - Anthropic's official best practices for skills
 
 ## Git Workflow

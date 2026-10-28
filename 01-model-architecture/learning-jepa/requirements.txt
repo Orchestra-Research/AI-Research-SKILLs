@@ -1,0 +1,6 @@
+# CPU installation: install torch from its CPU index first; see SKILL.md.
+torch==2.8.0
+numpy==2.2.6
+scikit-learn==1.8.0
+pytest==8.4.1
+PyYAML==6.0.2

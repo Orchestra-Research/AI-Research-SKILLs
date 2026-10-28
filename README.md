@@ -17,7 +17,7 @@
 
 <div align="center">
 
-### **98 Skills Powering AI Research in 2026**
+### **99 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -74,7 +74,7 @@ AI Researchers spend more time debugging infrastructure than testing hypotheses 
 We provide a comprehensive skills library that enables AI agents to autonomously conduct the full research lifecycle — from brainstorming ideas to writing the paper.
   - Autonomous Research - The **autoresearch** skill orchestrates the entire research workflow using a two-loop architecture, routing to domain skills as needed
   - Specialized Expertise - Each domain skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 98 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
+  - End-to-End Coverage - 99 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -95,7 +95,7 @@ npx @orchestra-research/ai-research-skills
 Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow the instructions to install and use AI Research Skills.
 ```
 
-This installs all 98 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+This installs all 99 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
 
 <details>
 <summary><b>What the installer does</b></summary>
@@ -141,14 +141,14 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 23 Categories (98 Skills)
+### All 23 Categories (99 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
 | **Autoresearch** | **1** | **Autonomous research orchestration — central layer that manages the full lifecycle and routes to all other skills** |
 | Ideation | 2 | Research Brainstorming, Creative Thinking |
 | ML Paper Writing | 2 | ML Paper Writing (LaTeX templates, citation verification), Academic Plotting |
-| Model Architecture | 5 | LitGPT, Mamba, NanoGPT, RWKV, TorchTitan |
+| Model Architecture | 6 | LitGPT, Mamba, NanoGPT, RWKV, TorchTitan, JEPA |
 | Tokenization | 2 | HuggingFace Tokenizers, SentencePiece |
 | Fine-Tuning | 4 | Axolotl, LLaMA-Factory, PEFT, Unsloth |
 | Mech Interp | 4 | TransformerLens, SAELens, pyvene, nnsight |
@@ -170,17 +170,18 @@ Install skill categories directly using the **Claude Code CLI**:
 | Agent-Native Research Artifact | 3 | ARA Compiler, Research Manager, Rigor Reviewer |
 
 <details>
-<summary><b>View All 98 Skills in Details</b></summary>
+<summary><b>View All 99 Skills in Details</b></summary>
 
 ### 🔬 Autoresearch (1 skill) — Central Orchestration Layer
 - **[Autoresearch](0-autoresearch-skill/)** - Autonomous research orchestration using a two-loop architecture (inner optimization + outer synthesis). Manages the full lifecycle from literature survey to paper writing, routing to all domain-specific skills. Supports Claude Code /loop and OpenClaw heartbeat for continuous operation (390 lines + 3 refs)
 
-### 🏗️ Model Architecture (5 skills)
+### 🏗️ Model Architecture (6 skills)
 - **[LitGPT](01-model-architecture/litgpt/)** - Lightning AI's 20+ clean LLM implementations with production training recipes (462 lines + 4 refs)
 - **[Mamba](01-model-architecture/mamba/)** - State-space models with O(n) complexity, 5× faster than Transformers (253 lines + 3 refs)
 - **[RWKV](01-model-architecture/rwkv/)** - RNN+Transformer hybrid, infinite context, Linux Foundation project (253 lines + 3 refs)
 - **[NanoGPT](01-model-architecture/nanogpt/)** - Educational GPT in ~300 lines by Karpathy (283 lines + 3 refs)
 - **[TorchTitan](01-model-architecture/torchtitan/)** - PyTorch-native distributed training for Llama 3.1 with 4D parallelism
+- **[JEPA](01-model-architecture/learning-jepa/)** - Official I-JEPA workflow, executable model checks, and controlled representation evaluation
 
 ### 🔤 Tokenization (2 skills)
 - **[HuggingFace Tokenizers](02-tokenization/huggingface-tokenizers/)** - Rust-based, <20s/GB, BPE/WordPiece/Unigram algorithms (486 lines + 4 refs)
@@ -314,7 +315,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 99 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -369,7 +370,7 @@ skill-name/
 
 ## Roadmap
 
-The library spans 98 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
+The library spans 99 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
 
 [View Full Roadmap →](docs/ROADMAP.md)
 
@@ -402,7 +403,7 @@ claude-ai-research-skills/
 ├── demos/                       ← Curated demo gallery (links to demo repos)
 ├── docs/
 ├── 0-autoresearch-skill/        (1 skill ✓ - Autonomous research orchestration)
-├── 01-model-architecture/       (5 skills ✓ - LitGPT, Mamba, RWKV, NanoGPT, TorchTitan)
+├── 01-model-architecture/       (6 skills ✓ - LitGPT, Mamba, RWKV, NanoGPT, TorchTitan, JEPA)
 ├── 02-tokenization/             (2 skills ✓ - HuggingFace Tokenizers, SentencePiece)
 ├── 03-fine-tuning/              (4 skills ✓ - Axolotl, LLaMA-Factory, Unsloth, PEFT)
 ├── 04-mechanistic-interpretability/ (4 skills ✓ - TransformerLens, SAELens, pyvene, nnsight)

@@ -10,7 +10,7 @@ Thank you for your interest in contributing! This guide will help you add new sk
 
 **Target**: A comprehensive library covering the entire AI research lifecycle — from ideation to paper writing.
 
-**Current Progress**: 98 skills across 23 categories
+**Current Progress**: 99 skills across 23 categories
 
 **Philosophy**: Quality > Quantity. We deleted 9 low-quality skills to maintain high standards.
 
