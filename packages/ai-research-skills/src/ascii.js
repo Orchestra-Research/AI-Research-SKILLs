@@ -15,7 +15,7 @@ const logo = `
 /**
  * Welcome screen
  */
-export function showWelcome(skillCount = 98, categoryCount = 23, agentCount = 9) {
+export function showWelcome(skillCount = 99, categoryCount = 23, agentCount = 9) {
   console.clear();
   console.log(chalk.white(logo));
   console.log();

@@ -20,7 +20,7 @@ export const CATEGORIES = [
   { id: '12-inference-serving', name: 'Inference Serving', skills: 4, examples: 'vLLM, TensorRT-LLM, SGLang, llama.cpp' },
   { id: '13-mlops', name: 'MLOps', skills: 3, examples: 'Weights & Biases, MLflow, TensorBoard' },
   { id: '14-agents', name: 'Agents', skills: 4, examples: 'LangChain, LlamaIndex, Smolagents' },
-  { id: '15-rag', name: 'RAG', skills: 5, examples: 'Chroma, FAISS, Pinecone, Milvus' },
+  { id: '15-rag', name: 'RAG', skills: 6, examples: 'Chroma, FAISS, Pinecone, Milvus' },
   { id: '16-prompt-engineering', name: 'Prompt Engineering', skills: 4, examples: 'DSPy, Instructor, Outlines, Guidance' },
   { id: '17-observability', name: 'Observability', skills: 2, examples: 'LangSmith, Phoenix' },
   { id: '18-multimodal', name: 'Multimodal', skills: 7, examples: 'CLIP, Whisper, LLaVA, Qwen2-VL' },
@@ -63,6 +63,7 @@ export const INDIVIDUAL_SKILLS = [
   { id: '11-evaluation/lm-eval-harness', name: 'lm-eval-harness', category: 'Evaluation' },
   { id: '16-prompt-engineering/dspy', name: 'DSPy', category: 'Prompting' },
   { id: '15-rag/chroma', name: 'Chroma', category: 'RAG' },
+  { id: '15-rag/milvus', name: 'Milvus', category: 'RAG' },
   // Paper Writing
   { id: '20-ml-paper-writing', name: 'ML Paper Writing', category: 'Writing' },
   // Ideation

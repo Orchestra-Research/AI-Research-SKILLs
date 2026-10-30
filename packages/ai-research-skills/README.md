@@ -8,7 +8,7 @@ npx @orchestra-research/ai-research-skills
 
 ## Features
 
-- **98 skills** across 23 categories for AI research engineering
+- **99 skills** across 23 categories for AI research engineering
 - **Auto-detects** installed coding agents
 - **Interactive installer** with guided experience
 - **Global or local install** — install globally with symlinks, or per-project with `--local` for version-controlled, project-specific skill sets

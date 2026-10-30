@@ -17,7 +17,7 @@
 
 <div align="center">
 
-### **98 Skills Powering AI Research in 2026**
+### **99 Skills Powering AI Research in 2026**
 
 </div>
 
@@ -32,7 +32,7 @@
 | **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (8) |
 | **Distributed Training** (6) | **Optimization** (6) | **Inference** (4) |
 | **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
-| **Safety & Alignment** (4) | **Agents** (4) | **RAG** (5) |
+| **Safety & Alignment** (4) | **Agents** (4) | **RAG** (6) |
 | **Multimodal** (7) | **Prompt Engineering** (4) | **MLOps** (3) |
 | **Observability** (2) | **Infrastructure** (3) | **Mech Interp** (4) |
 | **Emerging Techniques** (6) | **Agent-Native Research Artifact** (3) | |
@@ -74,7 +74,7 @@ AI Researchers spend more time debugging infrastructure than testing hypotheses 
 We provide a comprehensive skills library that enables AI agents to autonomously conduct the full research lifecycle — from brainstorming ideas to writing the paper.
   - Autonomous Research - The **autoresearch** skill orchestrates the entire research workflow using a two-loop architecture, routing to domain skills as needed
   - Specialized Expertise - Each domain skill provides deep, production-ready knowledge of a specific framework (Megatron-LM, vLLM, TRL, etc.)
-  - End-to-End Coverage - 98 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
+  - End-to-End Coverage - 99 skills spanning the full AI research lifecycle, from ideation and literature survey to experiments and paper writing
   - Research-Grade Quality - Documentation sourced from official repos, real GitHub issues, and battle-tested production workflows
 
 ## Available AI Research Engineering Skills
@@ -95,7 +95,7 @@ npx @orchestra-research/ai-research-skills
 Read https://www.orchestra-research.com/ai-research-skills/welcome.md and follow the instructions to install and use AI Research Skills.
 ```
 
-This installs all 98 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
+This installs all 99 skills, loads the **autoresearch** orchestration layer, and starts autonomous research.
 
 <details>
 <summary><b>What the installer does</b></summary>
@@ -141,7 +141,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 </details>
 
-### All 23 Categories (98 Skills)
+### All 23 Categories (99 Skills)
 
 | Category | Skills | Included |
 |----------|--------|----------|
@@ -162,7 +162,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Inference | 4 | vLLM, TensorRT-LLM, llama.cpp, SGLang |
 | MLOps | 3 | W&B, MLflow, TensorBoard |
 | Agents | 4 | LangChain, LlamaIndex, CrewAI, AutoGPT |
-| RAG | 5 | Chroma, FAISS, Pinecone, Qdrant, Sentence Transformers |
+| RAG | 6 | Chroma, FAISS, Milvus, Pinecone, Qdrant, Sentence Transformers |
 | Prompt Eng | 4 | DSPy, Instructor, Guidance, Outlines |
 | Observability | 2 | LangSmith, Phoenix |
 | Multimodal | 7 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft |
@@ -170,7 +170,7 @@ Install skill categories directly using the **Claude Code CLI**:
 | Agent-Native Research Artifact | 3 | ARA Compiler, Research Manager, Rigor Reviewer |
 
 <details>
-<summary><b>View All 98 Skills in Details</b></summary>
+<summary><b>View All 99 Skills in Details</b></summary>
 
 ### 🔬 Autoresearch (1 skill) — Central Orchestration Layer
 - **[Autoresearch](0-autoresearch-skill/)** - Autonomous research orchestration using a two-loop architecture (inner optimization + outer synthesis). Manages the full lifecycle from literature survey to paper writing, routing to all domain-specific skills. Supports Claude Code /loop and OpenClaw heartbeat for continuous operation (390 lines + 3 refs)
@@ -257,8 +257,9 @@ Install skill categories directly using the **Claude Code CLI**:
 - **[CrewAI](14-agents/crewai/)** - Multi-agent orchestration, role-based collaboration, autonomous workflows (498 lines + 3 refs)
 - **[AutoGPT](14-agents/autogpt/)** - Autonomous AI agent platform, visual workflow builder, continuous execution (400 lines + 2 refs)
 
-### 🔍 RAG (5 skills)
+### 🔍 RAG (6 skills)
 - **[Chroma](15-rag/chroma/)** - Open-source embedding database, local/cloud, 24k stars (385 lines + 1 ref)
+- **[Milvus](15-rag/milvus/)** - Persistent local and server retrieval with explicit schemas, repeatable ingestion, metadata filters, and evaluation workflows
 - **[FAISS](15-rag/faiss/)** - Facebook's similarity search, billion-scale, GPU acceleration (295 lines)
 - **[Sentence Transformers](15-rag/sentence-transformers/)** - 5000+ embedding models, multilingual, 15k stars (370 lines)
 - **[Pinecone](15-rag/pinecone/)** - Managed vector database, auto-scaling, <100ms latency (410 lines)
@@ -314,7 +315,7 @@ Install skill categories directly using the **Claude Code CLI**:
 
 ## Demos
 
-All 98 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
+All 99 skills in this repo are automatically synced to [Orchestra Research](https://www.orchestra-research.com/research-skills), where you can add them to your projects with one click and use them with AI research agents.
 
 **See skills in action → [demos/](demos/README.md)**
 
@@ -369,7 +370,7 @@ skill-name/
 
 ## Roadmap
 
-The library spans 98 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
+The library spans 99 comprehensive skills across the full AI research lifecycle. See our [detailed roadmap](docs/ROADMAP.md) for the complete development plan.
 
 [View Full Roadmap →](docs/ROADMAP.md)
 
@@ -416,7 +417,7 @@ claude-ai-research-skills/
 ├── 12-inference-serving/        (4 skills ✓ - vLLM, TensorRT-LLM, llama.cpp, SGLang)
 ├── 13-mlops/                    (3 skills ✓ - Weights & Biases, MLflow, TensorBoard)
 ├── 14-agents/                   (4 skills ✓ - LangChain, LlamaIndex, CrewAI, AutoGPT)
-├── 15-rag/                      (5 skills ✓ - Chroma, FAISS, Sentence Transformers, Pinecone, Qdrant)
+├── 15-rag/                      (6 skills ✓ - Chroma, FAISS, Milvus, Sentence Transformers, Pinecone, Qdrant)
 ├── 16-prompt-engineering/       (4 skills ✓ - DSPy, Instructor, Guidance, Outlines)
 ├── 17-observability/            (2 skills ✓ - LangSmith, Phoenix)
 ├── 18-multimodal/               (7 skills ✓ - CLIP, Whisper, LLaVA, Stable Diffusion, SAM, BLIP-2, AudioCraft)
