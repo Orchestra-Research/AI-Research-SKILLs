@@ -1,7 +1,7 @@
 ---
 name: ml-paper-writing
 description: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. For systems venues (OSDI, NSDI, ASPLOS, SOSP), use systems-paper-writing instead.
-version: 1.2.0
+version: 1.2.1
 author: Orchestra Research
 license: MIT
 tags: [Academic Writing, NeurIPS, ICML, ICLR, ACL, AAAI, COLM, LaTeX, Paper Writing, Citations, Research]
@@ -84,6 +84,17 @@ Exa MCP enables searches like:
 - "Get recent work on sparse autoencoders for interpretability"
 
 Then verify results with Semantic Scholar API and fetch BibTeX via DOI.
+
+### Optional: Firecrawl MCP for Reading Papers
+
+Search snippets alone often lack the context needed to verify a claim. To check what a paper actually says, **Firecrawl MCP** reads a URL and returns it as Markdown, including arXiv and OpenReview PDFs, OpenReview forum pages (abstract and reviews) and pages that render with JavaScript. The hosted server works without an API key within a daily limit; [add an API key](https://docs.firecrawl.dev/mcp-server/keyless?utm_source=ai-research-skills&utm_medium=integration#add-an-api-key) for higher limits.
+
+**Claude Code:**
+```bash
+claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp
+```
+
+**Cursor:** add `"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp"}` under `mcpServers` in `.cursor/mcp.json`. **VS Code:** add `"firecrawl": {"type": "http", "url": "https://mcp.firecrawl.dev/v2/mcp"}` under `servers` in `.vscode/mcp.json`.
 
 ---
 
@@ -794,7 +805,7 @@ print(bibtex)
 
 **Step 4: Verify Claims**
 
-Before citing for a specific claim, access the paper and confirm the attributed claim actually appears.
+Before citing for a specific claim, access the paper and confirm the attributed claim actually appears. If Firecrawl MCP is installed, run `firecrawl_scrape` on the paper's PDF URL (arXiv or OpenReview) and search the returned Markdown for the claim.
 
 **Step 5: Handle Failures Explicitly**
 
