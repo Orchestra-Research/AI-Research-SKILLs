@@ -1,11 +1,10 @@
 ---
 name: ml-paper-writing
 description: Write and revise publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, and COLM. Use when turning a research repository into a claim-driven paper, organizing methods and experiments, designing readable figures, verifying citations, or preparing a submission. For systems venues, use systems-paper-writing instead.
+version: 1.3.0
+author: Orchestra Research
 license: MIT
-metadata:
-  version: 1.3.0
-  author: Orchestra Research
-  tags: [Academic Writing, ML Research, Paper Architecture, Figures, Citations, LaTeX, ICLR, ICML, NeurIPS]
+tags: [Academic Writing, ML Research, Paper Architecture, Figures, Citations, LaTeX, ICLR, ICML, NeurIPS]
 ---
 
 # ML Paper Writing
