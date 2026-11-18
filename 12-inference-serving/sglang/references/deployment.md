@@ -50,24 +50,15 @@ python -m sglang.launch_server \
 
 ### Dockerfile
 
+Use the [official SGLang image](https://docs.sglang.ai/docs/get-started/install) so Python, CUDA, PyTorch, and serving dependencies are supplied together. The host still needs a compatible NVIDIA driver and NVIDIA Container Toolkit. Pin a tested release tag instead of the moving `latest` tag for a reproducible deployment.
+
 ```dockerfile
-FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
+FROM lmsysorg/sglang:latest
 
-# Install Python
-RUN apt-get update && apt-get install -y python3.10 python3-pip git
-
-# Install SGLang
-RUN pip3 install "sglang[all]" flashinfer -i https://flashinfer.ai/whl/cu121/torch2.4/
-
-# Copy model (or download at runtime)
 WORKDIR /app
-
-# Expose port
 EXPOSE 30000
 
-# Start server
-CMD ["python3", "-m", "sglang.launch_server", \
-     "--model-path", "meta-llama/Meta-Llama-3-8B-Instruct", \
+CMD ["sglang", "serve", "meta-llama/Meta-Llama-3-8B-Instruct", \
      "--host", "0.0.0.0", \
      "--port", "30000"]
 ```
@@ -84,11 +75,11 @@ docker run --gpus all -p 30000:30000 sglang:latest
 # Run with specific GPUs
 docker run --gpus '"device=0,1,2,3"' -p 30000:30000 sglang:latest
 
-# Run with custom model
+# Override CMD explicitly for a custom model and tensor parallelism.
+# MODEL_PATH/TP_SIZE environment variables alone do not change a Docker CMD.
 docker run --gpus all -p 30000:30000 \
-    -e MODEL_PATH="meta-llama/Meta-Llama-3-70B-Instruct" \
-    -e TP_SIZE="4" \
-    sglang:latest
+    sglang:latest sglang serve meta-llama/Meta-Llama-3-70B-Instruct \
+    --tp 4 --host 0.0.0.0 --port 30000
 ```
 
 ## Kubernetes Deployment

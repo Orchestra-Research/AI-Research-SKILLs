@@ -35,18 +35,16 @@ High-performance serving framework for LLMs and VLMs with RadixAttention for aut
 
 ### Installation
 
+Follow the [official installation guide](https://docs.sglang.ai/docs/get-started/install) for your GPU, driver, Python, and CUDA prerequisites. Install SGLang and its matching dependencies in an isolated environment; do not mix in a FlashInfer wheel built for another CUDA/PyTorch combination.
+
 ```bash
-# pip install (recommended)
-pip install "sglang[all]"
-
-# With FlashInfer (faster, CUDA 11.8/12.1)
-pip install sglang[all] flashinfer -i https://flashinfer.ai/whl/cu121/torch2.4/
-
-# From source
-git clone https://github.com/sgl-project/sglang.git
-cd sglang
-pip install -e "python[all]"
+# In a host environment that meets the official prerequisites, with uv installed
+uv venv --python 3.12
+source .venv/bin/activate
+uv pip install --prerelease=allow sglang
 ```
+
+For source builds or a container that includes the dependencies, use the corresponding method in the official guide. Choose a tested release tag when reproducibility matters.
 
 ### Launch server
 
