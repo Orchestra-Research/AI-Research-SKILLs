@@ -255,10 +255,8 @@ def hourly_job():
 ### Cold start mitigation
 
 ```python
-@app.function(
-    container_idle_timeout=300,  # Keep warm 5 min
-    allow_concurrent_inputs=10,  # Handle concurrent requests
-)
+@app.function(scaledown_window=300)  # Keep idle containers warm 5 min
+@modal.concurrent(max_inputs=10)       # Handle concurrent requests per container
 def inference():
     pass
 ```
@@ -300,9 +298,9 @@ def run_parallel():
     memory=32768,              # 32GB RAM
     cpu=4,                     # 4 CPU cores
     timeout=3600,              # 1 hour max
-    container_idle_timeout=120,# Keep warm 2 min
+    scaledown_window=120,      # Keep idle containers warm 2 min
     retries=3,                 # Retry on failure
-    concurrency_limit=10,      # Max concurrent containers
+    max_containers=10,         # Max concurrent containers
 )
 def my_function():
     pass
@@ -323,7 +321,7 @@ if __name__ == "__main__":
 
 | Issue | Solution |
 |-------|----------|
-| Cold start latency | Increase `container_idle_timeout`, use `@modal.enter()` |
+| Cold start latency | Increase `scaledown_window`, set `min_containers`, use `@modal.enter()` |
 | GPU OOM | Use larger GPU (`A100-80GB`), enable gradient checkpointing |
 | Image build fails | Pin dependency versions, check CUDA compatibility |
 | Timeout errors | Increase `timeout`, add checkpointing |

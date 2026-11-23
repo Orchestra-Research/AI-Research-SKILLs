@@ -169,8 +169,8 @@ def check_gpu():
 ```python
 # Keep containers warm
 @app.function(
-    container_idle_timeout=600,  # Keep warm 10 min
-    keep_warm=1                  # Always keep 1 container ready
+    scaledown_window=600,  # Keep idle containers warm 10 min
+    min_containers=1       # Always keep 1 container ready
 )
 def low_latency():
     pass
@@ -284,7 +284,7 @@ def my_function():
 ```python
 # Increase timeout
 @app.function(timeout=300)  # 5 min
-@modal.web_endpoint()
+@modal.fastapi_endpoint()
 def slow_endpoint():
     pass
 
