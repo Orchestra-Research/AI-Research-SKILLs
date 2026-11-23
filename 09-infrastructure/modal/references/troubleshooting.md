@@ -82,7 +82,7 @@ image = modal.Image.debian_slim().uv_pip_install(
 # Split into multiple layers (better caching)
 base = modal.Image.debian_slim().pip_install("torch")  # Cached
 ml = base.pip_install("transformers", "datasets")      # Cached
-app = ml.copy_local_dir("./src", "/app")               # Rebuilds on code change
+app = ml.add_local_dir("./src", remote_path="/app")    # Added at container start, no rebuild
 
 # Download models during build, not runtime
 image = modal.Image.debian_slim().pip_install("transformers").run_commands(
@@ -426,11 +426,14 @@ def debug_function():
 ### View container logs
 
 ```bash
-# Stream logs
+# Fetch recent logs
 modal app logs my-app
 
-# View specific function
-modal app logs my-app --function my_function
+# Stream logs
+modal app logs my-app -f
+
+# View specific function (by Function ID)
+modal app logs my-app --function fu-abc123
 
 # View historical logs
 modal app logs my-app --since 1h

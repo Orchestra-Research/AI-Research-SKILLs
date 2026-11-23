@@ -5,7 +5,7 @@ version: 1.0.0
 author: Orchestra Research
 license: MIT
 tags: [Infrastructure, Serverless, GPU, Cloud, Deployment, Modal]
-dependencies: [modal>=0.64.0]
+dependencies: [modal>=1.1.0]
 ---
 
 # Modal Serverless GPU
@@ -182,8 +182,12 @@ def load_model():
 
 ### FastAPI endpoint decorator
 
+`@modal.fastapi_endpoint` needs FastAPI installed in the function's image.
+
 ```python
-@app.function()
+image = modal.Image.debian_slim().pip_install("fastapi[standard]")
+
+@app.function(image=image)
 @modal.fastapi_endpoint(method="POST")
 def predict(text: str) -> dict:
     return {"result": model.predict(text)}

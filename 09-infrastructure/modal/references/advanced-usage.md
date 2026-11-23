@@ -71,8 +71,8 @@ base_image = modal.Image.debian_slim().pip_install("torch", "numpy", "scipy")
 # Stage 2: ML libraries (cached separately)
 ml_image = base_image.pip_install("transformers", "datasets", "accelerate")
 
-# Stage 3: Custom code (rebuilt on changes)
-final_image = ml_image.copy_local_dir("./src", "/app/src")
+# Stage 3: Custom code (added at container start, no rebuild on changes)
+final_image = ml_image.add_local_dir("./src", remote_path="/app/src")
 ```
 
 ### Custom Dockerfiles
